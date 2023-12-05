@@ -1,3 +1,27 @@
 server:
   port : 8091
 
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: eddy
+    url: "jdbc:mariadb://localhost:3309/chat"
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        use_sql_comments: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+
