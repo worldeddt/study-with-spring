@@ -1,7 +1,22 @@
 server:
   port: 8090
-
+  ssl:
+    enabled: true
+    key-store: classpath:ssl-server.jks
+    key-store-password: test1234
+    key-alias: selfsigned_localhost_sslserver
 
 spring:
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: project
+
+logging:
+  level:
+    org.springframework: info
+    webrtcproto2.webrtc : DEBUG
+
+

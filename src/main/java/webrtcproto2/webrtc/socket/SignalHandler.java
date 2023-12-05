@@ -1,62 +1,77 @@
-package webrtcproto2.webrtc.handler;
+package webrtcproto2.webrtc.socket;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 import webrtcproto2.webrtc.domain.Room;
+import webrtcproto2.webrtc.domain.RoomService;
 import webrtcproto2.webrtc.domain.WebSocketMessage;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+@Component
+public class SignalHandler extends TextWebSocketHandler {
+    @Autowired
+    private RoomService roomService;
 
-@Slf4j
-public class SocketHandler implements WebSocketHandler {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private LinkedHashMap<String, Room> sessionIdToRoomMap = new LinkedHashMap<String, Room>();
+
+    // session id to room mapping
+    private Map<String, Room> sessionIdToRoomMap = new HashMap<>();
+
+    // message types, used in signalling:
+    // text message
     private static final String MSG_TYPE_TEXT = "text";
+    // SDP Offer message
     private static final String MSG_TYPE_OFFER = "offer";
+    // SDP Answer message
     private static final String MSG_TYPE_ANSWER = "answer";
+    // New ICE Candidate message
     private static final String MSG_TYPE_ICE = "ice";
+    // join room data message
     private static final String MSG_TYPE_JOIN = "join";
+    // leave room data message
     private static final String MSG_TYPE_LEAVE = "leave";
-    
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sendMessage(session, new WebSocketMessage(
-                "Server",
-                MSG_TYPE_JOIN, Boolean.toString(!sessionIdToRoomMap.isEmpty()),
-                null, null
-        ));
+    public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
+        logger.debug("[ws] Session has been closed with status {}", status);
+        sessionIdToRoomMap.remove(session.getId());
     }
 
     @Override
-    public void handleMessage(WebSocketSession session, 
-                              org.springframework.web.socket.WebSocketMessage<?> message) throws Exception {
+    public void afterConnectionEstablished(final WebSocketSession session) {
+        // webSocket has been opened, send a message to the client
+        // when data field contains 'true' value, the client starts negotiating
+        // to establish peer-to-peer connection, otherwise they wait for a counterpart
+        sendMessage(session, new WebSocketMessage("Server", MSG_TYPE_JOIN, Boolean.toString(!sessionIdToRoomMap.isEmpty()), null, null));
+    }
+
+    @Override
+    protected void handleTextMessage(final WebSocketSession session, final TextMessage textMessage) {
+        // a message has been received
         try {
+            WebSocketMessage message = objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
+            logger.debug("[ws] Message of {} type from {} received", message.getType(), message.getFrom());
+            String userName = message.getFrom(); // origin of the message
+            String data = message.getData(); // payload
 
-            WebSocketMessage  webSocketMessage = 
-                    objectMapper.readValue((JsonParser) message.getPayload(), WebSocketMessage.class);
-            
-            String userName = webSocketMessage.getFrom();
-            String data = webSocketMessage.getData();
-            
-            
             Room room;
-
             switch (message.getType()) {
                 // text message from client has been received
                 case MSG_TYPE_TEXT:
-                    log.debug("[ws] Text message: {}", message.getData());
+                    logger.debug("[ws] Text message: {}", message.getData());
                     // message.data is the text sent by client
                     // process text message if needed
                     break;
@@ -67,7 +82,7 @@ public class SocketHandler implements WebSocketHandler {
                 case MSG_TYPE_ICE:
                     Object candidate = message.getCandidate();
                     Object sdp = message.getSdp();
-                    log.debug("[ws] Signal: {}",
+                    logger.debug("[ws] Signal: {}",
                             candidate != null
                                     ? candidate.toString().substring(0, 64)
                                     : sdp.toString().substring(0, 64));
@@ -94,7 +109,7 @@ public class SocketHandler implements WebSocketHandler {
                 // identify user and their opponent
                 case MSG_TYPE_JOIN:
                     // message.data contains connected room id
-                    log.debug("[ws] {} has joined Room: #{}", userName, message.getData());
+                    logger.debug("[ws] {} has joined Room: #{}", userName, message.getData());
                     room = roomService.findRoomByStringId(data)
                             .orElseThrow(() -> new IOException("Invalid room number received!"));
                     // add client to the Room clients list
@@ -104,7 +119,7 @@ public class SocketHandler implements WebSocketHandler {
 
                 case MSG_TYPE_LEAVE:
                     // message data contains connected room id
-                    log.debug("[ws] {} is going to leave Room: #{}", userName, message.getData());
+                    logger.debug("[ws] {} is going to leave Room: #{}", userName, message.getData());
                     // room id taken by session id
                     room = sessionIdToRoomMap.get(session.getId());
                     // remove the client which leaves from the Room clients list
@@ -117,34 +132,21 @@ public class SocketHandler implements WebSocketHandler {
 
                 // something should be wrong with the received message, since it's type is unrecognizable
                 default:
-                    log.debug("[ws] Type of the received message {} is undefined!", message.getType());
+                    logger.debug("[ws] Type of the received message {} is undefined!", message.getType());
                     // handle this if needed
             }
 
         } catch (IOException e) {
-            log.debug("An error occured: {}", e.getMessage());
+            logger.debug("An error occured: {}", e.getMessage());
         }
     }
 
-
-    @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        log.error("exception error : {}", exception);
-    }
-
-    @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        sessionIdToRoomMap.remove(session.getId());
-        log.debug("session was removed = {}",session.getId());
-    }
-
-    @Override
-    public boolean supportsPartialMessages() {
-        return false;
-    }
-
-    public void sendMessage(WebSocketSession session, WebSocketMessage message) throws Exception {
-        String json = objectMapper.writeValueAsString(message);
-        session.sendMessage(new TextMessage(json));
+    private void sendMessage(WebSocketSession session, WebSocketMessage message) {
+        try {
+            String json = objectMapper.writeValueAsString(message);
+            session.sendMessage(new TextMessage(json));
+        } catch (IOException e) {
+            logger.debug("An error occured: {}", e.getMessage());
+        }
     }
 }
