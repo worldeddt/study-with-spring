@@ -24,10 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import jakarta.annotation.PreDestroy;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.kurento.client.Continuation;
 import org.kurento.client.KurentoClient;
 import org.kurento.client.MediaPipeline;
@@ -49,7 +46,6 @@ import java.util.concurrent.ConcurrentMap;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class KurentoRoomDto extends ChatRoomDto implements Closeable {
 
@@ -82,7 +78,11 @@ public class KurentoRoomDto extends ChatRoomDto implements Closeable {
 //  private final String roomId;
 
   // 룸 정보 set
-  public void setRoomInfo(String roomId, String roomName, String roomPwd, boolean secure, int userCount, int maxUserCnt, ChatType chatType, KurentoClient kurento){
+  public void setRoomInfo(
+          String roomId, String roomName,
+          String roomPwd, boolean secure,
+          int userCount, int maxUserCnt,
+          ChatType chatType, KurentoClient kurento){
     this.roomId = roomId;
     this.roomName = roomName;
     this.roomPwd = roomPwd;

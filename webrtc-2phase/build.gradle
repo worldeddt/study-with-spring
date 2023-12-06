@@ -29,12 +29,34 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	implementation group: 'org.kurento', name: 'kurento-client', version: '6.18.0'
+	implementation group: 'org.kurento', name: 'kurento-utils-js', version: '6.18.0'
 	implementation 'org.kurento:kms-api-core:7.0.0'
+
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.2.0'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// sockjs
+	implementation 'org.webjars:sockjs-client:1.5.1'
+	// stomp
+	implementation 'org.webjars:stomp-websocket:2.3.4'
+	// gson
+	implementation 'com.google.code.gson:gson:2.9.0'
 
+	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct
+	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.4.2.Final'
+
+	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.4.2.Final'
+
+	// mapstruct - lombok
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 tasks.named('test') {
