@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(, "/web-rtc").setAllowedOriginPatterns("*")
+        registry.addHandler(socketHandler(), "/web-rtc").setAllowedOriginPatterns("*")
                 .setAllowedOrigins("*");
     }
 
