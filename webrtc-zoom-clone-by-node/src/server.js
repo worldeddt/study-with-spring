@@ -2,8 +2,8 @@ import express from "express"
 
 const app  = express();
 
-app.listen("3000");
+const handleListen = () => {
+    console.log(`Listening on http://localhost:3000`);
+}
 
-
-
-console.log("test");
+app.listen("3000", handleListen);
