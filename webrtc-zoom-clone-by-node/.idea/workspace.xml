@@ -5,6 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e3722f6-6418-4757-9688-f57eceaab4cc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/assembly/bin.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/java/hello/helloinit/HelloWorldHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/java/hello/helloinit/UserSession.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/keystore.jks" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/css/kurento.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/kurento.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/naevatec.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/pipeline.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/spinner.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/transparent-1px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/urjc.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/img/webrtc.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../kurento-app/hello-init/src/main/resources/static/js/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server.js" afterDir="false" />
     </list>
@@ -15,6 +29,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/JetBrains/IntelliJIdea2023.2/javascript/typings/express/4.17.21/node_modules/@types/express-serve-static-core/index.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -32,7 +49,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/user/Desktop/study/spring-study/webrtc-zoom-clone-by-node",
+    "last_opened_file_path": "C:/Users/user/Desktop/study/spring-study/kurento-app/hello-init",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -51,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1701910143677</updated>
       <workItem from="1701910144739" duration="356000" />
-      <workItem from="1701994818099" duration="1405000" />
+      <workItem from="1701994818099" duration="3253000" />
     </task>
     <servers />
   </component>

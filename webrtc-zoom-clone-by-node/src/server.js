@@ -7,3 +7,5 @@ const handleListen = () => {
 }
 
 app.listen("3000", handleListen);
+
+app.get()
