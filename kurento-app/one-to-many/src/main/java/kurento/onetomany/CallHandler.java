@@ -109,6 +109,7 @@ public class CallHandler extends TextWebSocketHandler {
 
                         try {
                             synchronized (session) {
+                                log.debug("presenter send message = {}", response);
                                 session.sendMessage(new TextMessage(response.toString()));
                             }
                         } catch (IOException e) {
