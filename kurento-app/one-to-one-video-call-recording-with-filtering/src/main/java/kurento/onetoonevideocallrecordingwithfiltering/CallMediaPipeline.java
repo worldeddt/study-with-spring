@@ -69,10 +69,12 @@ public class CallMediaPipeline {
     // Connections
     webRtcCaller.connect(faceOverlayFilterCaller);
     faceOverlayFilterCaller.connect(webRtcCallee);
+    // 이곳에서 연결 caller
     faceOverlayFilterCaller.connect(recorderCaller);
 
     webRtcCallee.connect(faceOverlayFilterCallee);
     faceOverlayFilterCallee.connect(webRtcCaller);
+    // 이곳에서 연결 callee < caller
     faceOverlayFilterCallee.connect(recorderCallee);
   }
 

@@ -3,10 +3,7 @@ package kurento.onetoonevideocallrecordingwithfiltering;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import org.kurento.client.EventListener;
-import org.kurento.client.IceCandidateFoundEvent;
-import org.kurento.client.KurentoClient;
-import org.kurento.client.MediaPipeline;
+import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
@@ -33,7 +30,7 @@ public class CallHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Gson gson = new Gson();
         JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
-        UserSession userSession = userRegistry.getBySession(session);
+        UserSession user = userRegistry.getBySession(session);
 
         if (user != null) {
             log.debug("Incoming message from user '{}': {}", user.getName(), jsonMessage);
@@ -130,17 +127,21 @@ public class CallHandler extends TextWebSocketHandler {
         String fromName = jsonMessage.get("from").getAsString();
 
         final UserSession calleer = userRegistry.getByName(fromName);
+        //콜러에서 이미 등록된 받는이를 꺼낸다.
         String toName = calleer.getCallingTo();
 
         if ("accept".equals(callResponse)) {
             log.info("Accepted call from '{}' to '{}'", fromName, toName);
 
+            //파이프 생성 및 유저간 파이프 연결 설정
             CallMediaPipeline callMediaPipeline
                     = new CallMediaPipeline(kurentoClient, fromName, toName);
             pipelines.put(calleer.getSessionId(), callMediaPipeline.getPipeline());
             pipelines.put(callee.getSessionId(), callMediaPipeline.getPipeline());
 
+            // 미디어 파이프 객체에서 RTC 앤드 포인트를 가져와서 세팅한다.
             callee.setWebRtcEndpoint(callMediaPipeline.getCalleeWebRtcEp());
+            // 해당 앤드포인트에 이벤트를 설정해 준다.
             callMediaPipeline.getCalleeWebRtcEp().addIceCandidateFoundListener(
                 new EventListener<IceCandidateFoundEvent>() {
                     @Override
@@ -149,6 +150,8 @@ public class CallHandler extends TextWebSocketHandler {
                         jsonObject.addProperty("id","iceCandidate");
                         jsonObject.add("candidate",
                                 JsonUtils.toJsonObject(iceCandidateFoundEvent.getCandidate()));
+
+                        //candidate 정보를 메세지로 전송한다.
                         try {
                             synchronized (callee.getSession()) {
                                 callee.getSession().sendMessage(
@@ -172,6 +175,7 @@ public class CallHandler extends TextWebSocketHandler {
             startCommunication.addProperty("adpAnswer", calleeSdpAnswer);
 
             synchronized (callee) {
+                // call 을 받은 쪽에 커뮤니케이션이 시작되었다고 전송.
                 callee.sendMessage(startCommunication);
             }
 
@@ -202,6 +206,19 @@ public class CallHandler extends TextWebSocketHandler {
 
             String callerSdpAnswer = callMediaPipeline.generateSdpAnswerForCaller(callerSdpOffer);
 
+            JsonObject response = new JsonObject();
+            response.addProperty("id", "callResponse");
+            response.addProperty("response", "accepted");
+            response.addProperty("sdpAnswer", callerSdpAnswer);
+
+            synchronized (calleer) {
+                //전화를 건 사람에게 callResponse 반환.
+                calleer.sendMessage(response);
+            }
+
+            callMediaPipeline.getCallerWebRtcEp().gatherCandidates();
+
+            callMediaPipeline.record();
         } else {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", "callResponse");
@@ -209,5 +226,106 @@ public class CallHandler extends TextWebSocketHandler {
             calleer.sendMessage(jsonObject);
         }
 
+    }
+
+    public void stop(WebSocketSession session) throws IOException {
+        // Both users can stop the communication. A 'stopCommunication'
+        // message will be sent to the other peer.
+        UserSession stopperUser = userRegistry.getBySession(session);
+        if (stopperUser != null) {
+            UserSession stoppedUser =
+                    (stopperUser.getCallingFrom() != null) ? userRegistry.getByName(stopperUser.getCallingFrom())
+                            : stopperUser.getCallingTo() != null ? userRegistry.getByName(stopperUser.getCallingTo())
+                            : null;
+
+            if (stoppedUser != null) {
+                JsonObject message = new JsonObject();
+                message.addProperty("id", "stopCommunication");
+                stoppedUser.sendMessage(message);
+                stoppedUser.clear();
+            }
+            stopperUser.clear();
+        }
+    }
+
+    public void releasePipeline(UserSession session) {
+        String sessionId = session.getSessionId();
+        // set to null the endpoint of the other user
+
+        if (pipelines.containsKey(sessionId)) {
+            pipelines.get(sessionId).release();
+            pipelines.remove(sessionId);
+        }
+        session.setWebRtcEndpoint(null);
+        session.setPlayingWebRtcEndpoint(null);
+
+        UserSession stoppedUser =
+                (session.getCallingFrom() != null) ? userRegistry.getByName(session.getCallingFrom())
+                        : userRegistry.getByName(session.getCallingTo());
+        stoppedUser.setWebRtcEndpoint(null);
+        stoppedUser.setPlayingWebRtcEndpoint(null);
+    }
+
+    private void play(final UserSession session, JsonObject jsonMessage) throws IOException {
+        String user = jsonMessage.get("user").getAsString();
+        log.debug("Playing recorded call of user '{}'", user);
+
+        JsonObject response = new JsonObject();
+        response.addProperty("id", "playResponse");
+
+        if (userRegistry.getByName(user) != null && userRegistry.getBySession(session.getSession()) != null) {
+            final PlayMediaPipeline playMediaPipeline =
+                    new PlayMediaPipeline(kurento, user, session.getSession());
+
+            session.setPlayingWebRtcEndpoint(playMediaPipeline.getWebRtc());
+
+            playMediaPipeline.getPlayer().addEndOfStreamListener(new EventListener<EndOfStreamEvent>() {
+                @Override
+                public void onEvent(EndOfStreamEvent event) {
+                    UserSession user = registry.getBySession(session.getSession());
+                    releasePipeline(user);
+                    playMediaPipeline.sendPlayEnd(session.getSession());
+                }
+            });
+
+            playMediaPipeline.getWebRtc().addIceCandidateFoundListener(
+                    new EventListener<IceCandidateFoundEvent>() {
+
+                        @Override
+                        public void onEvent(IceCandidateFoundEvent event) {
+                            JsonObject response = new JsonObject();
+                            response.addProperty("id", "iceCandidate");
+                            response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
+                            try {
+                                synchronized (session) {
+                                    session.getSession().sendMessage(new TextMessage(response.toString()));
+                                }
+                            } catch (IOException e) {
+                                log.debug(e.getMessage());
+                            }
+                        }
+                    });
+
+            String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
+            String sdpAnswer = playMediaPipeline.gener(sdpOffer);
+
+            response.addProperty("response", "accepted");
+
+            response.addProperty("sdpAnswer", sdpAnswer);
+
+            playMediaPipeline.play();
+            pipelines.put(session.getSessionId(), playMediaPipeline.getPipeline());
+            synchronized (session.getSession()) {
+                session.sendMessage(response);
+            }
+
+            playMediaPipeline.getweb().gatherCandidates();
+
+        } else {
+            response.addProperty("response", "rejected");
+            response.addProperty("error", "No recording for user '" + user
+                    + "'. Please type a correct user in the 'Peer' field.");
+            session.getSession().sendMessage(new TextMessage(response.toString()));
+        }
     }
 }
