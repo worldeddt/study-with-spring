@@ -58,6 +58,8 @@ public class CallHandler extends TextWebSocketHandler {
             case "onIceCandidate": {
                 JsonObject candidate = jsonMessage.get("candidate").getAsJsonObject();
 
+                log.info("candidate = {}", candidate);
+
                 if (user != null) {
                     IceCandidate cand =
                             new IceCandidate(candidate.get("candidate").getAsString(), candidate.get("sdpMid")
@@ -104,6 +106,8 @@ public class CallHandler extends TextWebSocketHandler {
         String toName = jsonMessage.get("to").getAsString();
         String fromName = jsonMessage.get("from").getAsString();
         JsonObject response = new JsonObject();
+        log.info("to Name when calling = {}", toName);
+        log.info("userRegistry.exists(toName) = {}", userRegistry.exists(toName));
 
         if (userRegistry.exists(toName)) {
             caller.setSdpOffer(jsonMessage.getAsJsonPrimitive("sdpOffer").getAsString());
@@ -134,6 +138,7 @@ public class CallHandler extends TextWebSocketHandler {
         //콜러에서 이미 등록된 받는이를 꺼낸다.
         String toName = calleer.getCallingTo();
 
+        log.info("call Response = {}", callResponse);
         if ("accept".equals(callResponse)) {
             log.info("Accepted call from '{}' to '{}'", fromName, toName);
 
@@ -271,7 +276,6 @@ public class CallHandler extends TextWebSocketHandler {
     }
 
     private void play(final UserSession session, JsonObject jsonMessage) throws IOException {
-        String callingFrom = session.getCallingFrom();
         String userName = jsonMessage.get("user").getAsString();
         log.info("Playing recorded call of user '{}'", userName);
 
