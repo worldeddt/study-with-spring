@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -267,65 +268,83 @@ public class CallHandler extends TextWebSocketHandler {
     }
 
     private void play(final UserSession session, JsonObject jsonMessage) throws IOException {
-        String user = jsonMessage.get("user").getAsString();
-        log.debug("Playing recorded call of user '{}'", user);
+        String callingFrom = session.getCallingFrom();
+        String userName = jsonMessage.get("user").getAsString();
+        log.info("Playing recorded call of user '{}'", userName);
 
         JsonObject response = new JsonObject();
         response.addProperty("id", "playResponse");
 
-        if (userRegistry.getByName(user) != null && userRegistry.getBySession(session.getSession()) != null) {
+        if (userRegistry.getByName(userName) != null &&
+                userRegistry.getBySession(session.getSession()) != null
+        ) {
             final PlayMediaPipeline playMediaPipeline =
-                    new PlayMediaPipeline(kurento, user, session.getSession());
+                    new PlayMediaPipeline(kurentoClient, userName, session.getSession());
 
             session.setPlayingWebRtcEndpoint(playMediaPipeline.getWebRtc());
 
+            // stream 등록
             playMediaPipeline.getPlayer().addEndOfStreamListener(new EventListener<EndOfStreamEvent>() {
                 @Override
-                public void onEvent(EndOfStreamEvent event) {
-                    UserSession user = registry.getBySession(session.getSession());
-                    releasePipeline(user);
-                    playMediaPipeline.sendPlayEnd(session.getSession());
+                public void onEvent(EndOfStreamEvent endOfStreamEvent) {
+                    UserSession userSession = userRegistry
+                            .getBySession(session.getSession());
+
+                    releasePipeline(userSession);
+                    playMediaPipeline.sendPlayEnd(userSession.getSession());
                 }
             });
 
             playMediaPipeline.getWebRtc().addIceCandidateFoundListener(
-                    new EventListener<IceCandidateFoundEvent>() {
-
-                        @Override
-                        public void onEvent(IceCandidateFoundEvent event) {
-                            JsonObject response = new JsonObject();
-                            response.addProperty("id", "iceCandidate");
-                            response.add("candidate", JsonUtils.toJsonObject(event.getCandidate()));
-                            try {
-                                synchronized (session) {
-                                    session.getSession().sendMessage(new TextMessage(response.toString()));
-                                }
-                            } catch (IOException e) {
-                                log.debug(e.getMessage());
+                new EventListener<IceCandidateFoundEvent>() {
+                    @Override
+                    public void onEvent(IceCandidateFoundEvent iceCandidateFoundEvent) {
+                        log.info("ice candidate found event = {}", iceCandidateFoundEvent);
+                        JsonObject response = new JsonObject();
+                        response.addProperty("id", "iceCandidate");
+                        response.add("candidate", JsonUtils.toJsonObject(
+                                iceCandidateFoundEvent.getCandidate()
+                        ));
+                        try {
+                            synchronized (session) {
+                                session.getSession()
+                                        .sendMessage(new TextMessage(response.toString()));
                             }
+                        } catch (IOException e) {
+                            log.info("message = {}", e.getMessage());
                         }
-                    });
+                    }
+                }
+            );
 
             String sdpOffer = jsonMessage.get("sdpOffer").getAsString();
-            String sdpAnswer = playMediaPipeline.gener(sdpOffer);
+            String sdpAnswer = playMediaPipeline.generateSdpAnswer(sdpOffer);
 
             response.addProperty("response", "accepted");
+            response.addProperty("adpAnswer", sdpAnswer);
 
-            response.addProperty("sdpAnswer", sdpAnswer);
-
+            log.debug("play media pipeline played");
             playMediaPipeline.play();
             pipelines.put(session.getSessionId(), playMediaPipeline.getPipeline());
+
             synchronized (session.getSession()) {
                 session.sendMessage(response);
             }
 
-            playMediaPipeline.getweb().gatherCandidates();
-
+            playMediaPipeline.getWebRtc().gatherCandidates();
         } else {
             response.addProperty("response", "rejected");
-            response.addProperty("error", "No recording for user '" + user
+            response.addProperty("error", "No recording for user '" + userName
                     + "'. Please type a correct user in the 'Peer' field.");
             session.getSession().sendMessage(new TextMessage(response.toString()));
         }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status)
+            throws Exception {
+        stop(session);
+        userRegistry.removeBySession(session);
+        super.afterConnectionClosed(session, status);
     }
 }
