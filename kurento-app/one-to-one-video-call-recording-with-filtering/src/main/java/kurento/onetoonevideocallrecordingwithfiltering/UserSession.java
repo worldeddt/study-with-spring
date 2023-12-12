@@ -69,7 +69,7 @@ public class UserSession {
 
     public void sendMessage(JsonObject message) throws IOException {
         log.info("Sending message from user '{}' : '{}'", name, message);
-        webSocketSession.sendMessage(new TextMessage(message.getAsString()));
+        webSocketSession.sendMessage(new TextMessage(message.toString()));
     }
 
     public void setWebRtcEndpoint(WebRtcEndpoint webRtcEndpoint) {

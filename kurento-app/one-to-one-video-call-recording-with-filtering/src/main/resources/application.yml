@@ -1,0 +1,22 @@
+spring:
+  output:
+    ansi:
+      enabled: DETECT
+server:
+  ssl:
+    key-store-password: kurento
+    key-store-type: JKS
+    key-store: classpath:keystore.jks
+    key-alias: kurento-selfsigned
+  port: 8080
+logging:
+  level:
+    org:
+      kurento:
+        nodeValue: INFO
+        tutorial: INFO
+      springframework: WARN
+      apache: WARN
+    root: INFO
+banner:
+  location: classpath:banner.txt

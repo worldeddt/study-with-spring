@@ -58,7 +58,7 @@ public class OneToOneVideoCallRecordingWithFilteringApplication
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(null, "/call")
+        registry.addHandler(callHandler(), "/call")
                 .setAllowedOriginPatterns("*")
                 .setAllowedOrigins("*");
     }

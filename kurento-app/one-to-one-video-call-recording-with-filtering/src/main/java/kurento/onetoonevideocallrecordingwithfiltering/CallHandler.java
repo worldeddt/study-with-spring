@@ -39,6 +39,8 @@ public class CallHandler extends TextWebSocketHandler {
             log.debug("Incoming message from new user: {}", jsonMessage);
         }
 
+        log.info("message id : {}", jsonMessage.get("id").getAsString());
+
         switch (jsonMessage.get("id").getAsString()) {
             case "register":
                 register(session, jsonMessage);
@@ -50,6 +52,7 @@ public class CallHandler extends TextWebSocketHandler {
                 incomingCallResponse(user, jsonMessage);
                 break;
             case "play":
+                log.info("jsonMessage from play = {}", jsonMessage);
                 play(user, jsonMessage);
                 break;
             case "onIceCandidate": {
@@ -278,6 +281,9 @@ public class CallHandler extends TextWebSocketHandler {
         if (userRegistry.getByName(userName) != null &&
                 userRegistry.getBySession(session.getSession()) != null
         ) {
+
+            log.info("kurento client = {}", kurentoClient);
+
             final PlayMediaPipeline playMediaPipeline =
                     new PlayMediaPipeline(kurentoClient, userName, session.getSession());
 
