@@ -1,5 +1,7 @@
 package kurento.onetoonecallrecording;
 
+import kurento.onetoonecallrecording.messinger.CallHandler;
+import kurento.onetoonecallrecording.user.UserRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.KurentoClient;
 import org.kurento.client.KurentoClientBuilder;
@@ -16,6 +18,10 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 @SpringBootApplication
 public class OneToOneCallRecordingApplication implements WebSocketConfigurer {
+
+    public static void main(String[] args) {
+        SpringApplication.run(OneToOneCallRecordingApplication.class, args);
+    }
 
     @Bean
     public CallHandler callHandler() {
@@ -54,10 +60,6 @@ public class OneToOneCallRecordingApplication implements WebSocketConfigurer {
         registry.addHandler(callHandler(), "/call")
                 .setAllowedOrigins("*")
                 .setAllowedOriginPatterns("*");
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(OneToOneCallRecordingApplication.class, args);
     }
 
 }

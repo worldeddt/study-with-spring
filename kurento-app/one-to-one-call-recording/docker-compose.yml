@@ -1,0 +1,18 @@
+version: '1'
+services:
+  kurento-server:
+    command:
+      - "su"
+#      - "sudo source ~/.bashrc"
+    environment:
+      - MYSQL_ROOT_PASSWORD=eddy
+    ports:
+      - "8080:8080"
+    build:
+      dockerfile:
+        ./docker/Dockerfile
+      args:
+        env: "development"
+    container_name: kurento-recording
+    volumes:
+      - ./:/home/
