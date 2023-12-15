@@ -6,7 +6,6 @@ window.ms = ms;
 console.log(ms);
 console.log(as);
 
-
 $(document).on("click", "#createRoomBtn", function(e) {
     console.log("전송 시작");
 
@@ -17,3 +16,12 @@ $(document).on("click", "#createRoomBtn", function(e) {
         roomName : "다같이 놀자 동네 두 바퀴"
     }));
 });
+
+const apiRequestGet = (_url) => {
+    axios.get(_url)
+        .then(function (response) {
+           console.log(response);
+        });
+}
+
+apiRequestGet("https://localhost:8081/room/all/ferimRoom");

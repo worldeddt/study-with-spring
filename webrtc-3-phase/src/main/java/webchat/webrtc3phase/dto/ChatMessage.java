@@ -7,4 +7,6 @@ import lombok.Getter;
 public class ChatMessage {
     private String message;
     private String userId;
+    private String subsId;
+
 }

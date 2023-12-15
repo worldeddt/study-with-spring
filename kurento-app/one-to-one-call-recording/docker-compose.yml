@@ -2,7 +2,7 @@ version: '1'
 services:
   kurento-server:
     command:
-      - "su"
+#      - "su"
 #      - "sudo source ~/.bashrc"
     environment:
       - MYSQL_ROOT_PASSWORD=eddy

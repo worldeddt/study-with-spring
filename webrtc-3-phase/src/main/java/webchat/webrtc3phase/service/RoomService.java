@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import webchat.webrtc3phase.domain.Room;
 import webchat.webrtc3phase.presentation.request.CreateRoom;
 
+import java.util.List;
 import java.util.UUID;
 
 import static webchat.webrtc3phase.enums.RedisProperties.V2_ROOMS;
@@ -49,12 +50,16 @@ public class RoomService extends RedisService {
     private synchronized void putRoomById(String subsId, String roomId, Room room) {
         log.info("레디스에 방 데이터 삽입 -> subsId={}, roomId={}, room={}",
                 subsId, roomId, JsonWriter.objectToJson(room));
-        hashOps.putIfAbsent(V2_ROOMS+subsId, roomId.toString(), gson.toJson(room));
+        hashOps.put(V2_ROOMS+subsId, roomId.toString(), gson.toJson(room));
     }
 
     public synchronized Room findRoomById(String subsId, String roomId) {
         log.info("레디스의 방 데이터 가져옴 -> subsId={}, roomId={}", subsId, roomId);
 
         return gson.fromJson(hashOps.get(V2_ROOMS+subsId, roomId), Room.class);
+    }
+
+    public List<String> findRoomAll(String subsId) {
+        return hashOps.values(V2_ROOMS+subsId);
     }
 }
