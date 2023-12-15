@@ -24,6 +24,9 @@ public class ChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
 
+        Thread t = new Thread();
+
+        log.info("session id = {}", session.getId());
         log.info("message id = {}", jsonMessage.get("id").getAsString());
 
         switch (jsonMessage.get("id").getAsString()) {

@@ -1,22 +1,15 @@
 package webchat.webrtc3phase.service;
 
 
-import com.cedarsoftware.util.io.JsonReader;
 import com.cedarsoftware.util.io.JsonWriter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import webchat.webrtc3phase.domain.Room;
-import webchat.webrtc3phase.enums.RedisProperties;
 import webchat.webrtc3phase.presentation.request.CreateRoom;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.util.Map;
 import java.util.UUID;
 
 import static webchat.webrtc3phase.enums.RedisProperties.V2_ROOMS;
@@ -54,15 +47,13 @@ public class RoomService extends RedisService {
     }
 
     private synchronized void putRoomById(String subsId, String roomId, Room room) {
-        log.info("레디스에 방 데이터 삽입 -> subsId={}, roomId={}, room={}", subsId, roomId, JsonWriter.objectToJson(room));
-        hashOps.putIfAbsent(V2_ROOMS+subsId, roomId, JsonWriter.objectToJson(room));
+        log.info("레디스에 방 데이터 삽입 -> subsId={}, roomId={}, room={}",
+                subsId, roomId, JsonWriter.objectToJson(room));
+        hashOps.putIfAbsent(V2_ROOMS+subsId, roomId.toString(), gson.toJson(room));
     }
 
     public synchronized Room findRoomById(String subsId, String roomId) {
         log.info("레디스의 방 데이터 가져옴 -> subsId={}, roomId={}", subsId, roomId);
-        log.info("room data = {}", JsonReader.jsonToJava (hashOps.get(V2_ROOMS+subsId, roomId)));
-
-        log.info("room data = {}", gson.fromJson(hashOps.get(V2_ROOMS+subsId, roomId), Room.class));
 
         return gson.fromJson(hashOps.get(V2_ROOMS+subsId, roomId), Room.class);
     }

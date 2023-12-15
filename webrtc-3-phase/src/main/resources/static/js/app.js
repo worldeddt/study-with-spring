@@ -10,7 +10,7 @@ $(document).on("click", "#createRoomBtn", function(e) {
     as.send(JSON.stringify({
         id : "requestRoom",
         senderId : "eddySender",
-        subsId : "eddysubsIddd",
+        subsId : "ferimRoom",
         roomName : "다같이 놀자 동네 두 바퀴"
     }));
 });
