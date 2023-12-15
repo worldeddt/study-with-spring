@@ -1,6 +1,9 @@
 let as = new WebSocket("wss://localhost:8081/chat");
+let ms = new WebSocket("wss://localhost:8081/message");
 
 window.as = as;
+window.ms = ms;
+console.log(ms);
 console.log(as);
 
 
