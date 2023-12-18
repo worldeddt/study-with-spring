@@ -3,6 +3,7 @@ package webchat.webrtc3phase.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import webchat.webrtc3phase.controller.dto.CreateRoom;
 import webchat.webrtc3phase.service.RoomService;
@@ -12,7 +13,7 @@ import java.util.List;
 
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/room")
 @RequiredArgsConstructor
 @CrossOrigin(allowedHeaders = "*", origins = "*")
