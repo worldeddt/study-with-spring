@@ -1,4 +1,4 @@
-package webchat.webrtc3phase.presentation.controller;
+package webchat.webrtc3phase.controller;
 
 
 import lombok.RequiredArgsConstructor;

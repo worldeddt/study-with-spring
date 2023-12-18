@@ -1,4 +1,4 @@
-package webchat.webrtc3phase.presentation.request;
+package webchat.webrtc3phase.controller.dto;
 
 
 import lombok.AccessLevel;

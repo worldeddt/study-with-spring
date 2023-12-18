@@ -9,7 +9,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import webchat.webrtc3phase.domain.Room;
-import webchat.webrtc3phase.presentation.request.CreateRoom;
+import webchat.webrtc3phase.controller.dto.CreateRoom;
 import webchat.webrtc3phase.service.RoomService;
 
 @Slf4j

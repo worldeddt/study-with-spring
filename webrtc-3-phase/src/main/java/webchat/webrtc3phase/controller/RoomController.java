@@ -1,11 +1,10 @@
-package webchat.webrtc3phase.presentation.controller;
+package webchat.webrtc3phase.controller;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import webchat.webrtc3phase.dto.ChatMessage;
-import webchat.webrtc3phase.presentation.request.CreateRoom;
+import webchat.webrtc3phase.controller.dto.CreateRoom;
 import webchat.webrtc3phase.service.RoomService;
 
 import java.io.IOException;
