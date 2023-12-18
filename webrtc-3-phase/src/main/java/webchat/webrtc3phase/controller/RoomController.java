@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import webchat.webrtc3phase.controller.dto.CreateRoom;
+import webchat.webrtc3phase.controller.dto.RoomList;
 import webchat.webrtc3phase.service.RoomService;
 
 import java.io.IOException;
@@ -27,9 +28,11 @@ public class RoomController {
     }
 
     @GetMapping("/all/{subsId}")
-    public List<String> rooms(@PathVariable String subsId) {
+    public RoomList rooms(@PathVariable String subsId) {
         log.info("message = {}", subsId);
 
-        return roomService.findRoomAll(subsId);
+        List<String> roomAll = roomService.findRoomAll(subsId);
+
+        return RoomList.init(roomAll);
     }
 }
