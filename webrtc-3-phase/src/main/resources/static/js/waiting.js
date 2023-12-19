@@ -2,6 +2,7 @@ const ROOMCODE = "ferimRoom";
 const HOST = "https://localhost:8081"
 const ROOM_ALL_URI = "/room/all"
 let roomList = [];
+let as = new WebSocket("wss://localhost:8081/chat");
 
 async function apiRequestGet(_url) {
   return await axios.get(_url);
@@ -28,9 +29,35 @@ async function apiRequestPost(_url, _data) {
       settingListBody();
   });
 
-    createRoomButton.addEventListener("click", function(e) {
-        console.log(e);
-    })
+  createRoomButton.addEventListener("click", function(e) {
+    Swal.fire({
+      title: "주의",
+      text : "방을 새로 생성 하시겠습니까?",
+      showConfirmButton : true,
+      confirmButtonText : "확인",
+      showCancelButton : true,
+      cancelButtonText : "취소"
+    }).then(value => {
+
+      if (!document.getElementById("room_title").value) {
+        $.toast({
+          heading: 'Information',
+          text: '방 제목란이 비어있습니다.',
+          showHideTransition: 'slide',
+          icon: 'info'
+        })
+        return;
+      }
+      if (value.isConfirmed) {
+        as.send(JSON.stringify({
+          id : "requestRoom",
+          senderId : "eddySender",
+          subsId : "ferimRoom",
+          roomName : document.getElementById("room_title").value || ""
+        }));
+      }
+    });
+  });
 })();
 
 function settingListBody() {
