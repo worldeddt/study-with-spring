@@ -2,28 +2,46 @@ let as = new WebSocket("wss://localhost:8081/chat");
 var connectingElement = document.querySelector('.connecting');
 
 const socketJS = new SockJS('/message');
-let stompClient = Stomp.over(socketJS);
+let ws = Stomp.over(socketJS);
 
-stompClient.connect({}, onConnected, onError)
 window.as = as;
-window.stompClient = stompClient;
-console.log(stompClient);
-console.log(as);
+window.ws = ws;
 
-const roomId = "fermiRoom";
+let roomId;
+let subsId;
 
-$(document).on("click", "#createRoomBtn", function(e) {
-    console.log("전송 시작");
+(function () {
+    const URLSearch = new URLSearchParams(location.search);
 
-    return;
+    if (URLSearch.get("v")) roomId = URLSearch.get("v");
+    if (URLSearch.get("subsId")) subsId = URLSearch.get("subsId");
 
-    as.send(JSON.stringify({
-        id : "requestRoom",
-        senderId : "eddySender",
-        subsId : "ferimRoom",
-        roomName : "다같이 놀자 동네 두 바퀴"
-    }));
-});
+    ws.connect({}, onConnected, onError);
+
+    const messageInput = document.getElementById("send_message_text");
+    const sendButton = document.getElementById("send_message");
+
+
+    ws.connect({}, function (frame) {
+        ws.send("/chat/enterUser", {},
+          JSON.stringify({
+              type: 'ENTER',
+              roomId: roomId,
+              sender: "eddy"
+          }));
+    });
+
+    sendButton.addEventListener("click", function(e) {
+        console.log(e);
+        as.send(JSON.stringify({
+            "id": "chat",
+            roomId,
+            subsId,
+            "message": messageInput.value,
+            "sender" : "eddy"
+        }));
+    })
+})();
 
 const apiRequestGet = (_url) => {
     axios.get(_url)
@@ -34,11 +52,11 @@ const apiRequestGet = (_url) => {
 
 function onConnected() {
     // sub 할 url => /sub/chat/room/roomId 로 구독한다
-    stompClient.subscribe('/sub/chat/room/' + roomId, onMessageReceived);
+    ws.subscribe('/sub/chat/room/' + roomId, onMessageReceived);
 
     // 서버에 username 을 가진 유저가 들어왔다는 것을 알림
     // /pub/chat/enterUser 로 메시지를 보냄
-    stompClient.send("/pub/chat/enterUser",
+    ws.send("/pub/chat/enterUser",
         {},
         JSON.stringify({
             "roomId": roomId,

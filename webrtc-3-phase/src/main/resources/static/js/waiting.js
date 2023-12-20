@@ -85,7 +85,7 @@ function settingListBody() {
           cancelButtonText : "취소"
         }).then(function(value) {
           if (value.isConfirmed)
-            window.location = `https://localhost:${PORT}/index.html?v=${tr.getAttribute("data-room-id")}`;
+            window.location = `https://localhost:${PORT}/index.html?v=${tr.getAttribute("data-room-id")}&subsId=${ROOMCODE}`;
         }).catch(function(error) {
           console.error(error);
           window.reload();

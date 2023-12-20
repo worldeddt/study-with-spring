@@ -1,6 +1,7 @@
 package webchat.webrtc3phase.service;
 
 
+import com.google.gson.JsonObject;
 import org.springframework.stereotype.Service;
 import webchat.webrtc3phase.controller.dto.AdditionalUser;
 import webchat.webrtc3phase.controller.dto.FindUserName;
@@ -11,9 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class MessageService {
-
-
-
     public String additionalUser(AdditionalUser additionalUser) {
         ChatRoomDto chatRoom = additionalUser.getChatRoom();
         String userUUID = UUID.randomUUID().toString();
@@ -32,5 +30,9 @@ public class MessageService {
     public void deleteUser(FindUserName findUserName) {
         ChatRoomDto room = findUserName.getChatRoom();
         room.getUserList().remove(findUserName.getUserUUID());
+    }
+
+    public synchronized void chat(JsonObject message) {
+
     }
 }

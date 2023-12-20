@@ -52,8 +52,10 @@ public class ChatHandler extends TextWebSocketHandler {
                         jsonMessage.get("subsId").getAsString(),
                         jsonMessage.get("roomId").getAsString()
                 );
+            case "chat" :
+                log.info("subsId = {}, roomId = {}"
+                        ,jsonMessage.get("subsId").getAsString(), jsonMessage.get("roomId").getAsString());
 
-            case ""
             default:
                 break;
         }
