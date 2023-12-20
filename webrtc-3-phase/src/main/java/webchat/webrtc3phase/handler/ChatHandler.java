@@ -44,6 +44,16 @@ public class ChatHandler extends TextWebSocketHandler {
 
                 log.info("room id = {}", room.getRoomId());
                 break;
+            case "deleteRoom" :
+                log.info("subsId = {}, roomId = {}"
+                ,jsonMessage.get("subsId").getAsString(), jsonMessage.get("roomId").getAsString());
+
+                roomService.findRoomById(
+                        jsonMessage.get("subsId").getAsString(),
+                        jsonMessage.get("roomId").getAsString()
+                );
+
+            case ""
             default:
                 break;
         }

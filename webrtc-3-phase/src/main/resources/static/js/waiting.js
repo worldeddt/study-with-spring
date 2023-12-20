@@ -1,8 +1,10 @@
-const ROOMCODE = "ferimRoom";
-const HOST = "https://localhost:8081"
+const ROOMCODE = "3478";
+const PORT = "8081"
+const HOST = `https://localhost:${PORT}`
 const ROOM_ALL_URI = "/room/all"
 let roomList = [];
 let as = new WebSocket("wss://localhost:8081/chat");
+let roomId = "";
 
 async function apiRequestGet(_url) {
   return await axios.get(_url);
@@ -52,9 +54,10 @@ async function apiRequestPost(_url, _data) {
         as.send(JSON.stringify({
           id : "requestRoom",
           senderId : "eddySender",
-          subsId : "ferimRoom",
+          subsId : ROOMCODE,
           roomName : document.getElementById("room_title").value || ""
         }));
+        location.reload();
       }
     });
   });
@@ -63,13 +66,68 @@ async function apiRequestPost(_url, _data) {
 function settingListBody() {
     const tbody = document.getElementById("room-body");
 
+    if (roomList.length > 0) document.getElementById("room_list_empty").style.display = "none";
+
     for (room of roomList) {
       let tr= document.createElement('tr');
+      tr.dataset.roomId = room.roomId;
+      tr.style.cursor ="pointer"
+
+      tr.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        Swal.fire({
+          title:"",
+          text: "입장 ㄱ?",
+          showConfirmButton : true,
+          confirmButtonText : "확인",
+          showCancelButton : true,
+          cancelButtonText : "취소"
+        }).then(function(value) {
+          if (value.isConfirmed)
+            window.location = `https://localhost:${PORT}/index.html?v=${tr.getAttribute("data-room-id")}`;
+        }).catch(function(error) {
+          console.error(error);
+          window.reload();
+        });
+      });
+
       let titleTd= document.createElement('td');
       let peopleNumberTd = document.createElement("td");
 
+      let deleteTd = document.createElement('td');
+      deleteTd.style.width = "10%";
+
+      let deleteButton = document.createElement("button");
+      deleteButton.innerHTML = "삭제";
+      deleteButton.setAttribute("class", "btn btn-danger");
+      deleteButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        Swal.fire({
+          title:"",
+          text:"삭제 하시겠습니까?",
+          showConfirmButton : true,
+          confirmButtonText : "확인",
+          showCancelButton : true,
+          cancelButtonText : "취소"
+        }).then(function(value) {
+
+          if (value.isConfirmed) {
+            as.send(JSON.stringify({
+              id: "deleteRoom",
+              senderId : "eddy",
+              subsId : ROOMCODE,
+              roomId : room.roomId
+            }));
+          }
+        });
+      });
+
+      deleteTd.append(deleteButton);
       titleTd.innerHTML =  room.roomName;
       tr.append(titleTd);
+      tr.append(deleteTd);
 
       tbody.append(tr);
     }

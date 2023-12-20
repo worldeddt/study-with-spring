@@ -59,6 +59,11 @@ public class RoomService extends RedisService {
         return gson.fromJson(hashOps.get(V2_ROOMS+subsId, roomId), Room.class);
     }
 
+    public long removeRoomById(String subsId, String roomId) {
+        log.info("removeRoomById...{}", roomId);
+        return hashOps.delete(V2_ROOMS+subsId, roomId);
+    }
+
     public List<String> findRoomAll(String subsId) {
         return hashOps.values(V2_ROOMS+subsId);
     }
