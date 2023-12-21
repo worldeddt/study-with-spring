@@ -1,8 +1,11 @@
 package webchat.webrtc3phase.enums;
 
 
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class RedisProperties {
+    public static final String PF_SESSION = "session:";
 
     public static final String PF_ROOM = "room:";
     public static final String PF_NOTI = "noti:";

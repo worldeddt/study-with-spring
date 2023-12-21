@@ -67,15 +67,15 @@ public class ChatMessageController {
         String roomId = headerAccessor.getSessionAttributes().get("roomId").toString();
 
 
-        FindUserName findUserName = FindUserName.init(
-                userUUID, roomId, ChatRoomMap.getInstance().getChatRooms()
-        );
-
-        String username = messageService.findUserNameByRoomIdAndUserUUID(findUserName);
-
-        messageService.deleteUser(findUserName);
-
-        if (username != null) sendToOthersInTheRoom(username, roomId);
+//        FindUserName findUserName = FindUserName.init(
+//                userUUID, roomId, ChatRoomMap.getInstance().getChatRooms()
+//        );
+//
+//        String username = messageService.findUserNameByRoomIdAndUserUUID(findUserName);
+//
+//        messageService.deleteUser(findUserName);
+//
+//        if (username != null) sendToOthersInTheRoom(username, roomId);
     }
 
     private void sendToOthersInTheRoom(String username, String roomId) {

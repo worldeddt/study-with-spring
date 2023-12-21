@@ -56,18 +56,6 @@ public class ChatHandler extends TextWebSocketHandler {
                         jsonMessage.get("subsId").getAsString(),
                         jsonMessage.get("roomId").getAsString()
                 );
-            case "chat" :
-                log.info("subsId = {}, roomId = {}"
-                        ,jsonMessage.get("subsId").getAsString(), jsonMessage.get("roomId").getAsString());
-
-                roomService.sendMessage(jsonMessage.get("roomId").getAsString(),
-                        ChatDto.builder()
-                                .roomId(jsonMessage.get("roomId").getAsString())
-                                .sender(jsonMessage.get("sender").getAsString())
-                                .message(jsonMessage.get("message").getAsString())
-                                .build()
-                        );
-
             default:
                 break;
         }
