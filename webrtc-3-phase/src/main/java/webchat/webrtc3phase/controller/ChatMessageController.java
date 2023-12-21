@@ -33,6 +33,7 @@ public class ChatMessageController {
     public void enterUser(@Payload ChatDto chat, SimpMessageHeaderAccessor headerAccessor) {
 
        log.info("header access = {}", headerAccessor.getDestination());
+       log.info("header info = {}", headerAccessor.getHeader("userType"));
 
         String userUUID = messageService.additionalUser(
                 AdditionalUser.init(

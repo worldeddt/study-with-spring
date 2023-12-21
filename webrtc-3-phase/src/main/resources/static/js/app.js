@@ -40,13 +40,14 @@ let sender;
     const sendButton = document.getElementById("send_message");
 
     console.log("roomId : {}", roomId);
-    ws.connect({}, function (frame) {
+    ws.connect({"userType": "STAFF"}, function (frame) {
+        frame.headers["sender"] = sender;
         console.log("roomId on connect :"+ roomId);
         ws.subscribe('/sub/chat/room2/' + roomId, function(message) {
             receiveMessage(JSON.parse(message.body));
         });
 
-        ws.send("/pub/chat/enterUser", {},
+        ws.send("/pub/chat/enterUser", {"userType": "STAFF"},
           JSON.stringify({
               type: 'ENTER',
               roomId,
