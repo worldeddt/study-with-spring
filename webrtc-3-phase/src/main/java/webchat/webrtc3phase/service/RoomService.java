@@ -4,9 +4,12 @@ package webchat.webrtc3phase.service;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.google.gson.Gson;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import webchat.webrtc3phase.controller.dto.ChatDto;
 import webchat.webrtc3phase.domain.Room;
 import webchat.webrtc3phase.controller.dto.CreateRoom;
 
@@ -18,10 +21,13 @@ import static webchat.webrtc3phase.enums.RedisProperties.V2_ROOMS;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class RoomService extends RedisService {
     private Gson gson = new Gson();
     private HashOperations<String, String, String> hashOps;
     private HashOperations<String, String, String> hashOps2;
+
+    private final SimpMessageSendingOperations messagingTemplate;
 
     @PostConstruct
     public void init() {
@@ -62,6 +68,10 @@ public class RoomService extends RedisService {
     public long removeRoomById(String subsId, String roomId) {
         log.info("removeRoomById...{}", roomId);
         return hashOps.delete(V2_ROOMS+subsId, roomId);
+    }
+
+    public void sendMessage(String roomId, ChatDto chatDto) {
+        messagingTemplate.convertAndSend("/sub/chat/room2/"+roomId, chatDto);
     }
 
     public List<String> findRoomAll(String subsId) {

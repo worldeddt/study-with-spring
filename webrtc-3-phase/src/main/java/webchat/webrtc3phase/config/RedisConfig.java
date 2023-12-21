@@ -9,8 +9,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import webchat.webrtc3phase.service.MessageService;
 
 
 @Slf4j
@@ -44,4 +46,10 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
         return redisTemplate;
     }
+
+    @Bean
+    public MessageListenerAdapter listenerAdapter(MessageService subscriber) {
+        return new MessageListenerAdapter(subscriber, "sendMessage");
+    }
+
 }

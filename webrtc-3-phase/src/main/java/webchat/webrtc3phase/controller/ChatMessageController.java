@@ -1,6 +1,7 @@
 package webchat.webrtc3phase.controller;
 
 
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -26,6 +27,7 @@ public class ChatMessageController {
 
     private final MessageService messageService;
     private final SimpMessageSendingOperations template;
+    private final Gson gson;
 
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatDto chat, SimpMessageHeaderAccessor headerAccessor) {
@@ -41,14 +43,16 @@ public class ChatMessageController {
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
         chat.setMessage(chat.getSender() + "님 입장 !!");
-        template.convertAndSend("/sub/chat/room/"+chat.getRoomId(), chat);
+        template.convertAndSend("/sub/chat/room2/"+chat.getRoomId(), chat);
     }
 
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload ChatDto chat) {
         log.info("chat sender = {}", chat.getSender());
+        log.info("chat roomId = {}", chat.getRoomId());
+        log.info("chat message = {}", chat.getMessage());
         chat.setMessage(chat.getMessage());
-        template.convertAndSend("/sub/chat/room/"+chat.getRoomId(), chat);
+        template.convertAndSend("/sub/chat/room2/"+chat.getRoomId(), chat);
     }
 
     @EventListener
