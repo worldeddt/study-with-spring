@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import webchat.webrtc3phase.service.MessageService;
 
 
@@ -25,7 +26,6 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int redisPort;
 
-
     @Bean
     RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
@@ -38,6 +38,7 @@ public class RedisConfig {
                 new LettuceConnectionFactory(redisStandaloneConfiguration);
         return lettuceConnectionFactory;
     }
+
     @Bean
     RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();

@@ -77,15 +77,21 @@ function settingListBody() {
         e.preventDefault();
         e.stopPropagation();
         Swal.fire({
-          title:"",
-          text: "입장 ㄱ?",
+          title:"대화명을 입력해 주세용",
+          input: "text",
           showConfirmButton : true,
           confirmButtonText : "확인",
           showCancelButton : true,
-          cancelButtonText : "취소"
+          cancelButtonText : "취소",
+          inputValidator: (value) => {
+            if (!value) {
+              return "대화명을 입력해 주세요";
+            }
+          }
         }).then(function(value) {
           if (value.isConfirmed)
-            window.location = `https://localhost:${PORT}/index.html?v=${tr.getAttribute("data-room-id")}&subsId=${ROOMCODE}`;
+            window.location =
+              `https://localhost:${PORT}/index.html?v=${tr.getAttribute("data-room-id")}&subsId=${ROOMCODE}&sender=${value.value}`;
         }).catch(function(error) {
           console.error(error);
           window.reload();

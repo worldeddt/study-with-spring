@@ -1,3 +1,6 @@
+const ROOMCODE = "3478";
+const PORT = "8081"
+const HOST = `https://localhost:${PORT}`
 let as = new WebSocket("wss://localhost:8081/chat");
 var connectingElement = document.querySelector('.connecting');
 
@@ -9,12 +12,29 @@ window.ws = ws;
 
 let roomId;
 let subsId;
+let sender;
 
 (function () {
     const URLSearch = new URLSearchParams(location.search);
 
     if (URLSearch.get("v")) roomId = URLSearch.get("v");
     if (URLSearch.get("subsId")) subsId = URLSearch.get("subsId");
+    if (URLSearch.get("sender")) sender = URLSearch.get("sender");
+
+    if (!roomId || !subsId || !sender) {
+        Swal.fire({
+            title : "필수값이 누락되었습니다.",
+            allowEscapeKey : false,
+            allowOutsideClick : false,
+            showConfirmButton :true,
+            confirmButtonText : "확인"
+        }).then(function (response) {
+            if (response.isConfirmed) {
+                window.location.href =
+                  `https://localhost:${PORT}/waiting.html`;
+            }
+        })
+    }
 
     const messageInput = document.getElementById("send_message_text");
     const sendButton = document.getElementById("send_message");
@@ -29,12 +49,10 @@ let subsId;
         ws.send("/pub/chat/enterUser", {},
           JSON.stringify({
               type: 'ENTER',
-              roomId: roomId,
-              sender: "eddy"
+              roomId,
+              sender
           }));
     });
-
-    console.log("roomId : {}", roomId);
 
     sendButton.addEventListener("click", function(e) {
         console.log("message text:", messageInput.value);
@@ -43,27 +61,14 @@ let subsId;
             type: 'TALK',
             subsId,
             roomId,
-            sender : "eddy",
+            sender,
             message: messageInput.value
         }));
         messageInput.value = '';
     })
 })();
 
-const apiRequestGet = (_url) => {
-    axios.get(_url)
-        .then(function (response) {
-           console.log(response);
-        });
-}
-
-function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
-}
-
 function receiveMessage(message) {
-    console.log(message);
     const messageBoard = document.getElementById("chat_board");
     let messageBox = document.createElement("span");
     messageBox.innerHTML = `[${message.sender}] ${message.message}`;
