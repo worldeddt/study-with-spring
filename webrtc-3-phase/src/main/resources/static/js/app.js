@@ -39,10 +39,11 @@ let sender;
     const messageInput = document.getElementById("send_message_text");
     const sendButton = document.getElementById("send_message");
 
-    console.log("roomId : {}", roomId);
-    ws.connect({"userType": "STAFF"}, function (frame) {
-        frame.headers["sender"] = sender;
-        console.log("roomId on connect :"+ roomId);
+    ws.connect({
+        "userType": "STAFF",
+        "userId" : sender,
+        subsId
+    }, function (frame) {
         ws.subscribe('/sub/chat/room2/' + roomId, function(message) {
             receiveMessage(JSON.parse(message.body));
         });
@@ -56,8 +57,6 @@ let sender;
     });
 
     sendButton.addEventListener("click", function(e) {
-        console.log("message text:", messageInput.value);
-
         ws.send("/pub/chat/sendMessage", {}, JSON.stringify({
             type: 'TALK',
             subsId,

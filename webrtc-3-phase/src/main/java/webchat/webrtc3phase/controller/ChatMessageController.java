@@ -15,9 +15,13 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import webchat.webrtc3phase.controller.dto.AdditionalUser;
 import webchat.webrtc3phase.controller.dto.ChatDto;
 import webchat.webrtc3phase.controller.dto.FindUserName;
+import webchat.webrtc3phase.domain.SessionIdOwner;
 import webchat.webrtc3phase.dto.ChatRoomMap;
+import webchat.webrtc3phase.dto.SessionInfo;
+import webchat.webrtc3phase.infra.UserRepository;
 import webchat.webrtc3phase.service.MessageService;
 import webchat.webrtc3phase.service.RoomService;
+import webchat.webrtc3phase.service.SessionService;
 
 
 @Slf4j
@@ -28,6 +32,8 @@ public class ChatMessageController {
     private final MessageService messageService;
     private final SimpMessageSendingOperations template;
     private final Gson gson;
+    private final UserRepository userRepository;
+    private final SessionService sessionService;
 
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatDto chat, SimpMessageHeaderAccessor headerAccessor) {
@@ -58,6 +64,34 @@ public class ChatMessageController {
 
     @EventListener
     public void webSocketDisconnectListener(SessionDisconnectEvent sessionDisconnectEvent) {
+
+        SimpMessageHeaderAccessor simpMessageHeaderAccessor
+                = SimpMessageHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
+
+        String sessionId = simpMessageHeaderAccessor.getSessionId();
+
+        if (sessionId == null) return;
+
+        SessionIdOwner socketOwnerBySessionId = userRepository.getSocketOwnerBySessionId(sessionId);
+
+        if (socketOwnerBySessionId != null) {
+            String userId = socketOwnerBySessionId.getUserId();
+            SessionInfo sessionByUserId = sessionService.findSessionByUserId(userId);
+
+            if (sessionByUserId != null) {
+                sessionByUserId.setClosed(true);
+                sessionService.updateSessionByUserId(userId,sessionByUserId);
+            }
+
+
+
+        } else {
+            log.info("session id owner is null +++");
+            sessionService.clearSessionInfoBySessionId(sessionId);
+        }
+
+
+
         log.info("session message = {}", sessionDisconnectEvent.getMessage());
 
         log.info("session id event = {}", sessionDisconnectEvent.getSessionId());

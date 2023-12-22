@@ -15,4 +15,7 @@ public class RedisProperties {
 
     public static final String V2_ROOMS = RedisProperties.PF_ROOM + RedisProperties.INFO + RedisProperties.COLON;;
 
+    public static final String PF_SOCK = "socket:";
+
+    public static final String OWN = "owner";
 }

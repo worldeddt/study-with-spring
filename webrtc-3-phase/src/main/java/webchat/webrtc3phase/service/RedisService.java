@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Getter
 @Service
 public class RedisService {
@@ -33,5 +35,13 @@ public class RedisService {
 
     public void setStringByKey(String key, Object value) {
         valueOps.set(key, value);
+    }
+
+    public void setStringByKey(String key, Object value, long ttl, TimeUnit unit) {
+        valueOps.set(key, value, ttl, unit);
+    }
+
+    public boolean deleteKey(String key) {
+        return redisTemplate.delete(key);
     }
 }
