@@ -37,17 +37,25 @@ public class WebSocketEventListener {
         String userId = fermiConnectMessageParser.getUserId();
 
         if (sessionId != null && subsId != null && userType != null) {
-            SessionInfo sessionByUserId = sessionService.findSessionByUserId(userId);
+            SessionInfo oldSessionInfo = sessionService.findSessionByUserId(userId);
+
+            if(EUserType.CLIENT.name().equals(userType) && oldSessionInfo != null) {
+                String oldSessionId = oldSessionInfo.getSessionId();
+                log.debug("고객이 같은 아이디의 세션이 남아있을 경우 기존 세션이 접속해있는 방을 나가고 세션리소스 정리" +
+                        " -> reconnectClientId={}, oldSessionId={} newSessionId={}", userId, oldSessionId, sessionId);
+
+                SessionIdOwner oldSio = userRepository.getSocketOwnerBySessionId(oldSessionId);
+            }
+
+            SessionInfo si = new SessionInfo();
+            si.setSessionId(sessionId);
+            si.setUserId(userId);
+            si.setSubsId(subsId);
+            si.setUserType(EUserType.valueOf(userType));
+
+            sessionService.putSessionByUserId(userId, si);
+
+            userRepository.setSocketOwnerBySessionId(sessionId, new SessionIdOwner(subsId, userId));
         }
-
-        SessionInfo si = new SessionInfo();
-        si.setSessionId(sessionId);
-        si.setUserId(userId);
-        si.setSubsId(subsId);
-        si.setUserType(EUserType.valueOf(userType));
-
-        sessionService.putSessionByUserId(userId, si);
-
-        userRepository.setSocketOwnerBySessionId(sessionId, new SessionIdOwner(subsId, userId));
     }
 }

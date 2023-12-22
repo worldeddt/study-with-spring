@@ -22,14 +22,12 @@ public class UserRepository extends RedisService {
     private static final String SOCKET_OWN =
             RedisProperties.PF_SOCK + RedisProperties.OWN + RedisProperties.COLON;
 
-    public synchronized SessionIdOwner getSocketOwnerBySessionId(String sessionId) {
+    public SessionIdOwner getSocketOwnerBySessionId(String sessionId) {
         String value = getStringByKey(SOCKET_OWN+sessionId);
-
-        SessionIdOwner sessionIdOwner = null;
 
         if (value == null) return null;
 
-        sessionIdOwner = (SessionIdOwner) JsonReader.jsonToJava(value);
+        SessionIdOwner sessionIdOwner = (SessionIdOwner) JsonReader.jsonToJava(value);
         log.debug("레디스의 소켓오너 정보 가져옴 -> sessionId={}, subsId={}, userId={}",
                 sessionId, sessionIdOwner.getSubsId(), sessionIdOwner.getUserId());
         return sessionIdOwner;

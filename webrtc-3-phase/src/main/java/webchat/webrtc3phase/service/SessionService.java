@@ -48,7 +48,7 @@ public class SessionService extends RedisService {
     }
 
     public SessionInfo findSessionByUserId(String userId) {
-        log.debug("레디스의 유저 세션 정보 가져옴 -> userId={}", userId);
+        log.info("레디스의 유저 세션 정보 가져옴 -> userId={}", userId);
         return (SessionInfo) JsonReader.jsonToJava(hashOps.get(SESSION_KEY, userId));
     }
 

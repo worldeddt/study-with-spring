@@ -63,8 +63,7 @@ public class ChatMessageController {
     }
 
     @EventListener
-    public void webSocketDisconnectListener(SessionDisconnectEvent sessionDisconnectEvent) {
-
+    public synchronized void webSocketDisconnectListener(SessionDisconnectEvent sessionDisconnectEvent) {
         SimpMessageHeaderAccessor simpMessageHeaderAccessor
                 = SimpMessageHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
 
@@ -73,6 +72,9 @@ public class ChatMessageController {
         if (sessionId == null) return;
 
         SessionIdOwner socketOwnerBySessionId = userRepository.getSocketOwnerBySessionId(sessionId);
+
+        log.info("session id : {}", sessionId);
+        log.info("socket owner : {}", socketOwnerBySessionId);
 
         if (socketOwnerBySessionId != null) {
             String userId = socketOwnerBySessionId.getUserId();
@@ -83,34 +85,10 @@ public class ChatMessageController {
                 sessionService.updateSessionByUserId(userId,sessionByUserId);
             }
 
-
-
         } else {
             log.info("session id owner is null +++");
             sessionService.clearSessionInfoBySessionId(sessionId);
         }
-
-
-
-        log.info("session message = {}", sessionDisconnectEvent.getMessage());
-
-        log.info("session id event = {}", sessionDisconnectEvent.getSessionId());
-
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
-
-        String userUUID = headerAccessor.getSessionAttributes().get("userUUID").toString();
-        String roomId = headerAccessor.getSessionAttributes().get("roomId").toString();
-
-
-//        FindUserName findUserName = FindUserName.init(
-//                userUUID, roomId, ChatRoomMap.getInstance().getChatRooms()
-//        );
-//
-//        String username = messageService.findUserNameByRoomIdAndUserUUID(findUserName);
-//
-//        messageService.deleteUser(findUserName);
-//
-//        if (username != null) sendToOthersInTheRoom(username, roomId);
     }
 
     private void sendToOthersInTheRoom(String username, String roomId) {
