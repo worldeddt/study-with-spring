@@ -1,2 +1,2 @@
 sudo -s
-sudo source ~/.bashrc
+sudo source /etc/bash.bashrc

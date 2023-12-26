@@ -13,9 +13,9 @@ RUN sudo mv jdk-17* /opt/java
 RUN echo 'export JAVA_HOME=/opt/java/jdk-17.0.9' >> ~/.bashrc
 RUN echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
 
-#CMD ["cd /home"]
-#CMD ["touch test.txt"]
-#CMD ["./mvnw clean package -DskipTests"]
-#ENTRYPOINT ["sudo chmod 400 /home/entrypoint.sh"]
-#CMD ./home/entrypoint.sh
-#ENTRYPOINT ["sudo", "source", "~/.bashrc"]
+CMD ["cd" ,"/home"]
+ENTRYPOINT ["sudo", "chmod", "400", "/home/entrypoint.sh"]
+CMD ["./home/entrypoint.sh"]
+CMD ["./mvnw", "clean", "package", "-DskipTests"]
+CMD ["cd", "/target"]
+CMD ["nohup", "java", "-jar", "one-to-one-call-recording-0.0.1.jar", "&"]

@@ -2,12 +2,12 @@ version: '1'
 services:
   kurento-server:
     command:
-#      - "su"
-#      - "sudo source ~/.bashrc"
+#      - "sudo su"
+#      - "sudo source /etc/bash.bashrc"
     environment:
       - MYSQL_ROOT_PASSWORD=eddy
     ports:
-      - "8080:8080"
+      - "8090:8080"
     build:
       dockerfile:
         ./docker/Dockerfile
