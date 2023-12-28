@@ -9,7 +9,7 @@ server:
     key-store-type: JKS
     key-store: classpath:keystore.jks
     key-alias: kurento-selfsigned
-  port: 8080
+  port: 8090
 logging:
   level:
     org:

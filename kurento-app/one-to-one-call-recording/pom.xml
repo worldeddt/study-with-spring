@@ -15,7 +15,7 @@
     <description>one-to-one-call-recording</description>
     <properties>
         <java.version>17</java.version>
-        <start-class>kurento.onetoonecallrecording</start-class>
+        <start-class>kurento.onetoonecallrecording.OneToOneCallRecordingApplication</start-class>
     </properties>
     <dependencies>
         <dependency>
@@ -37,7 +37,6 @@
             <artifactId>kurento-client</artifactId>
             <version>7.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.kurento/kurento-utils-js -->
         <dependency>
             <groupId>org.kurento</groupId>
             <artifactId>kurento-utils-js</artifactId>
@@ -151,7 +150,6 @@
                                 <configuration>
                                     <archive>
                                         <manifest>
-                                            <addClasspath>true</addClasspath>
                                             <mainClass>kurento.onetoonecallrecording.OneToOneCallRecordingApplication</mainClass>
                                         </manifest>
                                     </archive>

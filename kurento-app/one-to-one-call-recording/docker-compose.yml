@@ -1,13 +1,28 @@
 version: '1'
 services:
+  kurento-container:
+    networks:
+      - kuren
+    container_name: kurento-media-server
+    build:
+      dockerfile:
+        ./docker/kurento/Dockerfile
+    ports:
+      - "8888:8888"
   kurento-server:
+    networks:
+      - kuren
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     command:
-#      - "sudo su"
-#      - "sudo source /etc/bash.bashrc"
+#      - "ssh -L 8888:localhost:22 fermi@devpt.coview.co.kr -y"
     environment:
       - MYSQL_ROOT_PASSWORD=eddy
     ports:
-      - "8090:8080"
+      - "8090:8090"
     build:
       dockerfile:
         ./docker/Dockerfile
@@ -15,4 +30,6 @@ services:
         env: "development"
     container_name: kurento-recording
     volumes:
-      - ./:/home/
+      - ./:/kurento
+networks:
+  kuren:
