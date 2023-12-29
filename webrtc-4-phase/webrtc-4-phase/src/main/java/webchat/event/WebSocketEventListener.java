@@ -20,5 +20,7 @@ public class WebSocketEventListener {
 
         //todo message 에 따른 핸들링
 
+        log.info("message : "+message);
+
     }
 }

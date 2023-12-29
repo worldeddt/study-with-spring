@@ -9,5 +9,4 @@ public class Webrtc4PhaseApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Webrtc4PhaseApplication.class, args);
 	}
-
 }

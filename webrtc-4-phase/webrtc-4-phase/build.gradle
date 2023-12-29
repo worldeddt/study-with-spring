@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'web-chat'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
 	sourceCompatibility = '17'
@@ -22,12 +22,27 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.session:spring-session-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'me.paulschwarz:spring-dotenv:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.kurento:kurento-client:7.0.0'
+	//implementation 'org.kurento:kms-api-core:6.17.0'
+	implementation 'org.kurento:kms-api-core:7.0.0'
+	implementation 'org.kurento:kurento-client:7.0.0'
+	//implementation 'org.kurento:kms-api-core:6.17.0'
+	implementation 'org.kurento:kms-api-core:7.0.0'
+
+	implementation 'com.cedarsoftware:json-io:4.12.0'
+
+	implementation 'com.google.code.gson:gson'
+	implementation 'org.apache.commons:commons-lang3'
+	implementation 'commons-io:commons-io:2.6'
 }
 
 tasks.named('test') {

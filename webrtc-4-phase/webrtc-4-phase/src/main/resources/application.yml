@@ -1,1 +1,38 @@
+server:
+  port: ${PORT}
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
+schedule:
+  thread-pool-size: 20
+
+
+kms:
+  use-composite: false
+  use-encorded-recording: false
+  use-new-recording: true
+  record-path: /fermi/storage
+  # webm or mp4 or mkv
+  format: mp4
+  # kms스탯표시 설정값.
+  stat:
+    use: true
+    logging-all: true
+  # 멀티 kms의 경우 선택시 로직 추가설정. mem-total단위 : KB, mem-limit, cpu-limit 단위 : %
+  check-server-state:
+    use: true
+    mem-total: 4045384
+    mem-limit: 80
+    cpu-limit: 80
+    call-max: 100
+  urls:
+    - ws://localhost:8888/kurento
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include:
+          - env
