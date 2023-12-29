@@ -19,4 +19,5 @@ RUN sudo apt install -y nmap
 ENV JAVA_HOME=/opt/java/jdk-17.0.9
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-#ENTRYPOINT ["./kurento/entrypoint.sh"]
+ENTRYPOINT ["./kurento/mvnw", "clean" ,"package", "-DskipTests"]
+ENTRYPOINT ["nohup", "java", "-jar", "./kurento/target/one-to-one-call-recording-0.0.1.jar", "&"]

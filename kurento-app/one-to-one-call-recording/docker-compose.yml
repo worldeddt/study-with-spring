@@ -2,7 +2,8 @@ version: '1'
 services:
   kurento-container:
     networks:
-      - kuren
+      kuren:
+        ipv4_address: 172.25.0.3
     container_name: kurento-media-server
     build:
       dockerfile:
@@ -11,14 +12,15 @@ services:
       - "8888:8888"
   kurento-server:
     networks:
-      - kuren
+      kuren:
+        ipv4_address: 172.25.0.2
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
     command:
-#      - "ssh -L 8888:localhost:22 fermi@devpt.coview.co.kr -y"
+#      - "ssh -L 8888:localhost:8888 fermi@devpt.coview.co.kr -y"
     environment:
       - MYSQL_ROOT_PASSWORD=eddy
     ports:
@@ -33,3 +35,7 @@ services:
       - ./:/kurento
 networks:
   kuren:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16

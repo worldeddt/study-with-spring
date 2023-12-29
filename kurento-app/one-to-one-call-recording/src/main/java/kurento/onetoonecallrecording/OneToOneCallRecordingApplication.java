@@ -36,7 +36,7 @@ public class OneToOneCallRecordingApplication implements WebSocketConfigurer {
     @Bean
     public KurentoClient kurentoClient() {
         return new KurentoClientBuilder()
-                .setKmsWsUri("ws://localhost:8888/kurento")
+                .setKmsWsUri("ws://172.25.0.3:8888/kurento")
                 .onDisconnected(
                 () -> {
                     log.info("disconnect !!!");
