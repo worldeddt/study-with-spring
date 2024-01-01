@@ -16,11 +16,18 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectEvent sessionConnectEvent) {
 
-        Message<byte[]> message = sessionConnectEvent.getMessage();
+        FermiConnectMessageParser sh = FermiConnectMessageParser.wrap(sessionConnectEvent.getMessage());
 
         //todo message 에 따른 핸들링
 
-        log.info("message : "+message);
+        log.info("message : "+sh.getSid());
+
+
+        switch (sh.getSid()) {
+            case "test" :
+                log.info("test test : {}", sessionConnectEvent.getMessage());
+                break;
+        }
 
     }
 }
