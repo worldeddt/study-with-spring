@@ -7,7 +7,6 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
 import webchat.config.TimerConfig;
-import webchat.model.KmsClientInfo;
 import webchat.service.KurentoService;
 import webchat.timer.abstracts.ADynamicScheduler;
 
@@ -22,8 +21,7 @@ public class KurentoRegisterScheduler extends ADynamicScheduler {
     private final TimerConfig timerConfig;
     private final KurentoService kurentoService;
 
-    @PostConstruct
-    private void startTimer() {
+    public void startTimer() {
 
         log.info("=====================>startTimer()");
         startScheduler("kurento register timer");
@@ -35,6 +33,7 @@ public class KurentoRegisterScheduler extends ADynamicScheduler {
 
     @Override
     public void runner(Object args) {
+        log.info("running kurento scheduler");
         kurentoService.registKurentoClient();
     }
 
