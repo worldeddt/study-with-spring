@@ -1,4 +1,9 @@
 server:
+  ssl:
+    key-store-password: kurento
+    key-store-type: JKS
+    key-store: classpath:keystore.jks
+    key-alias: kurento-selfsigned
   port: ${PORT}
   data:
     redis:
@@ -7,7 +12,6 @@ server:
 
 schedule:
   thread-pool-size: 20
-
 
 kms:
   use-composite: false

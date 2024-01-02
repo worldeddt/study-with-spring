@@ -1,15 +1,26 @@
 package webchat.handler;
 
 
-import org.springframework.messaging.handler.annotation.MessageMapping;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+@Slf4j
 @Component
-public class CallHandler {
+@RequiredArgsConstructor
+public class CallHandler extends TextWebSocketHandler {
 
-    @MessageMapping("/ws/*")
-    public void call() {
+    private final Gson gson = new Gson();
 
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        JsonObject jsonMessage = gson.fromJson(message.getPayload(), JsonObject.class);
+        log.info("session : {}", session.getId());
+        log.info("message : {}", jsonMessage);
     }
-
 }
