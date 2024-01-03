@@ -1,28 +1,32 @@
 package webchat.timer;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import webchat.config.TimerConfig;
 import webchat.service.KurentoService;
 import webchat.timer.abstracts.ADynamicScheduler;
 
+import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-@Component
+@Configuration
 @RequiredArgsConstructor
 public class KurentoRegisterScheduler extends ADynamicScheduler {
 
     private final TimerConfig timerConfig;
     private final KurentoService kurentoService;
 
+    @Bean
     public void startTimer() {
-
         log.info("=====================>startTimer()");
         startScheduler("kurento register timer");
     }
@@ -39,8 +43,8 @@ public class KurentoRegisterScheduler extends ADynamicScheduler {
 
     @Override
     public Trigger getTrigger() {
-        return new PeriodicTrigger(timerConfig.getCheckKmsStateInterval(),
-                TimeUnit.MILLISECONDS
-        );
+        log.info("========>     CheckInterval = {}", timerConfig.getCheckMsInterval());
+        return new PeriodicTrigger(Duration.of(timerConfig.getCheckKmsStateInterval(),
+                TimeUnit.MILLISECONDS.toChronoUnit()));
     }
 }

@@ -24,14 +24,6 @@ import java.util.concurrent.ScheduledFuture;
 public class ScheduleConfig extends ThreadPoolTaskScheduler {
     private static final long serialVersionUID = 7478248959031852404L;
 
-    @Bean
-    public KurentoRegisterScheduler kurentoRegisterScheduler() {
-        return new KurentoRegisterScheduler(
-                new TimerConfig(), new KurentoService(
-                new KmsClientRepository(), new KurentoConfig(), new RoomService())
-        );
-    }
-
     @Bean(name = "scheduler")
     TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
@@ -41,6 +33,15 @@ public class ScheduleConfig extends ThreadPoolTaskScheduler {
 
         scheduler.initialize();
         return scheduler;
+    }
+
+    @Bean(name="kush")
+    public KurentoRegisterScheduler kurentoRegisterScheduler() {
+        return new KurentoRegisterScheduler(
+                new TimerConfig(), new KurentoService(
+                new KmsClientRepository(), new KurentoConfig(),
+                new RoomService())
+        );
     }
 
     @Override

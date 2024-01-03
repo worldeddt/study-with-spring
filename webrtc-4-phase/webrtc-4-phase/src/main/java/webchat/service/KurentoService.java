@@ -11,6 +11,7 @@ import webchat.model.KmsClientInfo;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Service
@@ -34,6 +35,7 @@ public class KurentoService {
 
     public synchronized void registKurentoClient() {
         for (String kmsUrl : kmsUrls) {
+            log.info("kmsUrl : {}", kmsUrl);
             if (kmsRepository.getByUrl(kmsUrl) == null) {
                 kmsRepository.register(kmsUrl, reconnDelayTime, this);
             }
@@ -47,6 +49,11 @@ public class KurentoService {
         log.info("Before....{}:{}", kmsUrl, kmsClient.getStatus());
         kmsClient.setStatus(status);
         log.info("After....{}:{}", kmsUrl, kmsClient.getStatus());
+    }
+
+    public void lock() {
+        ReentrantLock reentrantLock = new ReentrantLock();
+        reentrantLock.lock();
     }
 
     public synchronized void resetKms(String kmsUrl) {

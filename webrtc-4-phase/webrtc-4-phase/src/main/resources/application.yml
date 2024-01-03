@@ -34,6 +34,16 @@ kms:
   urls:
     - ws://localhost:8888/kurento
 
+timer:
+  check-ms-interval: 60000
+  check-cipher-interval: 60000
+  check-sip-gw-interval: 60000
+  check-cti-interval: 60000
+  check-lgw-interval: 60000
+  check-arrangement-interval: 500
+  check-kms-state-interval: 5000
+  check-ice-expire-time: 10
+
 management:
   endpoint:
     web:

@@ -20,15 +20,14 @@ public class SynchronizedController {
     @RequestMapping(value = "/health", method = RequestMethod.GET)
     public void hi() {
 
+        counter = new Counter();
 
         Thread thread1 = isThread(1);
         Thread thread2 = isThread(2);
         // 스레드 실행
         log.info("===thread1 start===");
-        counter = new Counter();
         thread1.run();
         log.info("===thread2 start===");
-        counter = new Counter();
         thread2.run();
 
         //모든 스레드의 실행을 기다림
@@ -44,9 +43,10 @@ public class SynchronizedController {
 
     private Thread isThread(int number) {
         return new Thread(() -> {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 5; i++) {
                 log.info("count thread {} : {}",number, counter.getCount());
-                counter.setCount(1);
+                counter.increment(number);
+                counter.decrease(number);
             }
         });
     }
@@ -60,13 +60,19 @@ public class SynchronizedController {
 
 }
 
-
+@Slf4j
 class Counter {
     private int count = 0;
 
     // synchronized 키워드를 사용하여 동시 접근 제어
-    public void increment() {
+    public synchronized void increment(int thread) {
         count++;
+        log.info("count++ : {}, thread number : {}",count, thread);
+    }
+
+    public synchronized void decrease(int thread) {
+        count--;
+        log.info("count-- : {}, thread number : {}",count, thread);
     }
 
     public int getCount() {

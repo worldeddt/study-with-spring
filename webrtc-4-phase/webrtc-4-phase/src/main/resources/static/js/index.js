@@ -25,7 +25,8 @@ $(document).on("keydown", "#websocket_message", function (e) {
 
 $(document).on("click", "#transfer_message", function (e) {
   console.log("메세지 전송");
-  socket.send(JSON.stringify({
+  socket.send("/pub/chat/sendMessage", {} , JSON.stringify({
     message: document.getElementById("websocket_message").value
   }));
+  // socket.send();
 })
