@@ -24,24 +24,15 @@ import java.util.concurrent.ScheduledFuture;
 public class ScheduleConfig extends ThreadPoolTaskScheduler {
     private static final long serialVersionUID = 7478248959031852404L;
 
-    @Bean(name = "scheduler")
-    TaskScheduler taskScheduler() {
+    @Bean(name="schedulerSC")
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(10);
-        scheduler.setThreadNamePrefix("scheduler-");
+        scheduler.setThreadNamePrefix("schedulerSC-");
         log.info("scheduling start : ");
 
         scheduler.initialize();
         return scheduler;
-    }
-
-    @Bean(name="kush")
-    public KurentoRegisterScheduler kurentoRegisterScheduler() {
-        return new KurentoRegisterScheduler(
-                new TimerConfig(), new KurentoService(
-                new KmsClientRepository(), new KurentoConfig(),
-                new RoomService())
-        );
     }
 
     @Override

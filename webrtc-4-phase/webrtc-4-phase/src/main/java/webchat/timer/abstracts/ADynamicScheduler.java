@@ -1,26 +1,34 @@
 package webchat.timer.abstracts;
 
-import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+import javax.annotation.Resource;
 import java.time.Instant;
 
+@Slf4j
 public abstract class ADynamicScheduler {
 
-    @Resource(name = "scheduler")
-    private ThreadPoolTaskScheduler scheduler;
+    @Resource(name = "scheduleSC")
+    private ThreadPoolTaskScheduler schedulerSC;
 
     public void stopScheduler() {
-        scheduler.shutdown();
+        schedulerSC.shutdown();
     }
 
     public void startScheduler(Object args) {
-        scheduler.schedule(getRunnable(args), getTrigger());
+        log.info("schedulerSC : {}", schedulerSC);
+        getScheduler().schedule(getRunnable(args), getTrigger());
     }
 
     public ThreadPoolTaskScheduler getScheduler() {
-        return this.scheduler;
+        return this.schedulerSC;
+    }
+
+    public void setSchedulerSC(ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+        this.schedulerSC = threadPoolTaskScheduler;
     }
 
     private Runnable getRunnable(Object args) {
@@ -34,7 +42,7 @@ public abstract class ADynamicScheduler {
 
     public void excutionOnlyOne(long delay) {
         Instant atTime = Instant.now();
-        scheduler.schedule(getRunnable(String.valueOf(delay)), atTime.plusSeconds(delay));
+        schedulerSC.schedule(getRunnable(String.valueOf(delay)), atTime.plusSeconds(delay));
     }
 
     public abstract void runner(Object args);

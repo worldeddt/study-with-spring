@@ -1,7 +1,6 @@
 package webchat.webrtc4phase;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 import webchat.config.KurentoConfig;
-import webchat.config.TimerConfig;
 import webchat.handler.CallHandler;
-import webchat.infra.KmsClientRepository;
-import webchat.service.KurentoService;
-import webchat.service.RoomService;
-import webchat.timer.KurentoRegisterScheduler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -55,7 +49,7 @@ public class Webrtc4PhaseApplication implements WebSocketConfigurer {
 
 	@Bean
 	public WebSocketHandler callHandler() {
-		return new CallHandler();
+		return new CallHandler(new KurentoConfig());
 	}
 
 	@Bean
