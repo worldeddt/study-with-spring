@@ -1,0 +1,49 @@
+version: '1'
+services:
+  ubuntu-1:
+    networks:
+      redit:
+        ipv4_address: 172.25.0.3
+    container_name: ubuntu-for-cluster1
+    build:
+      dockerfile:
+        ./docker/ubuntu-1/Dockerfile
+    ports:
+      - "8899:8899"
+      - "6301:6300"
+      - "6302:6301"
+      - "6303:6302"
+      - "6401:6400"
+      - "6402:6401"
+      - "6403:6402"
+    volumes:
+      - ./:/app
+  ubuntu-2:
+    networks:
+      redit:
+        ipv4_address: 172.25.0.2
+    container_name: ubuntu-for-cluster2
+    build:
+      dockerfile:
+        ./docker/ubuntu-2/Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - "8898:8898"
+      - "6304:6300"
+      - "6305:6301"
+      - "6306:6302"
+      - "6404:6400"
+      - "6405:6401"
+      - "6406:6402"
+    volumes:
+      - ./:/app
+networks:
+  redit:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
