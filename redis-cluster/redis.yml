@@ -1,65 +1,96 @@
 version: "3"
 services:
+#  redis-cluster:
+#    hostname: redis-cluster
+#    platform: linux/x86_64
+#    image: redis:7.2.3
+#    container_name: redis-main-cluster
+#    ports:
+#      - "6300:6300"
+#      - "6301:6301"
+#      - "6302:6302"
+#      - "6379:6379"
   redis-for-cluster-ms-1:
+    build:
+      dockerfile: redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6300
-    hostname: redis
     image: redis:7.2.3
-    user: root
-    ports:
-      - "6001:6379"
-      - "6300:6300"
+#    network_mode: "service:redis-cluster"
     volumes:
-#      - ./redis/redis-7.2.3/redis_6300.conf:/data/redis_6300.conf:rw
-#      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
-      - /home/fermi/redis/redis_6300.conf:/data/redis_6300.conf:rw
-      - /home/fermi/logs:/data/logs:rw
-#    command:
-#      - redis-server redis_6300.conf
-  redis-for-cluster-ms-2:
-    container_name: redis-for-cluster-ms-6301
-    hostname: redis
-    image: redis:7.2.3
-    user: root
-    ports:
-      - "6002:6379"
-      - "6301:6301"
-    volumes:
-#      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis/redis_6301.conf:rw
-#      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
-      - /home/fermi/redis/redis_6301.conf:/data/redis_6301.conf:rw
-      - /home/fermi/logs:/data/logs:rw
-#    command:
-#      - redis-server redis_6301.conf
-  redis-for-cluster-ms-3:
-    container_name: redis-for-cluster-ms-6302
-    hostname: redis
-    image: redis:7.2.3
-    user: root
-    ports:
-      - "6003:6379"
-      - "6302:6302"
-    volumes:
-      - ./redis/redis-7.2.3/redis_6302.conf:/data/redis/redis_6302.conf:rw
-      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
-#      - /home/fermi/redis/redis_6302.conf:/data/redis_6302.conf:rw
+      - ./redis/redis-7.2.3/redis_6300.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6300.conf:/data/redis_6300.conf:rw
 #      - /home/fermi/logs:/data/logs:rw
-#    command:
-#      - redis-server redis_6302.conf
-
-#version: "3"
-#services:
-#  redis:
-#    container_name: redis
-#    hostname: redis
-#    image: redis:6.2.2
-#    restart: always
-#    network_mode: host
-#    user: 1000:1000
+    working_dir: /data
+#  redis-for-cluster-ms-2:
+#    container_name: redis-for-cluster-ms-6301
+#    image: redis:7.2.3
+#    user: root
+#    network_mode: "service:redis-cluster"
 #    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - /pantheon/conf/redis.conf:/pantheon/conf/redis.conf:rw
-#      - /pantheon/redis/data:/data:rw
-#      - /pantheon/logs/redis:/pantheon/logs/redis:rw
-#    command: redis-server /pantheon/conf/redis.conf
-
-
+#      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis_6301.conf:rw
+#      - ./redis/redis-7.2.3/logs:/data/logs:rw
+##      - /home/fermi/redis/redis_6301.conf:/data/redis_6301.conf:rw
+##      - /home/fermi/logs:/data/logs:rw
+#    command: "redis-server /data/redis_6301.conf"
+#  redis-for-cluster-ms-3:
+#    container_name: redis-for-cluster-ms-6302
+#    image: redis:7.2.3
+#    user: root
+#    network_mode: "service:redis-cluster"
+#    volumes:
+#      - ./redis/redis-7.2.3/redis_6302.conf:/data/redis_6302.conf:rw
+#      - ./redis/redis-7.2.3/logs:/data/logs:rw
+##      - /home/fermi/redis/redis_6302.conf:/data/redis_6302.conf:rw
+##      - /home/fermi/logs:/data/logs:rw
+#    command: "redis-server /data/redis_6302.conf"
+#  redis-cluster-entry:
+#    network_mode: "service:redis-cluster"
+#    image: redis:7.2.3
+#    container_name: redis-cluster-entry
+##    command: redis-cli --cluster create 127.0.0.1:6300 127.0.0.1:6301 127.0.0.1:6302 --cluster-yes
+#    depends_on:
+#      - redis-cluster
+#      - redis-for-cluster-ms-1
+#      - redis-for-cluster-ms-2
+#      - redis-for-cluster-ms-3
+#  redis-for-cluster-ms-4:
+#    container_name: redis-for-cluster-ms-6400
+#    hostname: redis
+#    image: redis:7.2.3
+#    user: root
+#    ports:
+#      - "6004:6379"
+#      - "6400:6400"
+#    volumes:
+#      #      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis/redis_6301.conf:rw
+#      #      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
+#      - /home/fermi/redis/redis_6400.conf:/data/redis_6400.conf:rw
+#      - /home/fermi/logs:/data/logs:rw
+#  redis-for-cluster-ms-5:
+#    container_name: redis-for-cluster-ms-6401
+#    hostname: redis
+#    image: redis:7.2.3
+#    user: root
+#    ports:
+#      - "6005:6379"
+#      - "6401:6401"
+#    volumes:
+#      #      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis/redis_6301.conf:rw
+#      #      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
+#      - /home/fermi/redis/redis_6401.conf:/data/redis_6401.conf:rw
+#      - /home/fermi/logs:/data/logs:rw
+#  redis-for-cluster-ms-6:
+#    container_name: redis-for-cluster-ms-6402
+#    hostname: redis
+#    image: redis:7.2.3
+#    user: root
+#    ports:
+#      - "6006:6379"
+#      - "6402:6402"
+#    volumes:
+#      #      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis/redis_6301.conf:rw
+#      #      - ./redis/redis-7.2.3/logs:/data/redis/logs:rw
+#      - /home/fermi/redis/redis_6402.conf:/data/redis_6402.conf:rw
+#      - /home/fermi/logs:/data/logs:rw
