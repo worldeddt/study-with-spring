@@ -1,16 +1,16 @@
 package spring.rediscluster.controller;
 
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import spring.rediscluster.controller.dto.RedisKey;
 import spring.rediscluster.services.RedisService;
 import spring.vo.RedisInfo;
 
-@Controller
+@Slf4j
+@RestController
 public class RedisController {
 
     @Autowired
@@ -22,10 +22,11 @@ public class RedisController {
         return redisInfo;
     }
 
-    @RequestMapping(value = "/get", method = RequestMethod.POST, produces = "application/json; charset=utf8")
-    public Object get(@RequestBody RedisInfo redisInfo){
-        String value = redisService.getValue(redisInfo.getKey());
-        redisInfo.setValue(value);
+    @PostMapping(value = "/find", produces = "application/json; charset=utf8")
+    public Object get(@RequestBody RedisKey redisKey){
+        RedisInfo redisInfo = new RedisInfo();
+        redisInfo.setKey(redisKey.getKey());
+        redisInfo.setValue(redisService.getValue(redisKey.getKey()));
         return redisInfo;
     }
 }

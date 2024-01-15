@@ -6,5 +6,5 @@
 #echo 1 >/proc/sys/vm/overcommit_memory
 #sudo sysctl vm.overcommit_memory=1
 
-redis-server /redis/redis.conf --daemonize yes
+redis-server redis.conf --daemonize yes
 tail -f /dev/null

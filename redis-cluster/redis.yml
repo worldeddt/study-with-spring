@@ -15,105 +15,110 @@ services:
       - "6371:6379"
   redis-for-cluster-ms-1:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6300
     image: redis:7.2.3
     platform: linux/x86_64
-    command: ["./entrypoint.sh", "&&", "echo HELLO"]
+    command: ["./entrypoint.sh"]
     network_mode: "service:redis-cluster"
     volumes:
-#      - ./redis/redis-7.2.3/redis_6300.conf:/redis/redis.conf
-#      - ./redis/redis-7.2.3/logs:/redis/logs
-#      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
-      - /home/fermi/redis/redis_6300.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6300.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6300.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
   redis-for-cluster-ms-2:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6301
     image: redis:7.2.3
     user: root
     command: ["./entrypoint.sh"]
     network_mode: "service:redis-cluster"
     volumes:
-#      - ./redis/redis-7.2.3/redis_6301.conf:/data/redis_6301.conf:rw
-#      - ./redis/redis-7.2.3/logs:/data/logs:rw
-      - /home/fermi/redis/redis_6301.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6301.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6301.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
   redis-for-cluster-ms-3:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6302
     image: redis:7.2.3
     user: root
     command: ["./entrypoint.sh"]
     network_mode: "service:redis-cluster"
     volumes:
-#      - ./redis/redis-7.2.3/redis_6302.conf:/data/redis_6302.conf:rw
-#      - ./redis/redis-7.2.3/logs:/data/logs:rw
-      - /home/fermi/redis/redis_6302.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6302.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6302.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
   redis-for-cluster-ms-4:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6400
     image: redis:7.2.3
     user: root
     command: [ "./entrypoint.sh" ]
     network_mode: "service:redis-cluster"
     volumes:
-      #      - ./redis/redis-7.2.3/redis_6302.conf:/data/redis_6302.conf:rw
-      #      - ./redis/redis-7.2.3/logs:/data/logs:rw
-      - /home/fermi/redis/redis_6400.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6400.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6400.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
   redis-for-cluster-ms-5:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6401
     image: redis:7.2.3
     user: root
     command: [ "./entrypoint.sh"]
     network_mode: "service:redis-cluster"
     volumes:
-      # - ./redis/redis-7.2.3/redis_6302.conf:/data/redis_6302.conf:rw
-      # - ./redis/redis-7.2.3/logs:/data/logs:rw
-      - /home/fermi/redis/redis_6401.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6401.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6401.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
   redis-for-cluster-ms-6:
     build:
-      dockerfile: ./Dockerfile
+      dockerfile: ./redis/redis-7.2.3/Dockerfile
     container_name: redis-for-cluster-ms-6402
     image: redis:7.2.3
     user: root
     command: [ "./entrypoint.sh" ]
     network_mode: "service:redis-cluster"
     volumes:
-      #      - ./redis/redis-7.2.3/redis_6302.conf:/data/redis_6302.conf:rw
-      #      - ./redis/redis-7.2.3/logs:/data/logs:rw
-      - /home/fermi/redis/redis_6402.conf:/redis/redis.conf
-      - /home/fermi/redis/logs:/redis/logs
-      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
+      - ./redis/redis-7.2.3/redis_6402.conf:/redis/redis.conf
+      - ./redis/redis-7.2.3/logs:/redis/logs
+      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+#      - /home/fermi/redis/redis_6402.conf:/redis/redis.conf
+#      - /home/fermi/redis/logs:/redis/logs
+#      - /home/fermi/redis/entrypoint.sh:/data/entrypoint.sh
     working_dir: /data
-  redis-cluster-entry:
-    network_mode: "service:redis-cluster"
-    image: redis:7.2.3
-    container_name: redis-cluster-entry
-    command: redis-cli --cluster create 127.0.0.1:6300 127.0.0.1:6301 127.0.0.1:6302 --cluster-yes
-    depends_on:
-      - redis-cluster
-      - redis-for-cluster-ms-1
-      - redis-for-cluster-ms-2
-      - redis-for-cluster-ms-3
-      - redis-for-cluster-ms-4
-      - redis-for-cluster-ms-5
-      - redis-for-cluster-ms-6
+#  redis-cluster-entry:
+#    network_mode: "service:redis-cluster"
+#    image: redis:7.2.3
+#    container_name: redis-cluster-entry
+#    command: redis-cli --cluster create 127.0.0.1:6300 127.0.0.1:6301 127.0.0.1:6302 --cluster-yes
+#    depends_on:
+#      - redis-cluster
+#      - redis-for-cluster-ms-1
+#      - redis-for-cluster-ms-2
+#      - redis-for-cluster-ms-3
+#      - redis-for-cluster-ms-4
+#      - redis-for-cluster-ms-5
+#      - redis-for-cluster-ms-6
