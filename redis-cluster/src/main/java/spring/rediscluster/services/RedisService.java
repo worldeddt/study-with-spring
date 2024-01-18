@@ -15,6 +15,10 @@ public class RedisService {
     // set이 아니기에 키가 존재하면 값을 overwrite 함.
     public void addKey(String key, String value){
         try{
+            log.info("haskey : {}, boolean: {}", key , redisTemplate.hasKey(key));
+
+            if(redisTemplate.hasKey(key)) redisTemplate.delete(key);
+
             redisTemplate.opsForValue().set(key, value);
         }catch (Exception e){
             log.error("### Redis Set Key Error !!! ::: {}", e.getMessage());

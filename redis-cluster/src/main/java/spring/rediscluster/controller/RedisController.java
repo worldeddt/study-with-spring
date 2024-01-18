@@ -24,6 +24,7 @@ public class RedisController {
 
     @PostMapping(value = "/find", produces = "application/json; charset=utf8")
     public Object get(@RequestBody RedisKey redisKey){
+        log.info("redis : {}", redisKey.getKey());
         RedisInfo redisInfo = new RedisInfo();
         redisInfo.setKey(redisKey.getKey());
         redisInfo.setValue(redisService.getValue(redisKey.getKey()));
