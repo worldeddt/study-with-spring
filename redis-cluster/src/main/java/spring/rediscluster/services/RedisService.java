@@ -25,6 +25,14 @@ public class RedisService {
         }
     }
 
+    public void addHash(String person, String key, String value) {
+        try {
+            redisTemplate.opsForHash().put(person, key, value);
+        } catch ( Exception e) {
+            log.error("### Redis set hash memory Error !! {}", e.getMessage());
+        }
+    }
+
     public String getValue(String key){
         String value = "";
         try{

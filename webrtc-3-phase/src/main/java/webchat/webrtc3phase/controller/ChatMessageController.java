@@ -9,18 +9,15 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import webchat.webrtc3phase.controller.dto.AdditionalUser;
 import webchat.webrtc3phase.controller.dto.ChatDto;
-import webchat.webrtc3phase.controller.dto.FindUserName;
 import webchat.webrtc3phase.domain.SessionIdOwner;
 import webchat.webrtc3phase.dto.ChatRoomMap;
 import webchat.webrtc3phase.dto.SessionInfo;
 import webchat.webrtc3phase.infra.UserRepository;
 import webchat.webrtc3phase.service.MessageService;
-import webchat.webrtc3phase.service.RoomService;
 import webchat.webrtc3phase.service.SessionService;
 
 
