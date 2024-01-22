@@ -21,7 +21,7 @@ public class RedisService {
 
             redisTemplate.opsForValue().set(key, value);
         }catch (Exception e){
-            log.error("### Redis Set Key Error !!! ::: {}", e.getMessage());
+            log.error("### Redis Set Key Error !!! ::: {}/{}", e.getStackTrace(), e.getCause());
         }
     }
 
