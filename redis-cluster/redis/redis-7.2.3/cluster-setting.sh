@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 
-redis-cli --cluster create 20.214.111.167:6300 20.214.111.167:6301 20.214.111.167:6302 20.214.181.249:6300 20.214.181.249:6301 20.214.181.249:6302
-redis-cli --cluster add-node 20.214.181.249:6400 20.214.111.167:6300 --cluster-slave
-redis-cli --cluster add-node 20.214.181.249:6401 20.214.111.167:6301 --cluster-slave
-redis-cli --cluster add-node 20.214.181.249:6402 20.214.111.167:6302 --cluster-slave
-redis-cli --cluster add-node 20.214.111.167:6400 20.214.181.249:6300 --cluster-slave
-redis-cli --cluster add-node 20.214.111.167:6401 20.214.181.249:6301 --cluster-slave
-redis-cli --cluster add-node 20.214.111.167:6402 20.214.181.249:6302 --cluster-slave
+redis-cli --cluster create DEVPT_IP:6300 DEVPT_IP:6301 DEVPT_IP:6302 DEMOPT_IP:6300 DEMOPT_IP:6301 DEMOPT_IP:6302
+redis-cli --cluster add-node DEMOPT_IP:6400 DEVPT_IP:6300 --cluster-slave
+redis-cli --cluster add-node DEMOPT_IP:6401 DEVPT_IP:6301 --cluster-slave
+redis-cli --cluster add-node DEMOPT_IP:6402 DEVPT_IP:6302 --cluster-slave
+redis-cli --cluster add-node DEVPT_IP:6400 DEMOPT_IP:6300 --cluster-slave
+redis-cli --cluster add-node DEVPT_IP:6401 DEMOPT_IP:6301 --cluster-slave
+redis-cli --cluster add-node DEVPT_IP:6402 DEMOPT_IP:6302 --cluster-slave
 
