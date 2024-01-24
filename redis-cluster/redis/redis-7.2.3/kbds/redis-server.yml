@@ -1,0 +1,68 @@
+version: "3"
+services:
+  redis-cluster:
+    hostname: redis-cluster
+    platform: linux/amd64
+    image: redis:7.2.3
+    container_name: redis-main-cluster
+    ports:
+      - "16300:16300"
+      - "16301:16301"
+      - "16302:16302"
+      - "16400:16400"
+      - "16401:16401"
+      - "16402:16402"
+      - "16403:16403"
+      - "6300:6300"
+      - "6301:6301"
+      - "6302:6302"
+      - "6400:6400"
+      - "6401:6401"
+      - "6402:6402"
+      - "6371:6379"
+  redis-for-cluster-ms-1:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    container_name: redis-for-cluster-ms-6302
+    image: redis:7.2.3
+    user: root
+    platform: linux/x86_64
+    network_mode: "service:redis-cluster"
+    volumes:
+#      - ./redis/redis-7.2.3/redis_6302.conf:/redis/redis.conf
+#      - ./redis/redis-7.2.3/logs:/redis/logs
+#      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+      - /home/fermi/redis/redis_6302.conf:/redis/redis.conf
+      - /home/fermi/redis/logs:/redis/logs
+      - /home/fermi/redis/entrypoint.sh:/redis/entrypoint.sh
+    working_dir: /data
+  redis-for-cluster-ms-2:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    container_name: redis-for-cluster-ms-6402
+    image: redis:7.2.3
+    user: root
+    network_mode: "service:redis-cluster"
+    volumes:
+#      - ./redis/redis-7.2.3/redis_6402.conf:/redis/redis.conf
+#      - ./redis/redis-7.2.3/logs:/redis/logs
+#      - ./redis/redis-7.2.3/entrypoint.sh:/data/entrypoint.sh
+      - /home/fermi/redis/redis_6402.conf:/redis/redis.conf
+      - /home/fermi/redis/logs:/redis/logs
+      - /home/fermi/redis/entrypoint.sh:/redis/entrypoint.sh
+    working_dir: /data
+#  redis-cluster-entry:
+#    network_mode: "service:redis-cluster"
+#    image: redis:7.2.3
+#    container_name: redis-cluster-entry
+#    command: redis-cli --cluster create 127.0.0.1:6300 127.0.0.1:6301 127.0.0.1:6302 --cluster-yes
+#    depends_on:
+#      - redis-cluster
+#      - redis-for-cluster-ms-1
+#      - redis-for-cluster-ms-2
+#      - redis-for-cluster-ms-3
+#      - redis-for-cluster-ms-4
+#      - redis-for-cluster-ms-5
+#      - redis-for-cluster-ms-6
