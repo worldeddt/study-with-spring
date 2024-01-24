@@ -21,18 +21,13 @@ public class RedisConfiguration {
                 .build();
         // 모든 클러스터(master, slave) 정보를 적는다. (해당 서버중 접속되는 서버에서 cluster nodes 명령어를 통해 모든 클러스터 정보를 읽어오기에 다운 됐을 경우를 대비하여 모든 노드 정보를 적어두는편이 좋다.)
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration()
-                .clusterNode("DEVPT_IP", 6300)
-                .clusterNode("DEVPT_IP", 6301)
-                .clusterNode("DEVPT_IP", 6302)
-                .clusterNode("DEMOPT_IP", 6300)
-                .clusterNode("DEMOPT_IP", 6301)
-                .clusterNode("DEMOPT_IP", 6302)
-                .clusterNode("DEVPT_IP", 6400)
-                .clusterNode("DEVPT_IP", 6401)
-                .clusterNode("DEVPT_IP", 6402)
-                .clusterNode("DEMOPT_IP", 6400)
-                .clusterNode("DEMOPT_IP", 6401)
-                .clusterNode("DEMOPT_IP", 6402);
+                .clusterNode("DEVPT", 6301)
+                .clusterNode("DEVPT", 6401)
+                .clusterNode("DEMOPT", 6300)
+                .clusterNode("DEMOPT", 6400)
+                .clusterNode("KBDS", 6302)
+                .clusterNode("KBDS", 6402);
+
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisClusterConfiguration, clientConfiguration);
         return lettuceConnectionFactory;
     }
