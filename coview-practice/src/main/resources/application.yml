@@ -1,5 +1,11 @@
 server:
   port: 1236
+  ssl:
+    enabled: true
+    key-store-password: kurento
+    key-store-type: JKS
+    key-store: classpath:keystore.jks
+    key-alias: kurento-selfsigned
 
 
 

@@ -1,0 +1,17 @@
+
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: fermi1004@!
+logging:
+  level:
+    root: info
+#  pattern:
+#    console: "[%d{HH:mm:ss.SSS}][%X{traceNumber:---------------------------------}][%t][%logger{36}.%method:%line] %highlight(%-5level) %msg%n"
+#    file: "[%d{HH:mm:ss.SSS}][%X{traceNumber:---------------------------------}][%t][%class{0}.%method:%line] %highlight(%-5level) %msg%n"
+#  charset:
+#    console: UTF-8
+#    file: UTF-8

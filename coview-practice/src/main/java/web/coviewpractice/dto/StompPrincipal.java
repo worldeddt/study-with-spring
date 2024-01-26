@@ -1,4 +1,4 @@
-package web.coviewpractice.model.dto;
+package web.coviewpractice.dto;
 
 
 import lombok.EqualsAndHashCode;
