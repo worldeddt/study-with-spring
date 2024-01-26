@@ -19,8 +19,9 @@ public class CallHandler {
     private final CallServiceImpl callService;
     @MessageMapping("/requestCall")
     public void requestCallMessage(SimpMessageHeaderAccessor headerAccessor, RequestCallMessage requestCallMessage) {
-        log.debug("{}", requestCallMessage);
+        log.info("request call message : {}", requestCallMessage);
         final var principal = headerAccessor.getUser();
+        log.info("request call message user : {}", headerAccessor.getUser());
         switch (requestCallMessage.getCallType()) {
             default -> log.info("default");
             case OUTBOUND -> callService.handleOutboundCall(principal);

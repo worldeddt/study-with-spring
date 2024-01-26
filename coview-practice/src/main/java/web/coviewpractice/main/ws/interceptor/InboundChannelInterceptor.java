@@ -4,6 +4,7 @@ package web.coviewpractice.main.ws.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
@@ -19,11 +20,25 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
         final var accessor = StompHeaderAccessor.wrap(message);
         final var user = accessor.getUser();
         final var command= accessor.getCommand();
-        if (command == null) return message;
-
-        log.info("InboundChannelInterceptor preSend() message: {}", message);
-
         try {
+            if (command == null) return message;
+
+            log.info("InboundChannelInterceptor preSend() message: {}", message);
+
+            switch (command) {
+                case CONNECT -> {
+                    try {
+
+
+
+
+                    } catch (MessagingException e) {
+
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
 
         } catch (Exception e) {
 //            log.error("e : {}", e.getStackTrace());

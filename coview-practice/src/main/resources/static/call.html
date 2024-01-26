@@ -6,20 +6,29 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <title>영상통화를 하여봅시다</title>
     </head>
 </head>
 <body>
 <div>
     <button onclick="outboundCall()">아웃바운드콜</button>
+    <label>inviteKey:<input id="inviteKey" /></label>
+    <button onclick="outboundAcceptCall();">acceptCall</button>
+    <br />
 </div>
 
 </body>
 <script>
 
+  const { userId, isAgent } = new Proxy(
+    new URLSearchParams(window.location.search),
+    {
+      get: (searchParams, prop) => searchParams.get(prop),
+    }
+  );
+
   let stompClient;
-  const socket = new WebSocket("wss:/example.com:1236/stomp/call");
+  const socket = new WebSocket("wss:/localhost:1236/stomp/call");
   stompClient = Stomp.over(socket);
   console.log(socket);
   const handleCallNotification = (payload) => {
@@ -60,6 +69,11 @@
     const headers = {};
     const body = JSON.stringify({ callType: "OUTBOUND" });
     stompClient.send(endPoint, headers, body);
+  }
+
+  function outboundAcceptCall() {
+    const inviteKey = document.querySelector("#inviteKey").value;
+    acceptCall({ inviteKey, isAccept: true });
   }
 
   function helpCall() {

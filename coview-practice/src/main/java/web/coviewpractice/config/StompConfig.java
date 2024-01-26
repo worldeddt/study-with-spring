@@ -1,6 +1,7 @@
 package web.coviewpractice.config;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -20,6 +21,7 @@ import web.coviewpractice.main.ws.interceptor.OutboundChannelInterceptor;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
 public class StompConfig extends StompSessionHandlerAdapter implements WebSocketMessageBrokerConfigurer {
@@ -28,17 +30,6 @@ public class StompConfig extends StompSessionHandlerAdapter implements WebSocket
     private final InboundChannelInterceptor inboundChannelInterceptor;
     private final OutboundChannelInterceptor outboundChannelInterceptor;
     private final TaskScheduler heartBeatScheduler;
-
-    @Lazy
-    public StompConfig(CoDefaultHandshakeHandler coDefaultHandshakeHandler,
-                       InboundChannelInterceptor inboundChannelInterceptor,
-                       OutboundChannelInterceptor outboundChannelInterceptor,
-                       TaskScheduler heartBeatScheduler) {
-        this.coDefaultHandshakeHandler = coDefaultHandshakeHandler;
-        this.inboundChannelInterceptor = inboundChannelInterceptor;
-        this.outboundChannelInterceptor = outboundChannelInterceptor;
-        this.heartBeatScheduler = heartBeatScheduler;
-    }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
