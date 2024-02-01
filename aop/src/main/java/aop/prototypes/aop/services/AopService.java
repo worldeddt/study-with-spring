@@ -1,8 +1,7 @@
-package aop.prototypes.services;
+package aop.prototypes.aop.services;
 
 
 import aop.prototypes.controller.dto.User;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;

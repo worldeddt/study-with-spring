@@ -1,4 +1,4 @@
-package aop.prototypes.Interfaces;
+package aop.prototypes.aop.Interfaces;
 
 
 import java.lang.annotation.ElementType;

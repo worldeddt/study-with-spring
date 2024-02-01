@@ -1,6 +1,5 @@
-package aop.prototypes;
+package aop.prototypes.aop;
 
-import aop.prototypes.Interfaces.AopAnnotation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
