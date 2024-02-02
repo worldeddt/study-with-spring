@@ -1,12 +1,9 @@
-package aop.prototypes.controller;
+package aop.prototypes.aop.controller;
 
 
-import aop.prototypes.controller.dto.User;
+import aop.prototypes.aop.controller.dto.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
 
 @Slf4j
 @RestController

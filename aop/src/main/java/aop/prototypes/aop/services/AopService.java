@@ -1,7 +1,7 @@
 package aop.prototypes.aop.services;
 
 
-import aop.prototypes.controller.dto.User;
+import aop.prototypes.aop.controller.dto.User;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -17,7 +17,7 @@ import java.util.Base64;
 @Service
 public class AopService {
 
-    @Pointcut("execution(* aop.prototypes.controller.AopController.*.*(..))")
+    @Pointcut("execution(* aop.prototypes.aop.controller.AopController.*.*(..))")
     public void initAopService() {
         log.info("initAopService() ");
     }

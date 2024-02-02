@@ -1,7 +1,6 @@
 package aop.prototypes.controller;
 
-import aop.prototypes.controller.dto.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import aop.prototypes.aop.controller.dto.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package aop.prototypes.controller.dto;
+package aop.prototypes.aop.controller.dto;
 
 
 import lombok.AllArgsConstructor;

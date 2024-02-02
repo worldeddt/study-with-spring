@@ -14,8 +14,7 @@ public class WebClientController {
 
     @GetMapping("/trigger")
     private String trigger() {
-        webClientService.init();
-        return "";
+        return webClientService.init();
     }
 
     @GetMapping("/get")
