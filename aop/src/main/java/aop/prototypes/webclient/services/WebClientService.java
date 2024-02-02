@@ -21,10 +21,10 @@ public class WebClientService {
                 .baseUrl("http://localhost:8081")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-        return nonBlock(webClient);
+        return async(webClient);
     }
 
-    private String block(WebClient webClient) {
+    private String sync(WebClient webClient) {
         String block = webClient.get()
                 .accept(MediaType.APPLICATION_JSON)
                 .exchangeToMono(response -> {
@@ -38,7 +38,7 @@ public class WebClientService {
         return block;
     }
 
-    private String nonBlock(WebClient webClient) {
+    private String async(WebClient webClient) {
         AtomicReference<String> result = new AtomicReference<>("");
 
         Mono<String> stringMono = webClient.get()
@@ -55,14 +55,17 @@ public class WebClientService {
                 throwable -> handleError(throwable)
         );
 
-        // 결과를 받아오기 전에 쓰레드가 종료되는 것을 방지한다.
+        preventEndProcessBeforeReceiveResponse();
+
+        return result.get();
+    }
+
+    private static void preventEndProcessBeforeReceiveResponse() {
         try {
-            Thread.sleep(1200);
+            Thread.sleep(850);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        return result.get();
     }
 
     private static void handleError(Throwable throwable) {
