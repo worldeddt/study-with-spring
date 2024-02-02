@@ -60,6 +60,39 @@ public class WebClientService {
         return result.get();
     }
 
+    private String syncPost(WebClient webClient) {
+        return webClient.post()
+                .uri("/resource")
+                .body(Mono.just("request body"), String.class)
+                .retrieve()
+                .bodyToMono(String.class)
+                .doOnError(WebClientService::handleError)
+                .block();
+    }
+
+    private String asyncPost(WebClient webClient) {
+        AtomicReference<String> result = new AtomicReference<>("");
+
+        Mono<String> responsePostMono = webClient.post()
+                .uri("/resource")
+                .body(Mono.just("request body"), String.class)
+                .retrieve()
+                .bodyToMono(String.class)
+                .doOnError(WebClientService::handleError);
+
+        responsePostMono.subscribe(
+                response -> {
+                    log.info("response : {}", response);
+                    result.set(response);
+                },
+                throwable -> handleError(throwable)
+        );
+
+        preventEndProcessBeforeReceiveResponse();
+
+        return result.get();
+    }
+
     private static void preventEndProcessBeforeReceiveResponse() {
         try {
             Thread.sleep(850);
