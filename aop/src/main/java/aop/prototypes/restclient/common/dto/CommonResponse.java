@@ -13,13 +13,4 @@ public class CommonResponse<T> {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
-
-
-    public static CommonResponse of(
-            String reserveId
-    ) {
-        return CommonResponse.builder()
-                .reserveId(reserveId)
-                .build();
-    }
 }

@@ -6,6 +6,7 @@ import aop.prototypes.generic.implementation.Numbers2;
 import aop.prototypes.generic.implementation.Numbers3;
 import aop.prototypes.generic.interfaces.Obj;
 import aop.prototypes.generic.services.GenericService;
+import aop.prototypes.generic.services.GenericServiceClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,14 @@ import java.util.ArrayList;
 @Slf4j
 @RestController
 public class GenericController {
+
+    @GetMapping(value = "/gene/origin")
+    public void classOrigin() {
+        GenericServiceClass<Numbers> genericServiceClass =
+                new GenericServiceClass<>(new Numbers());
+
+        log.info("generic service : {}", genericServiceClass.getObj().getValue());
+    }
 
     @GetMapping(value = "/gene/class")
     public void classUseLimitTypeAndGetNumber() {
@@ -46,7 +55,7 @@ public class GenericController {
         processBox(genericService);
     }
 
-    public void processBox(GenericService<?> obj) {
-        log.info("obj : {}",obj.getValue());
+    public void processBox(GenericService<?> genericService) {
+        log.info("obj : {}",genericService.getValue());
     }
 }

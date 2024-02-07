@@ -16,12 +16,11 @@ public class RestClientModule {
     @Bean
     public RestClient registerRestClient() {
         return RestClient.builder()
-                .baseUrl("http://localhost:8090/v1/proto")
+                .baseUrl("http://localhost:8081")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
-    @Bean
     public synchronized CommonResponse<?> get(String uri) {
         RestClient restClient = registerRestClient();
 
