@@ -25,8 +25,10 @@ public class KurentoController {
         Map<String, KurentoStatus> kurentoClientMap = kurentoConfig.getKurentoStatusMap();
         log.info("---------------------------------------------------------------------------------------");
 
-        kurentoClientMap.forEach((String key, KurentoStatus kurentoStatus) -> {
-            log.atLevel(Level.INFO).log("key : {} | value : {}", key, kurentoStatus.getDescription());
-        });
+//        kurentoClientMap.forEach((String key, KurentoStatus kurentoStatus) -> {
+//            log.atLevel(Level.INFO).log("key : {} | value : {}", key, kurentoStatus.getDescription());
+//        });
+
+        kurentoConfig.createMediaPipeline();
     }
 }
