@@ -1,0 +1,22 @@
+
+
+
+services:
+  kurento1:
+    image: kurento/kurento-media-server:7.0.0
+    container_name: kurento1
+    ports:
+      - "8881:8888/tcp"
+      - "5001-5050:5001-5050/udp"
+  kurento2:
+    image: kurento/kurento-media-server:7.0.0
+    container_name: kurento2
+    ports:
+      - "8882:8888/tcp"
+      - "5051-5100:5051-5100/udp"
+  kurento3:
+    image: kurento/kurento-media-server:7.0.0
+    container_name: kurento3
+    ports:
+      - "8883:8888/tcp"
+      - "5101-5150:5101-5150/udp"

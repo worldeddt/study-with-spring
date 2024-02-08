@@ -1,2 +1,10 @@
 server:
   port: 8081
+
+
+fermi:
+  kms:
+    urls:
+      - ws://localhost:8881/kurento
+      - ws://localhost:8882/kurento
+      - ws://localhost:8883/kurento
