@@ -1,8 +1,5 @@
 package aop.prototypes.thread;
 
-import aop.prototypes.thread.services.DoWork;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +11,36 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 public class Section2 {
+    public boolean shouldStop = false;
     @GetMapping(value = "/get/thread")
     private void task() throws InterruptedException {
-
-        DoWork doWork = new DoWork();
-        Thread thread1 = new Thread(doWork);
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    doWork();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
         // Thread 객체 생
         thread1.start();
         log.info("=====start====");
         TimeUnit.SECONDS.sleep(1);
-        doWork.shouldStop = true;
+        shouldStop = true;
         thread1.join();
 
         log.info("=====end====");
+    }
+
+    private void doWork() throws InterruptedException {
+        boolean toggle = false;
+
+        while(!shouldStop) {
+            toggle = !toggle;
+            Thread.sleep(1000);
+        }
     }
 }
