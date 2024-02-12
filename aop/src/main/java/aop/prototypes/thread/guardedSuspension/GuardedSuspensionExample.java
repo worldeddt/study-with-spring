@@ -6,7 +6,7 @@ import java.util.Queue;
 public class GuardedSuspensionExample {
     private volatile boolean shouldStop = false;
     private final Queue<String> requests = new LinkedList<>();
-
+    private final Queue<String> queueRequests = new LinkedList<>();
     public void startUp() {
         System.out.println("Process Start!");
 
