@@ -1,40 +1,32 @@
 package aop.prototypes.thread;
 
-import aop.prototypes.MainApplication;
-import kotlin.jvm.Volatile;
-import org.springframework.boot.SpringApplication;
+import aop.prototypes.thread.services.DoWork;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Console;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
+@RestController
+@Slf4j
+@RequiredArgsConstructor
 public class Section2 {
+    @GetMapping(value = "/get/thread")
+    private void task() throws InterruptedException {
 
+        DoWork doWork = new DoWork();
+        Thread thread1 = new Thread(doWork);
 
-    private static boolean shouldStop = false;
-
-    public static void main(String[] args) throws InterruptedException {
-        SpringApplication.run(Section2.class, args);
-task();
-
-    }
-
-    private static void task() throws InterruptedException {
-        Thread thread1 = new Thread(Section2::doWork);
+        // Thread 객체 생
         thread1.start();
-        System.out.printf("start");
-        TimeUnit.SECONDS.sleep(3);
-        shouldStop = true;
+        log.info("=====start====");
+        TimeUnit.SECONDS.sleep(1);
+        doWork.shouldStop = true;
         thread1.join();
-        System.out.printf("end");
-    }
 
-    private static void doWork() {
-
-        boolean toggle = false;
-
-        while (shouldStop == false) {
-            toggle = !toggle;
-        }
+        log.info("=====end====");
     }
 }

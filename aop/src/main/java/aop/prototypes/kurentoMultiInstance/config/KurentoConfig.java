@@ -27,7 +27,7 @@ public class KurentoConfig {
     private final Map<String, KurentoStatus> kurentoStatusMap = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Float> usageRateMap = new ConcurrentHashMap<>();
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         register();
         kmsDownCheck();
