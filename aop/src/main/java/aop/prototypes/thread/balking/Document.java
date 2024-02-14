@@ -10,7 +10,7 @@ public class Document {
     public synchronized void change() {
         this.changed = true;
         log.info("Document is changed");
-        notify();
+        notify(); // 변경되었음을 알림.
     }
 
     public synchronized void save() {
