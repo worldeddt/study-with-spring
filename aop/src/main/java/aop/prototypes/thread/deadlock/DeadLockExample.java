@@ -1,7 +1,6 @@
 package aop.prototypes.thread.deadlock;
 
 
-import org.apache.tomcat.util.threads.TaskThread;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -23,4 +22,6 @@ public class DeadLockExample {
             }
         });
     }
+
+
 }
