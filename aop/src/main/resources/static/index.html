@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>호출 테스트 페이지</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+</head>
+<body>
+
+</body>
+<script>
+
+
+    axios.get("http://localhost:8091/api/himart/agent?loginId=gangnam1&reserveId=1234456")
+        .then(function (response) {
+          console.log(response);
+        });
+
+</script>
+</html>

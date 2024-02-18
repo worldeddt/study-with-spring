@@ -8,8 +8,8 @@ public class Resource {
         this.name = name;
     }
 
-    public synchronized void method(Resource other) {
-        Resource first;
+    public void method(Resource other) {
+        Resource first = null;
         Resource second;
 
         synchronized (first) {
