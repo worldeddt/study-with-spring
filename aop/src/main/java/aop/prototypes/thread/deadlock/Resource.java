@@ -9,14 +9,20 @@ public class Resource {
     }
 
     public synchronized void method(Resource other) {
-        System.out.println(Thread.currentThread().getName() + " is accessing resource: "+name);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Resource first;
+        Resource second;
+
+        synchronized (first) {
+            System.out.println(Thread.currentThread().getName() + " is accessing resource: "+first.name);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(Thread.currentThread().getName() + " is trying to access resource: "+other.name);
         }
 
-        System.out.println(Thread.currentThread().getName() + " is trying to access resource: "+other.name);
         other.method(this);
     }
 }
