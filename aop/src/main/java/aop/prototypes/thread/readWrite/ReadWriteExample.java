@@ -10,6 +10,7 @@ public class ReadWriteExample {
     private volatile int writeCount = 0;
     private volatile String message = String.valueOf(System.currentTimeMillis());
 
+
     public void startUp() {
         System.out.println("Process Start!");
 
