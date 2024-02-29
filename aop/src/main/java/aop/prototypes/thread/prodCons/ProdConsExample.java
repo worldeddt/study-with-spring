@@ -12,6 +12,7 @@ import java.util.*;
 public class ProdConsExample {
     private volatile boolean shouldStop = false;
     private Queue<String> requests = new ConcurrentLinkedDeque<>();
+
     public void startUp() {
         System.out.println("Process Start!");
         List<Thread> threads = new ArrayList<>();
