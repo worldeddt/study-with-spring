@@ -2,7 +2,7 @@
 <configuration scan="false" scanPeriod="60 seconds">
 
     <springProperty name="LOG_LEVEL" scope="context" source="logging.level.root"/>
-    <springProperty name="LOG_PATH" scope="context" source="logging.file"/>
+    <springProperty name="LOG_PATH" scope="context" source="logging.file.path"/>
     <springProperty name="LOG_CONSOLE_PATTERN" scope="context" source="logging.pattern.console"/>
     <springProperty name="LOG_FILE_PATTERN" scope="context" source="logging.pattern.file"/>
     <springProperty name="LOG_CONSOLE_CHARSET" scope="context" source="logging.charset.console"/>
@@ -60,8 +60,9 @@
 
     <springProfile name="dev,prod">
         <root level="${LOG_LEVEL}">
-            <appender-ref ref="FILE"/>
-            <appender-ref ref="ERROR_FILE"/>
+            <appender-ref ref="CONSOLE"/>
+<!--            <appender-ref ref="FILE"/>-->
+<!--            <appender-ref ref="ERROR_FILE"/>-->
         </root>
     </springProfile>
 
