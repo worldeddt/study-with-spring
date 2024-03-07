@@ -8,3 +8,16 @@ fermi:
       - ws://localhost:8881/kurento
       - ws://localhost:8882/kurento
       - ws://localhost:8883/kurento
+
+logging:
+  level:
+    root: info
+    aop.prototypes: debug
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceNumber:---------------------------------}][%t][%logger{36}.%method:%line] %highlight(%-5level) %msg%n"
+    file: "[%d{yyyy-MM-dd HH:mm:ss.SSS}][%X{traceNumber:---------------------------------}][%t][%class{0}.%method:%line] %-5level %msg%n"
+  charset:
+    console: UTF-8
+    file: UTF-8
+  file:
+    name: ./log/prototype이걸로file명바꾸기
