@@ -4,9 +4,11 @@ import aop.prototypes.singleTon.repository.MemberRepository;
 import aop.prototypes.singleTon.repository.MemoryMemberRepository;
 import aop.prototypes.singleTon.services.MemberService;
 import aop.prototypes.singleTon.services.MemberServiceImpl;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+
+@Configuration
 public class AppConfig {
 
     @Bean
