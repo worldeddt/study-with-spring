@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StatefulServiceTest {
 
 
@@ -23,6 +21,7 @@ class StatefulServiceTest {
         int userA = statefulService1.order("userA", 10000);
         //ThreadB: B사용자 20000원 주문
         int userB = statefulService2.order("userB", 20000);
+
         //ThreadA: 사용자A 주문 금액 조회
         int price1 = userA;
         int price2 = userB;

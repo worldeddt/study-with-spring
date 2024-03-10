@@ -1,18 +1,19 @@
 package aop.prototypes.singleTon.domain;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import aop.prototypes.singleTon.Grade;
 import lombok.Getter;
 
 @Getter
 public class Member {
     private Long id;
     private String name;
+    private Grade grade;
 
-    public Member(Long id, String name) {
+    public Member(Long id, String name, Grade grade) {
         this.id = id;
         this.name = name;
+        this.grade = grade;
     }
     public Long getId() {
         return id;
@@ -25,5 +26,13 @@ public class Member {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 }

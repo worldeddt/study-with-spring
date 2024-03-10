@@ -3,10 +3,12 @@ package aop.prototypes.singleTon.services;
 import aop.prototypes.singleTon.domain.Member;
 import aop.prototypes.singleTon.repository.MemberRepository;
 import aop.prototypes.singleTon.repository.MemoryMemberRepository;
+import lombok.Getter;
 
+@Getter
 public class MemberServiceImpl implements MemberService {
 
-    private MemberRepository memberRepository  = new MemoryMemberRepository();
+    private MemberRepository memberRepository;
 
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;

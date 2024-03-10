@@ -2,8 +2,7 @@ package aop.prototypes.singleTon.config;
 
 import aop.prototypes.singleTon.repository.MemberRepository;
 import aop.prototypes.singleTon.repository.MemoryMemberRepository;
-import aop.prototypes.singleTon.services.MemberService;
-import aop.prototypes.singleTon.services.MemberServiceImpl;
+import aop.prototypes.singleTon.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,9 +17,17 @@ public class AppConfig {
 
 
     @Bean
-    private static MemberRepository memberRepository() {
+    public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
 
+    @Bean
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
+    }
 
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
 }
