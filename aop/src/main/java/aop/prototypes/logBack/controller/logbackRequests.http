@@ -3,3 +3,12 @@ POST localhost:8081/log/back
 #####
 
 GET http://localhost:8081/redis/cache
+
+###
+
+POST http://localhost:8081/id
+Content-Type: application/json
+
+{
+  "id" : 1
+}
