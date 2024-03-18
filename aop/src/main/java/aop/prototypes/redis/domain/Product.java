@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 
 @AllArgsConstructor
+
 public class Product  implements Serializable {
     private String id;
     private String name;
