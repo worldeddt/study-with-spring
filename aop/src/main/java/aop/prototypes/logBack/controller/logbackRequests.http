@@ -1,1 +1,5 @@
 POST localhost:8081/log/back
+
+#####
+
+GET http://localhost:8081/redis/cache
