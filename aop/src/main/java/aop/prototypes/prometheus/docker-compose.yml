@@ -1,0 +1,23 @@
+version: "1"
+services:
+  pro-cluster:
+    container_name: pro-cluster
+    hostname: pro-main-cluster
+    image: ubuntu-upstart
+    ports:
+      - "9090:9090"
+      - "8091:8091"
+  prometheus:
+    network_mode: "service:pro-cluster"
+    container_name: "pro"
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  spring:
+    volumes:
+      - ./coview_lgw_server-1.0.0.jar:/app/coview_lgw_server-1.0.0.jar
+    container_name: "spr"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: "service:pro-cluster"
