@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class GrammerExample {
 
     public static void main(String[] args) {

@@ -3,7 +3,7 @@ package aop.prototypes.thread.reordering;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class ReorderingExample {
     //volatile 설정을 하게 되면 메인 메모리에 값을 즉시 반환하게 된다.
     // 그러한 연유로 무한 루프에 빠지지 않게 된다 뭐 그런 설명이다.

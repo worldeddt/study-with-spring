@@ -3,7 +3,7 @@ package aop.prototypes.thread.deadlock;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class DeadLockExample {
 
 

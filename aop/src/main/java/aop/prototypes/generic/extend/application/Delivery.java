@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@SpringBootApplication
+//@SpringBootApplication
 public class Delivery {
 
     public static void main(String[] args) {

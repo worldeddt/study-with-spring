@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<button id="startBtn" onclick="start();">start</button> <br/><br/>
+<button onclick="outboundCall();">outboundCall</button>
+</body>
+<script>
+  let stompClient;
+
+  const getServerInfo = () => {
+    return `${window.location.hostname}:${window.location.port}`
+  }
+
+  let start = () => {
+    stompInit();
+  }
+
+  let stompInit = () => {
+    const server = getServerInfo();
+    const socket = new WebSocket(`wss://${server}/call/stomp/call`);
+    stompClient = Stomp.over(socket);
+    const handleCallNotification = (payload) => {
+      const { body } = payload;
+      const json = JSON.parse(payload.body);
+
+
+      switch (json.type) {
+        case "OUTBOUND_CALL" :
+          console.log(json.inviteKey);
+        default :
+          return ;
+      }
+    }
+
+    const onConnect = () => {
+      stompClient.subscribe(
+        `/user/queue/call/callNotification`,
+        handleCallNotification
+      );
+
+      stompClient.subscribe(
+        `/user/queue/call/error`,
+        (error) => { console.log(error) }
+      );
+    }
+
+    const onError = () => {
+      console.error("error 입니다.");
+    }
+
+    stompClient.connect(null, onConnect, onError)
+  }
+
+  function outboundCall() {
+    const endPoint = `/pub/call/requestCall`;
+    const headers = {};
+    const option = [{"key":"name", "value":"김수한무"},{"key":"value", "value":"거북이와두루미"},{"key":"test", "value":"optionTest"}];
+    const body = JSON.stringify({ callType: "OUTBOUND", categoryId:"3", groupId:"1234", option:option });
+    stompClient.send(endPoint, headers, body);
+  }
+
+</script>
+
+</html>

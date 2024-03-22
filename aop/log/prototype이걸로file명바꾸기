@@ -1,0 +1,325 @@
+[2024-03-22 16:43:51.260][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting MainApplication using Java 21.0.1 with PID 21308 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 16:43:51.263][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 16:43:51.264][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 16:43:51.337][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 16:43:51.338][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 16:43:52.601][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+[2024-03-22 16:43:52.755][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web application could not be started as there was no org.springframework.boot.web.servlet.server.ServletWebServerFactory bean defined in the context.
+
+Action:
+
+Check your application's dependencies for a supported servlet web server.
+Check the configured web application type.
+
+[2024-03-22 16:45:27.453][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 32480 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 16:45:27.456][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 16:45:27.457][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 16:45:27.512][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 16:45:27.512][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 16:45:28.080][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 16:45:28.082][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 16:45:28.111][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+[2024-03-22 16:45:28.495][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 16:45:28.505][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 16:45:28.506][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 16:45:28.548][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 16:45:28.548][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 1035 ms
+[2024-03-22 16:45:28.656][--------------------------------][restartedMain][WelcomePageHandlerMapping.<init>:59] INFO  Adding welcome page: class path resource [static/index.html]
+[2024-03-22 16:45:29.320][--------------------------------][restartedMain][OptionalLiveReloadServer.startServer:59] INFO  LiveReload server is running on port 35729
+[2024-03-22 16:45:29.336][--------------------------------][restartedMain][TomcatWebServer.start:241] INFO  Tomcat started on port 8081 (http) with context path ''
+[2024-03-22 16:45:29.341][--------------------------------][restartedMain][StartupInfoLogger.logStarted:56] INFO  Started RtcOutBoundExample in 2.307 seconds (process running for 3.261)
+[2024-03-22 17:05:48.197][--------------------------------][File Watcher][LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener.onApplicationEvent:211] INFO  Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[2024-03-22 17:05:48.303][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 32480 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 17:05:48.304][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 17:05:48.304][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 17:05:48.465][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 17:05:48.465][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 17:05:48.467][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 1 ms. Found 0 Redis repository interfaces.
+[2024-03-22 17:05:48.580][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 17:05:48.583][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 17:05:48.584][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 17:05:48.624][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 17:05:48.624][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 318 ms
+[2024-03-22 17:05:48.688][--------------------------------][restartedMain][WelcomePageHandlerMapping.<init>:59] INFO  Adding welcome page: class path resource [static/index.html]
+[2024-03-22 17:05:48.803][--------------------------------][restartedMain][OptionalLiveReloadServer.startServer:59] INFO  LiveReload server is running on port 35729
+[2024-03-22 17:05:48.814][--------------------------------][restartedMain][TomcatWebServer.start:241] INFO  Tomcat started on port 8081 (http) with context path ''
+[2024-03-22 17:05:48.818][--------------------------------][restartedMain][StartupInfoLogger.logStarted:56] INFO  Started RtcOutBoundExample in 0.548 seconds (process running for 1222.737)
+[2024-03-22 17:05:48.820][--------------------------------][restartedMain][ConditionEvaluationDeltaLoggingListener.onApplicationEvent:63] INFO  Condition evaluation unchanged
+[2024-03-22 17:34:46.760][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 8700 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 17:34:46.763][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 17:34:46.765][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 17:34:46.818][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 17:34:46.818][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 17:34:47.470][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 17:34:47.473][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 17:34:47.496][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+[2024-03-22 17:34:47.915][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 17:34:47.925][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 17:34:47.926][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 17:34:47.970][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 17:34:47.970][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 1151 ms
+[2024-03-22 17:34:48.296][--------------------------------][restartedMain][WelcomePageHandlerMapping.<init>:59] INFO  Adding welcome page: class path resource [static/index.html]
+[2024-03-22 17:34:48.821][--------------------------------][restartedMain][OptionalLiveReloadServer.startServer:59] INFO  LiveReload server is running on port 35729
+[2024-03-22 17:34:48.845][--------------------------------][restartedMain][TomcatWebServer.start:241] INFO  Tomcat started on port 8081 (http) with context path ''
+[2024-03-22 17:34:48.847][--------------------------------][restartedMain][CompositeLog.info:117] INFO  Starting...
+[2024-03-22 17:34:48.847][--------------------------------][restartedMain][CompositeLog.info:117] INFO  BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37c72d3b]]
+[2024-03-22 17:34:48.848][--------------------------------][restartedMain][CompositeLog.info:117] INFO  Started.
+[2024-03-22 17:34:48.853][--------------------------------][restartedMain][StartupInfoLogger.logStarted:56] INFO  Started RtcOutBoundExample in 2.553 seconds (process running for 3.524)
+[2024-03-22 17:35:10.205][--------------------------------][http-nio-8081-exec-1][DirectJDKLog.log:173] INFO  Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-22 17:35:10.206][--------------------------------][http-nio-8081-exec-1][FrameworkServlet.initServletBean:532] INFO  Initializing Servlet 'dispatcherServlet'
+[2024-03-22 17:35:10.207][--------------------------------][http-nio-8081-exec-1][FrameworkServlet.initServletBean:554] INFO  Completed initialization in 1 ms
+[2024-03-22 17:35:20.394][--------------------------------][http-nio-8081-exec-4][DirectJDKLog.log:175] INFO  Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x02@0x010x000x02<0x030x03=0x080x0d!0x8dLu0x070x06d=0xbdZe0x800x150xc10x8a~0x970x920xac|0xd7~w0xc5nI0xdf0xfc& ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:264)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+[2024-03-22 17:35:48.901][--------------------------------][MessageBroker-1][WebSocketMessageBrokerStats.lambda$initLoggingTask$0:154] INFO  WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+[2024-03-22 17:38:56.905][--------------------------------][SpringApplicationShutdownHook][CompositeLog.info:117] INFO  Stopping...
+[2024-03-22 17:38:56.906][--------------------------------][SpringApplicationShutdownHook][CompositeLog.info:117] INFO  BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@37c72d3b]]
+[2024-03-22 17:38:56.906][--------------------------------][SpringApplicationShutdownHook][CompositeLog.info:117] INFO  Stopped.
+[2024-03-22 18:19:20.940][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 30572 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:19:20.942][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:19:20.942][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:19:20.982][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 18:19:20.982][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 18:19:21.599][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:19:21.601][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:19:21.621][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:19:21.959][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:19:21.967][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:19:21.968][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:19:22.001][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:19:22.002][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 1019 ms
+[2024-03-22 18:19:22.234][--------------------------------][restartedMain][WelcomePageHandlerMapping.<init>:59] INFO  Adding welcome page: class path resource [static/index.html]
+[2024-03-22 18:19:22.646][--------------------------------][restartedMain][OptionalLiveReloadServer.startServer:59] INFO  LiveReload server is running on port 35729
+[2024-03-22 18:19:22.670][--------------------------------][restartedMain][TomcatWebServer.start:241] INFO  Tomcat started on port 8081 (http) with context path ''
+[2024-03-22 18:19:22.671][--------------------------------][restartedMain][CompositeLog.info:117] INFO  Starting...
+[2024-03-22 18:19:22.671][--------------------------------][restartedMain][CompositeLog.info:117] INFO  BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2186b166]]
+[2024-03-22 18:19:22.671][--------------------------------][restartedMain][CompositeLog.info:117] INFO  Started.
+[2024-03-22 18:19:22.676][--------------------------------][restartedMain][StartupInfoLogger.logStarted:56] INFO  Started RtcOutBoundExample in 2.06 seconds (process running for 2.593)
+[2024-03-22 18:20:04.740][--------------------------------][http-nio-8081-exec-1][DirectJDKLog.log:173] INFO  Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-22 18:20:04.741][--------------------------------][http-nio-8081-exec-1][FrameworkServlet.initServletBean:532] INFO  Initializing Servlet 'dispatcherServlet'
+[2024-03-22 18:20:04.742][--------------------------------][http-nio-8081-exec-1][FrameworkServlet.initServletBean:554] INFO  Completed initialization in 1 ms
+[2024-03-22 18:20:05.806][--------------------------------][http-nio-8081-exec-3][DirectJDKLog.log:175] INFO  Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name [0x160x030x010x02@0x010x000x02<0x030x030xde0xf3)0x1dx#0x021y0xbe.|r0xb40xee0xd2+0xd6eO0xea0xd8|0x10T0xde0xa20x12L0xd3l0xf6 ]. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:407)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:264)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+[2024-03-22 18:20:22.678][--------------------------------][MessageBroker-1][WebSocketMessageBrokerStats.lambda$initLoggingTask$0:154] INFO  WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+[2024-03-22 18:28:49.072][--------------------------------][File Watcher][LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener.onApplicationEvent:211] INFO  Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[2024-03-22 18:28:49.076][--------------------------------][Thread-5][CompositeLog.info:117] INFO  Stopping...
+[2024-03-22 18:28:49.076][--------------------------------][Thread-5][CompositeLog.info:117] INFO  BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2186b166]]
+[2024-03-22 18:28:49.076][--------------------------------][Thread-5][CompositeLog.info:117] INFO  Stopped.
+[2024-03-22 18:28:49.168][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 30572 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:28:49.168][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:28:49.169][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:28:49.312][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:28:49.313][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:28:49.316][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 3 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:28:49.379][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:28:49.380][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:28:49.381][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:28:49.396][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:28:49.396][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 226 ms
+[2024-03-22 18:28:49.404][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stompConfig' defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration': Unsatisfied dependency expressed through method 'setConfigurers' parameter 0: Error creating bean with name 'stompConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[2024-03-22 18:28:49.404][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Stopping service [Tomcat]
+[2024-03-22 18:28:49.407][--------------------------------][restartedMain][ConditionEvaluationReportLogger.logMessage:82] INFO  
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2024-03-22 18:28:49.421][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  stompConfig defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]
+↑     ↓
+|  org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+[2024-03-22 18:32:21.661][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 30572 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:32:21.662][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:32:21.662][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:32:21.820][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:32:21.820][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:32:21.823][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:32:21.874][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:32:21.875][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:32:21.875][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:32:21.890][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:32:21.890][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 227 ms
+[2024-03-22 18:32:21.897][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stompConfig' defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration': Unsatisfied dependency expressed through method 'setConfigurers' parameter 0: Error creating bean with name 'stompConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[2024-03-22 18:32:21.897][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Stopping service [Tomcat]
+[2024-03-22 18:32:21.900][--------------------------------][restartedMain][ConditionEvaluationReportLogger.logMessage:82] INFO  
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2024-03-22 18:32:21.902][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  stompConfig defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]
+↑     ↓
+|  org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+[2024-03-22 18:32:23.382][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 30572 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:32:23.382][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:32:23.382][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:32:23.471][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:32:23.471][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:32:23.474][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:32:23.512][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:32:23.513][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:32:23.513][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:32:23.528][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:32:23.529][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 146 ms
+[2024-03-22 18:32:23.535][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stompConfig' defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration': Unsatisfied dependency expressed through method 'setConfigurers' parameter 0: Error creating bean with name 'stompConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[2024-03-22 18:32:23.535][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Stopping service [Tomcat]
+[2024-03-22 18:32:23.538][--------------------------------][restartedMain][ConditionEvaluationReportLogger.logMessage:82] INFO  
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2024-03-22 18:32:23.540][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  stompConfig defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]
+↑     ↓
+|  org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+[2024-03-22 18:33:39.652][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 10248 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:33:39.654][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:33:39.654][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:33:39.688][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 18:33:39.688][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 18:33:40.249][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:33:40.251][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:33:40.270][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:33:40.583][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:33:40.590][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:33:40.591][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:33:40.624][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:33:40.624][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 936 ms
+[2024-03-22 18:33:40.662][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stompConfig' defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration': Unsatisfied dependency expressed through method 'setConfigurers' parameter 0: Error creating bean with name 'stompConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[2024-03-22 18:33:40.663][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Stopping service [Tomcat]
+[2024-03-22 18:33:40.670][--------------------------------][restartedMain][ConditionEvaluationReportLogger.logMessage:82] INFO  
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2024-03-22 18:33:40.683][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  stompConfig defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]
+↑     ↓
+|  org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+[2024-03-22 18:35:55.830][--------------------------------][restartedMain][StartupInfoLogger.logStarting:50] INFO  Starting RtcOutBoundExample using Java 21.0.1 with PID 1676 (C:\Users\user\Desktop\study\spring-study\aop\out\production\classes started by user in C:\Users\user\Desktop\study\spring-study\aop)
+[2024-03-22 18:35:55.832][--------------------------------][restartedMain][StartupInfoLogger.logStarting:51] DEBUG Running with Spring Boot v3.2.2, Spring v6.1.3
+[2024-03-22 18:35:55.833][--------------------------------][restartedMain][SpringApplication.logStartupProfileInfo:654] INFO  No active profile set, falling back to 1 default profile: "default"
+[2024-03-22 18:35:55.870][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2024-03-22 18:35:55.870][--------------------------------][restartedMain][DeferredLog.logTo:252] INFO  For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2024-03-22 18:35:56.487][--------------------------------][restartedMain][RepositoryConfigurationDelegate.multipleStoresDetected:292] INFO  Multiple Spring Data modules found, entering strict repository configuration mode
+[2024-03-22 18:35:56.489][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:139] INFO  Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+[2024-03-22 18:35:56.509][--------------------------------][restartedMain][RepositoryConfigurationDelegate.registerRepositoriesIn:208] INFO  Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+[2024-03-22 18:35:56.835][--------------------------------][restartedMain][TomcatWebServer.initialize:109] INFO  Tomcat initialized with port 8081 (http)
+[2024-03-22 18:35:56.843][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting service [Tomcat]
+[2024-03-22 18:35:56.844][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Starting Servlet engine: [Apache Tomcat/10.1.18]
+[2024-03-22 18:35:56.877][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Initializing Spring embedded WebApplicationContext
+[2024-03-22 18:35:56.877][--------------------------------][restartedMain][ServletWebServerApplicationContext.prepareWebApplicationContext:296] INFO  Root WebApplicationContext: initialization completed in 1006 ms
+[2024-03-22 18:35:56.929][--------------------------------][restartedMain][AbstractApplicationContext.refresh:632] WARN  Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'stompConfig' defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]: Unsatisfied dependency expressed through constructor parameter 3: Error creating bean with name 'org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration': Unsatisfied dependency expressed through method 'setConfigurers' parameter 0: Error creating bean with name 'stompConfig': Requested bean is currently in creation: Is there an unresolvable circular reference?
+[2024-03-22 18:35:56.931][--------------------------------][restartedMain][DirectJDKLog.log:173] INFO  Stopping service [Tomcat]
+[2024-03-22 18:35:56.943][--------------------------------][restartedMain][ConditionEvaluationReportLogger.logMessage:82] INFO  
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2024-03-22 18:35:56.966][--------------------------------][restartedMain][LoggingFailureAnalysisReporter.report:40] ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+┌─────┐
+|  stompConfig defined in file [C:\Users\user\Desktop\study\spring-study\aop\out\production\classes\aop\prototypes\rtcOutBound\as\config\StompConfig.class]
+↑     ↓
+|  org.springframework.web.socket.config.annotation.DelegatingWebSocketMessageBrokerConfiguration
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+

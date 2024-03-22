@@ -3,7 +3,7 @@ package aop.prototypes.thread.visibilityExample;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class VisibilityExample {
     private static volatile boolean flag = false;
 
