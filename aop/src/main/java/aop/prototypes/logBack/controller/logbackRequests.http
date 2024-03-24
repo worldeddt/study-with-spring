@@ -1,2 +1,2 @@
 
-GET http://localhost:8081/image/compress
+GET http://localhost:8081/image/IO/compress
