@@ -13,7 +13,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        System.out.println("registry websocket handle");
         // WebSocketHandler를 등록합니다.
         registry.addHandler(new MyWebSocketHandler(), "/websocket")
                 .setAllowedOrigins("*"); // 이 부분은 필요에 따라 설정하세요.

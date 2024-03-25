@@ -1,4 +1,7 @@
 HELP.md
+
+
+./src/main/resource/.env
 .gradle
 ./log
 build/

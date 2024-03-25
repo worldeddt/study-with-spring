@@ -35,10 +35,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.3'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'org.bytedeco', name: 'opencv', version: '4.7.0-1.5.9'
+    implementation 'me.paulschwarz:spring-dotenv:3.0.0'
+
+    // maria db
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 tasks.named('test') {

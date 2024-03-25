@@ -33,10 +33,11 @@
       const { body } = payload;
       const json = JSON.parse(payload.body);
 
+      console.log(json);
 
       switch (json.type) {
         case "OUTBOUND_CALL" :
-          console.log(json.inviteKey);
+          return;
         default :
           return ;
       }

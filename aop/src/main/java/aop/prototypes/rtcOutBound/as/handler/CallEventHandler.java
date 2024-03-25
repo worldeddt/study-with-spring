@@ -19,7 +19,7 @@ public class CallEventHandler {
         final var headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         final var principal = headerAccessor.getUser();
 
-        log.info("headerAccessor : {}", headerAccessor.getDestination());
+        log.info("event headerAccessor : {}", headerAccessor.getDestination());
         if ("/user/queue/call/callNotification".equals(headerAccessor.getDestination())) {
             final var sessionInfo = sessionManager.findSessionInfo(principal);
             final var userId = sessionInfo.getUserId();
