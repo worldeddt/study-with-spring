@@ -5,7 +5,9 @@ import aop.prototypes.rtcOutBound.as.handler.MyDefaultHandshakeHandler;
 import aop.prototypes.rtcOutBound.as.interceptors.InboundChannelInterceptor;
 import aop.prototypes.rtcOutBound.as.interceptors.OutboundChannelInterceptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -26,7 +28,7 @@ public class StompConfig extends StompSessionHandlerAdapter implements WebSocket
     private final MyDefaultHandshakeHandler myDefaultHandshakeHandler;
     private final InboundChannelInterceptor inboundChannelInterceptor;
     private final OutboundChannelInterceptor outboundChannelInterceptor;
-    private final TaskScheduler taskScheduler;
+    private final TaskScheduler heartBeatScheduler;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -38,7 +40,7 @@ public class StompConfig extends StompSessionHandlerAdapter implements WebSocket
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic", "/queue")
-                .setTaskScheduler(taskScheduler)
+                .setTaskScheduler(heartBeatScheduler)
                 .setHeartbeatValue(new long[]{5 * 1000, 5 * 1000})
         ; // 구독시 사용
         registry.setApplicationDestinationPrefixes("/pub"); // pub 시 사용

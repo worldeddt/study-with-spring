@@ -24,9 +24,12 @@
 
   let stompInit = () => {
     const server = getServerInfo();
-    const socket = new WebSocket(`wss://${server}/call/stomp/call`);
+    const socket = new WebSocket(`wss://${server}/stomp/call`);
     stompClient = Stomp.over(socket);
+
+    console.log(stompClient);
     const handleCallNotification = (payload) => {
+      console.log("payload : "+payload);
       const { body } = payload;
       const json = JSON.parse(payload.body);
 

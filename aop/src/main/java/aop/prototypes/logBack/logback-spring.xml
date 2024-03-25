@@ -16,7 +16,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/prototype.log</file>
+        <file>${LOG_PATH}/log-prototype.log</file>
         <encoder>
             <charset>${LOG_FILE_CHARSET}</charset>
             <pattern>${LOG_FILE_PATTERN}</pattern>

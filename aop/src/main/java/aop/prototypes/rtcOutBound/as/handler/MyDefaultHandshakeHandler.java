@@ -15,7 +15,8 @@ import java.util.Map;
 @Component
 public class MyDefaultHandshakeHandler extends DefaultHandshakeHandler {
     @Override
-    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+    protected Principal determineUser(ServerHttpRequest request,
+                                      WebSocketHandler wsHandler, Map<String, Object> attributes) {
         log.info("determineUser");
         return new StompPrincipal();
     }
