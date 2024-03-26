@@ -1,9 +1,9 @@
 HELP.md
 
-
-./src/main/resource/.env
+src/main/resources/.env
+./src/main/resources/.env
 .gradle
-./log
+log
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
