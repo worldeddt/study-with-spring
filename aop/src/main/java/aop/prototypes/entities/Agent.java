@@ -1,4 +1,4 @@
-package aop.prototypes.rtcOutBound.as.entities;
+package aop.prototypes.entities;
 
 
 import jakarta.persistence.Entity;

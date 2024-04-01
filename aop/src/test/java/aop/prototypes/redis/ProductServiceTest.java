@@ -1,8 +1,7 @@
 package aop.prototypes.redis;
 
 import aop.prototypes.redis.domain.Product;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import aop.prototypes.redis.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

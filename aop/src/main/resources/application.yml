@@ -14,7 +14,7 @@ spring:
       port: 6379
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DB_HOSTNAME}:${DB_PORT}/main
+    url: jdbc:mariadb://${DB_HOSTNAME}:${DB_PORT}/cash
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -29,6 +29,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     open-in-view: false
+    show-sql: true
 
   main:
     allow-circular-references: false

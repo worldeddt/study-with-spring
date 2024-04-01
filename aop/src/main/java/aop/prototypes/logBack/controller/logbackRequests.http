@@ -1,2 +1,15 @@
 
 GET http://localhost:8081/image/IO/compress
+
+################
+
+GET http://localhost:8081/redis/member/1
+
+################
+
+POST https://localhost:8081/redis/member
+Content-Type: application/json; charset=UTF-8
+
+{
+  "name" : "test"
+}
