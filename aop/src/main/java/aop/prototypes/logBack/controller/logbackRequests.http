@@ -13,3 +13,10 @@ Content-Type: application/json; charset=UTF-8
 {
   "name" : "test"
 }
+
+
+########
+GET https://localhost:8081/udp/receive
+
+########
+GET https://localhost:8082/udp/request
