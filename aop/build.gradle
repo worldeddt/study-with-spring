@@ -48,6 +48,9 @@ dependencies {
 
     // maria db
     implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+    //live kit
+    implementation group: 'com.livekit', name: 'livekit-server', version: '0.10.2'
 }
 
 tasks.named('test') {
