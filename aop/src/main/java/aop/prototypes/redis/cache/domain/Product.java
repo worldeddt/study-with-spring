@@ -1,4 +1,4 @@
-package aop.prototypes.redis.domain;
+package aop.prototypes.redis.cache.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

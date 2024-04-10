@@ -1,12 +1,12 @@
-package aop.prototypes.redis.controller;
+package aop.prototypes.redis.cache.controller;
 
 
-import aop.prototypes.redis.controller.dto.SaveMember;
-import aop.prototypes.redis.controller.dto.UpdateMember;
-import aop.prototypes.redis.domain.Product;
-import aop.prototypes.redis.entities.Member;
-import aop.prototypes.redis.entities.dto.MemberDto;
-import aop.prototypes.redis.services.ProductService;
+import aop.prototypes.redis.cache.controller.dto.SaveMember;
+import aop.prototypes.redis.cache.controller.dto.UpdateMember;
+import aop.prototypes.redis.cache.domain.Product;
+import aop.prototypes.redis.cache.entities.Member;
+import aop.prototypes.redis.cache.entities.dto.MemberDto;
+import aop.prototypes.redis.cache.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

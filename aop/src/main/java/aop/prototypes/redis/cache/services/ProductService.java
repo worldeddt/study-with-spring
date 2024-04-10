@@ -1,9 +1,9 @@
-package aop.prototypes.redis.services;
+package aop.prototypes.redis.cache.services;
 
 
-import aop.prototypes.redis.domain.Product;
-import aop.prototypes.redis.entities.Member;
-import aop.prototypes.redis.repository.MemberEntityRepository;
+import aop.prototypes.redis.cache.domain.Product;
+import aop.prototypes.redis.cache.entities.Member;
+import aop.prototypes.redis.cache.repository.MemberEntityRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

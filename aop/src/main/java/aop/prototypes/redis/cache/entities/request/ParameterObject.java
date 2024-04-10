@@ -1,4 +1,4 @@
-package aop.prototypes.redis.entities.request;
+package aop.prototypes.redis.cache.entities.request;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package aop.prototypes.redis.entities.dto;
+package aop.prototypes.redis.cache.entities.dto;
 
 
 import lombok.Data;

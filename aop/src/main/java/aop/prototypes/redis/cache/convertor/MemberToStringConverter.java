@@ -1,7 +1,7 @@
-package aop.prototypes.redis.convertor;
+package aop.prototypes.redis.cache.convertor;
 
 
-import aop.prototypes.redis.entities.Member;
+import aop.prototypes.redis.cache.entities.Member;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

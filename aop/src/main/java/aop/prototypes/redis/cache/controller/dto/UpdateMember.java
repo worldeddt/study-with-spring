@@ -1,4 +1,4 @@
-package aop.prototypes.redis.controller.dto;
+package aop.prototypes.redis.cache.controller.dto;
 
 
 import lombok.Data;

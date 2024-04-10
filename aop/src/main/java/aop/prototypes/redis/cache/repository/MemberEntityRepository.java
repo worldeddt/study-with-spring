@@ -1,7 +1,7 @@
-package aop.prototypes.redis.repository;
+package aop.prototypes.redis.cache.repository;
 
 
-import aop.prototypes.redis.entities.Member;
+import aop.prototypes.redis.cache.entities.Member;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

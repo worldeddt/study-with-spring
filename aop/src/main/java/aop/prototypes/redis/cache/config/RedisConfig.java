@@ -1,9 +1,9 @@
-package aop.prototypes.redis.config;
+package aop.prototypes.redis.cache.config;
 
 
-import aop.prototypes.redis.convertor.JsonSerializer;
-import aop.prototypes.redis.entities.Member;
-import aop.prototypes.redis.entities.dto.MemberDto;
+import aop.prototypes.redis.cache.convertor.JsonSerializer;
+import aop.prototypes.redis.cache.entities.Member;
+import aop.prototypes.redis.cache.entities.dto.MemberDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

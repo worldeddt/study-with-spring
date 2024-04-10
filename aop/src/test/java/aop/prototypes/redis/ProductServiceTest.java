@@ -1,7 +1,7 @@
 package aop.prototypes.redis;
 
-import aop.prototypes.redis.domain.Product;
-import aop.prototypes.redis.services.ProductService;
+import aop.prototypes.redis.cache.domain.Product;
+import aop.prototypes.redis.cache.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

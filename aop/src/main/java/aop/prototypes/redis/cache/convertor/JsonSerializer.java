@@ -1,4 +1,4 @@
-package aop.prototypes.redis.convertor;
+package aop.prototypes.redis.cache.convertor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.serializer.RedisSerializer;

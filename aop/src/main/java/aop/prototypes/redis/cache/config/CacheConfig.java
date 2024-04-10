@@ -1,4 +1,4 @@
-package aop.prototypes.redis.config;
+package aop.prototypes.redis.cache.config;
 
 
 import org.springframework.cache.annotation.EnableCaching;

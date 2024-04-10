@@ -1,4 +1,4 @@
-package aop.prototypes.redis.entities;
+package aop.prototypes.redis.cache.entities;
 
 
 import jakarta.persistence.*;
