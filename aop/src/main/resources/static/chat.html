@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+</head>
+<body>
+<div id="message-container"></div>
+<input type="text" id="message-input">
+<button onclick="sendMessage()">Send</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script>
+  const messageContainer = document.getElementById('message-container');
+  const messageInput = document.getElementById('message-input');
+
+  function renderMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.innerText = `${message.sender}: ${message.content}`;
+    messageContainer.appendChild(messageElement);
+  }
+
+  function sendMessage() {
+    const message = messageInput.value;
+    const sender = 'User'; // You can set the sender dynamically
+    const timestamp = new Date().toISOString();
+
+    const messageData = {
+      sender: sender,
+      content: message,
+      timestamp: timestamp
+    };
+
+    axios.post('/api/messages', messageData)
+      .then(response => {
+        console.log(response.data);
+        renderMessage(response.data);
+        messageInput.value = '';
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
+  }
+
+  function loadMessages() {
+    axios.get('/api/messages')
+      .then(response => {
+        const messages = response.data;
+        messages.forEach(message => {
+          renderMessage(message);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading messages:', error);
+      });
+  }
+
+  // Load messages when the page loads
+  loadMessages();
+
+</script>
+</body>
+</html>

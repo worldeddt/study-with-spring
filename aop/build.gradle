@@ -38,6 +38,7 @@ dependencies {
     // spring dependencies
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.3'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat:3.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -48,9 +49,6 @@ dependencies {
 
     // maria db
     implementation 'org.mariadb.jdbc:mariadb-java-client'
-
-    //live kit
-    implementation group: 'com.livekit', name: 'livekit-server', version: '0.10.2'
 }
 
 tasks.named('test') {
