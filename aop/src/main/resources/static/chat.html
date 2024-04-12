@@ -6,58 +6,43 @@
     <title>Chat App</title>
 </head>
 <body>
-<div id="message-container"></div>
-<input type="text" id="message-input">
+<div id="chat"></div>
+<label>userId: <input id="userId"/></label> <br/>
+<label>message: <input type="text" id="message"></label>
 <button onclick="sendMessage()">Send</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
-  const messageContainer = document.getElementById('message-container');
-  const messageInput = document.getElementById('message-input');
 
-  function renderMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.innerText = `${message.sender}: ${message.content}`;
-    messageContainer.appendChild(messageElement);
+  const getServerInfo = () => {
+    return `${window.location.hostname}:${window.location.port}`
   }
+
+  let server = getServerInfo();
+  const socket = new WebSocket(`wss://${server}/chat`);
+  let stompClient = Stomp.over(socket);
+
+  stompClient.connect({}, function(frame) {
+    console.log('Connected: ' + frame);
+    stompClient.subscribe('/topic/public', function(response) {
+      showMessage(JSON.parse(response.body));
+    });
+  });
 
   function sendMessage() {
-    const message = messageInput.value;
-    const sender = 'User'; // You can set the sender dynamically
-    const timestamp = new Date().toISOString();
-
-    const messageData = {
-      sender: sender,
-      content: message,
-      timestamp: timestamp
-    };
-
-    axios.post('/api/messages', messageData)
-      .then(response => {
-        console.log(response.data);
-        renderMessage(response.data);
-        messageInput.value = '';
-      })
-      .catch(error => {
-        console.error('Error sending message:', error);
-      });
+    var message = document.getElementById('message').value;
+    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({ message: message }));
   }
 
-  function loadMessages() {
-    axios.get('/api/messages')
-      .then(response => {
-        const messages = response.data;
-        messages.forEach(message => {
-          renderMessage(message);
-        });
-      })
-      .catch(error => {
-        console.error('Error loading messages:', error);
-      });
+  function showMessage(message) {
+    var chat = document.getElementById('chat');
+    var p = document.createElement('p');
+    p.textContent = message.sender + ": " + message.message;
+    chat.appendChild(p);
   }
-
-  // Load messages when the page loads
-  loadMessages();
 
 </script>
 </body>
