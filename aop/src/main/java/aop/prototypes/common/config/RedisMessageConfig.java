@@ -1,4 +1,4 @@
-package aop.prototypes.redis.message.config;
+package aop.prototypes.common.config;
 
 
 import aop.prototypes.redis.message.controller.dto.ChatMessage;
@@ -16,7 +16,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 @Configuration
 @RequiredArgsConstructor
 @EnableRedisRepositories
-public class RedisConfig {
+public class RedisMessageConfig {
 
     private final RedisProperties redisProperties;
     @Bean

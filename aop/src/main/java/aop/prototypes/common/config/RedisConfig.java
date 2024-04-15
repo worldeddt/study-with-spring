@@ -1,4 +1,4 @@
-package aop.prototypes.redis.cache.config;
+package aop.prototypes.common.config;
 
 
 import aop.prototypes.redis.cache.convertor.JsonSerializer;
@@ -34,5 +34,12 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new JsonSerializer<>(Member.class));
 
         return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, String> redisForMessage(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+
+
     }
 }

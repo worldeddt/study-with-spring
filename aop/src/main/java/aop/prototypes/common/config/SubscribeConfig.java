@@ -1,4 +1,4 @@
-package aop.prototypes.redis.message.config;
+package aop.prototypes.common.config;
 
 
 import aop.prototypes.redis.message.common.RedisConsumer;
