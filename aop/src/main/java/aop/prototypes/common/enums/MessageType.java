@@ -1,4 +1,4 @@
-package aop.prototypes.redis.message.common.enums;
+package aop.prototypes.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

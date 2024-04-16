@@ -1,6 +1,6 @@
 package aop.prototypes.common.config.chatMessage;
 
-import aop.prototypes.redis.message.controller.dto.ChatMessage;
+import aop.prototypes.common.controller.dto.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
@@ -18,6 +18,8 @@ public class RedisConsumer implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         byte[] body = message.getBody();
         byte[] channel = message.getChannel();
+
+        log.info("body chat message : {}", body);
 
         redisTemplateChatMessage.convertAndSend("chat", body);
     }

@@ -4,7 +4,7 @@ package aop.prototypes.common.config.chatMessage;
 import aop.prototypes.redis.cache.convertor.JsonSerializer;
 import aop.prototypes.redis.cache.entities.Member;
 import aop.prototypes.redis.cache.entities.dto.MemberDto;
-import aop.prototypes.redis.message.controller.dto.ChatMessage;
+import aop.prototypes.common.controller.dto.ChatMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

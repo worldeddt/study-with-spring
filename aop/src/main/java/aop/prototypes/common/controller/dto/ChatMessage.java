@@ -1,8 +1,7 @@
-package aop.prototypes.redis.message.controller.dto;
+package aop.prototypes.common.controller.dto;
 
 
-import aop.prototypes.redis.message.common.enums.MessageType;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import aop.prototypes.common.enums.MessageType;
 import lombok.Getter;
 import lombok.Setter;
 

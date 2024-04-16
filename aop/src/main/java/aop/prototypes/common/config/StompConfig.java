@@ -21,7 +21,6 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        log.info("register stomp endpoints init");
         registry.addEndpoint("/chat")
                 .setAllowedOriginPatterns("*")
                 .setAllowedOrigins("*");
@@ -29,7 +28,9 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic") // 구독
+        // "/topic" 및 "/queue"를 프리픽스로 사용하여 메시지를 브로드캐스팅하고,
+        // "/app"을 프리픽스로 사용하여 메시지 핸들러로 라우팅합니다.
+        registry.enableSimpleBroker("/topic", "/queue")
                  .setTaskScheduler(heartBeatScheduler)
                 .setHeartbeatValue(new long[]{5 * 1000, 5 * 1000})
         ; // 구독시 사용
