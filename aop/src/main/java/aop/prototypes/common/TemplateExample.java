@@ -1,7 +1,6 @@
-package aop.prototypes.redis.templateExample;
+package aop.prototypes.common;
 
 
-import aop.prototypes.redis.message.RedisMessageExample;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

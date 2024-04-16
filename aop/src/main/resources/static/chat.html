@@ -24,53 +24,53 @@
 
   let server = getServerInfo();
   const socket = new WebSocket(`wss://${server}/chat`);
-  let stompClient = Stomp.over(socket);
+  let stomp = Stomp.over(socket);
 
-  stompClient.connect({}, function(frame) {
+  stomp.connect({}, function(frame) {
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/public', function(response) {
+    stomp.subscribe('/topic/public', function(response) {
       showMessage(JSON.parse(response.body));
     });
   });
-
-  function sendMessage() {
-    let message = document.getElementById('message').value;
-    let sender = document.getElementById('userId').value;
-
-    const messageData = {
-      sender: sender,
-      content: message,
-      type: "CHAT"
-    };
-
-    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(messageData));
-
-    // axios.post('/api/messages', messageData)
-    //   .then(response => {
-    //     console.log(response);
-    //     // renderMessage(response.data);
-    //     // messageInput.value = '';
-    //   })
-    //   .catch(error => {
-    //     console.error('Error sending message:', error);
-    //   });
-  }
-
-  function showMessage(message) {
-
-    stompClient.send("/app/chat.showMessage", {}, {});
-
-    // axios.get("/api/messages")
-    //   .then(response => {
-    //     console.log(response);
-    //   }).catch(error => {
-    //     console.error("error sending messages :", error);
-    // })
-    // var chat = document.getElementById('chat');
-    // var p = document.createElement('p');
-    // p.textContent = message.sender + ": " + message.message;
-    // chat.appendChild(p);
-  }
+  //
+  // function sendMessage() {
+  //   let message = document.getElementById('message').value;
+  //   let sender = document.getElementById('userId').value;
+  //
+  //   const messageData = {
+  //     sender: sender,
+  //     content: message,
+  //     type: "CHAT"
+  //   };
+  //
+  //   stomp.send("/app/chat.sendMessage", {}, JSON.stringify(messageData));
+  //
+  //   // axios.post('/api/messages', messageData)
+  //   //   .then(response => {
+  //   //     console.log(response);
+  //   //     // renderMessage(response.data);
+  //   //     // messageInput.value = '';
+  //   //   })
+  //   //   .catch(error => {
+  //   //     console.error('Error sending message:', error);
+  //   //   });
+  // }
+  //
+  // function showMessage(message) {
+  //
+  //   stomp.send("/app/chat.showMessage", {}, {});
+  //
+  //   // axios.get("/api/messages")
+  //   //   .then(response => {
+  //   //     console.log(response);
+  //   //   }).catch(error => {
+  //   //     console.error("error sending messages :", error);
+  //   // })
+  //   // var chat = document.getElementById('chat');
+  //   // var p = document.createElement('p');
+  //   // p.textContent = message.sender + ": " + message.message;
+  //   // chat.appendChild(p);
+  // }
 
 </script>
 </body>

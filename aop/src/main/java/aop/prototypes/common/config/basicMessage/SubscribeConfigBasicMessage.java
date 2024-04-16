@@ -1,7 +1,6 @@
-package aop.prototypes.common.config;
+package aop.prototypes.common.config.basicMessage;
 
-
-import aop.prototypes.redis.message.common.RedisConsumer;
+import aop.prototypes.common.config.chatMessage.RedisConsumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +11,14 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @Configuration
 @RequiredArgsConstructor
-public class SubscribeConfig {
+public class SubscribeConfigBasicMessage {
 
-    private final RedisConsumer redisConsumer;
+    private final RedisBasicMessageConsumer redisBasicMessageConsumer;
+    private final String room = "room1";
 
     @Bean
     public MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(redisConsumer);
+        return new MessageListenerAdapter(redisBasicMessageConsumer);
     }
 
     @Bean
@@ -28,7 +28,7 @@ public class SubscribeConfig {
     ) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(redisConnectionFactory);
-        container.addMessageListener(messageListenerAdapter, new ChannelTopic("chat"));
+        container.addMessageListener(messageListenerAdapter, new ChannelTopic(room));
         return container;
     }
 }

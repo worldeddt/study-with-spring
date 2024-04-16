@@ -1,4 +1,4 @@
-package aop.prototypes.rtcOutBound.as.config;
+package aop.prototypes.common.config;
 
 
 import aop.prototypes.rtcOutBound.as.handler.MyWebSocketHandler;

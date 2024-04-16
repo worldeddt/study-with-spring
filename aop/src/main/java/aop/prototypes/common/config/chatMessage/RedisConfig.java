@@ -1,9 +1,10 @@
-package aop.prototypes.common.config;
+package aop.prototypes.common.config.chatMessage;
 
 
 import aop.prototypes.redis.cache.convertor.JsonSerializer;
 import aop.prototypes.redis.cache.entities.Member;
 import aop.prototypes.redis.cache.entities.dto.MemberDto;
+import aop.prototypes.redis.message.controller.dto.ChatMessage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -37,9 +38,15 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, String> redisForMessage(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, ChatMessage> redisTemplateChatMessage(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, ChatMessage> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
 
+        // Key Serializer 설정
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        // Value Serializer 설정
+        redisTemplate.setValueSerializer(new JsonSerializer<>(Member.class));
 
+        return redisTemplate;
     }
 }

@@ -19,14 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageController {
 
-    private final RedisTemplate<String, ChatMessage> redisTemplate;
+    private final RedisTemplate<String, ChatMessage> redisTemplateChatMessage;
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         String key = "chat";
-        redisTemplate.convertAndSend(key, chatMessage);
-        log.info("redisTemplate.opsForValue().get(key) : {}"+redisTemplate.opsForValue().get(key).getContent());
+        redisTemplateChatMessage.convertAndSend(key, chatMessage);
+        log.info("redisTemplate.opsForValue().get(key) : {}"+redisTemplateChatMessage.opsForValue().get(key).getContent());
         return chatMessage;
     }
 

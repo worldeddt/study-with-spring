@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatMessageService {
 
-    private final RedisTemplate<String, ChatMessage> redisTemplate;
+    private final RedisTemplate<String, ChatMessage> redisTemplateChatMessage;
 
 //    @PostMapping("/api/messages")
 //    public void saveMessage(@RequestBody ChatMessage message) throws JsonProcessingException {
@@ -30,7 +30,7 @@ public class ChatMessageService {
     @GetMapping("/api/messages")
     public ResponseEntity<List<ChatMessage>> getMessages() {
         String key = "chat";
-        Long size = redisTemplate.opsForList().size(key);
-        return ResponseEntity.ok(redisTemplate.opsForList().range(key, 0, size));
+        Long size = redisTemplateChatMessage.opsForList().size(key);
+        return ResponseEntity.ok(redisTemplateChatMessage.opsForList().range(key, 0, size));
     }
 }
