@@ -23,6 +23,8 @@ public class RedisBasicMessageConsumer implements MessageListener {
         byte[] body = message.getBody();
         byte[] channel = message.getChannel();
 
+        log.info("body of basic message");
+
         redisForMessage.convertAndSend(room, body);
     }
 }

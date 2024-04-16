@@ -2,6 +2,8 @@ package aop.prototypes.common.controller;
 
 
 import aop.prototypes.common.controller.dto.ChatMessage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,10 +23,15 @@ public class MessageController {
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        log.info("dadfadfadfadfadf");
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws JsonProcessingException {
+        log.info("dadfadfadfadfadf : {}", new ObjectMapper().writeValueAsString(chatMessage));
         redisTemplateChatMessage.convertAndSend(channel, chatMessage);
         return chatMessage;
+    }
+
+    @MessageMapping("/chat.convertAndSend")
+    public void senMessage(@Payload ChatMessage chatMessage) {
+
     }
 
     @MessageMapping("/chat.addUser")
