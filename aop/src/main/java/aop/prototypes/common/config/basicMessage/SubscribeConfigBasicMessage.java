@@ -13,22 +13,28 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 @RequiredArgsConstructor
 public class SubscribeConfigBasicMessage {
 
-    private final RedisBasicMessageConsumer redisBasicMessageConsumer;
+    private final RedisBasicMessageListener RedisBasicMessageListener;
     private final String room = "room1";
 
     @Bean
     public MessageListenerAdapter messageListenerAdapter() {
-        return new MessageListenerAdapter(redisBasicMessageConsumer);
+        return new MessageListenerAdapter(RedisBasicMessageListener, "onMessage");
+    }
+
+    @Bean
+    public ChannelTopic channelTopic()  {
+        return new ChannelTopic("chatRoom");
     }
 
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(
             RedisConnectionFactory redisConnectionFactory,
-            MessageListenerAdapter messageListenerAdapter
+            MessageListenerAdapter messageListenerAdapter,
+            ChannelTopic channelTopic
     ) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(redisConnectionFactory);
-        container.addMessageListener(messageListenerAdapter, new ChannelTopic(room));
+        container.addMessageListener(messageListenerAdapter, channelTopic);
         return container;
     }
 }

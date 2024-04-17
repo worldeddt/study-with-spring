@@ -20,7 +20,7 @@
 
   const chatArea = document.getElementById('chatArea');
 
-  const getServerInfo = () => {
+  let getServerInfo = () => {
     return `${window.location.hostname}:${window.location.port}`
   }
 
@@ -30,7 +30,8 @@
 
   stomp.connect({}, function(frame) {
     console.log('Connected: ' + frame);
-    stomp.subscribe('/topic/public', function(response) {
+    stomp.subscribe(`/topic/public/${window.location.search.substring(1).split("roomId=")[1]}`, function(response) {
+      console.log(response);
       displayMessage(JSON.parse(response.body));
     });
   });

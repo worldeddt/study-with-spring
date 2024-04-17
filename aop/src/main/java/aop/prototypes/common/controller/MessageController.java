@@ -22,7 +22,7 @@ public class MessageController {
     private final String channel = "room1";
 
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
+//    @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws JsonProcessingException {
         log.info("dadfadfadfadfadf : {}", new ObjectMapper().writeValueAsString(chatMessage));
         redisTemplateChatMessage.convertAndSend(channel, chatMessage);
@@ -35,7 +35,7 @@ public class MessageController {
     }
 
     @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
+//    @SendTo("/topic/public")
     public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
