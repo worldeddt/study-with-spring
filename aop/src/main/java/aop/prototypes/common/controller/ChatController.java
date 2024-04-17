@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,18 +19,23 @@ public class ChatController {
     private final String allRoomKey = "rooms";
     private final RedisTemplate<String, List<Room>> redisTemplateRoom;
 
-    @GetMapping("/room/list")
+    @GetMapping(value = "/room/list")
     public ResponseEntity<?> findList() {
         return ResponseEntity.ok(redisTemplateRoom.opsForValue().get(allRoomKey));
     }
 
-    @PostMapping("/room")
+    @PostMapping(value = "/room")
     public ResponseEntity<?> save(@RequestBody Room room) {
         List<Room> rooms = redisTemplateRoom.opsForValue().get(allRoomKey);
-        assert rooms != null;
-        rooms.add(room);
 
-        redisTemplateRoom.opsForValue().set(allRoomKey, rooms);
+        if (rooms == null) {
+            List<Room> room1 = new ArrayList<>();
+            room1.add(room);
+            redisTemplateRoom.opsForValue().set(allRoomKey, room1);
+        } else {
+            rooms.add(room);
+            redisTemplateRoom.opsForValue().set(allRoomKey, rooms);
+        }
 
         return ResponseEntity.ok().build();
     }
