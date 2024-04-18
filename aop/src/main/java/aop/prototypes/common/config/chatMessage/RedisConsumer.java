@@ -18,6 +18,7 @@ public class RedisConsumer implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         byte[] body = message.getBody();
         byte[] channel = message.getChannel();
+        log.info("body : {}", body);
 
         redisTemplateChatMessage.convertAndSend("chat", body);
     }
