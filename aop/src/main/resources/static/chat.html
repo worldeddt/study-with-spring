@@ -19,6 +19,7 @@
 <script>
 
   const chatArea = document.getElementById('chatArea');
+  let roomId;
 
   let getServerInfo = () => {
     return `${window.location.hostname}:${window.location.port}`
@@ -27,10 +28,11 @@
   let server = getServerInfo();
   const socket = new WebSocket(`wss://${server}/chat`);
   let stomp = Stomp.over(socket);
+  roomId = window.location.search.substring(1).split("roomId=")[1]
 
   stomp.connect({}, function(frame) {
     console.log('Connected: ' + frame);
-    stomp.subscribe(`/topic/public/${window.location.search.substring(1).split("roomId=")[1]}`, function(response) {
+    stomp.subscribe(`/topic/public/${roomId}`, function(response) {
       console.log(response);
       displayMessage(JSON.parse(response.body));
     });
@@ -44,7 +46,8 @@
     const messageData = {
       sender: sender,
       content: message,
-      type: "CHAT"
+      type: "CHAT",
+      roomId
     };
 
     stomp.send("/pub/chat.sendMessage", {}, JSON.stringify(messageData));

@@ -14,9 +14,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -40,19 +37,18 @@ public class RedisBasicMessageListener implements MessageListener {
             throw new RuntimeException(e);
         }
 
+        String publishMessage = redisForMessage.getStringSerializer().deserialize(message.getBody());
+
+        ChatMessage roomMessage = null;
         try {
-            String publishMessage = redisForMessage.getStringSerializer().deserialize(message.getBody());
-
-            ChatMessage roomMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
-
-            if (roomMessage.getType().equals(MessageType.CHAT)) {
-                messagingTemplate.convertAndSend("/sub/chat/room/" + roomMessage., chatMessageResponse);
-            }
-
-        } catch (Exception e) {
-            throw new ChatMessageNotFoundException();
+            roomMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
+        if (roomMessage.getType().equals(MessageType.CHAT)) {
+            messagingTemplate.convertAndSend("/sub/chat/room/" + roomMessage.getRoomId(), roomMessage.getContent());
+        }
 
 //        redisForMessage.convertAndSend(room, body);
     }

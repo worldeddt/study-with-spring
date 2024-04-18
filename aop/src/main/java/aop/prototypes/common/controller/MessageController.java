@@ -11,6 +11,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 @Slf4j
@@ -19,13 +20,14 @@ import org.springframework.stereotype.Controller;
 public class MessageController {
 
     private final RedisTemplate<String, ChatMessage> redisTemplateChatMessage;
+    private final SimpMessageSendingOperations messagingTemplate;
     private final String channel = "room1";
 
     @MessageMapping("/chat.sendMessage")
 //    @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) throws JsonProcessingException {
         log.info("dadfadfadfadfadf : {}", new ObjectMapper().writeValueAsString(chatMessage));
-        redisTemplateChatMessage.convertAndSend(channel, chatMessage);
+        messagingTemplate.convertAndSend("/topic/public/"+chatMessage.getRoomId(), chatMessage);
         return chatMessage;
     }
 
