@@ -13,7 +13,17 @@ spring:
       enabled: true
   data:
     redis:
+      host: localhost
       port: 6379
+      cluster:
+        nodes: # ip:port 형식
+#          - 10.1.0.4:6300
+#          - 10.1.0.4:6400
+#          - 10.1.0.5:6301
+#          - 10.1.0.5:6401
+#          - 10.1.0.6:6302
+#          - 10.1.0.6:6402
+        max-redirects: 5 # 클러스터 노드 간의 리다이렉션 숫자를 제한
   integration:
     management:
       default-logging-enabled: true
