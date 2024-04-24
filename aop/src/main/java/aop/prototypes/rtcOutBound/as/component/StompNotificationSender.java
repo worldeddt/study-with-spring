@@ -11,7 +11,6 @@ import java.security.Principal;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
 public class StompNotificationSender {
 
     private static final String TOPIC_CALL_NOTIFICATION = "/queue/call/callNotification";

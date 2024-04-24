@@ -38,10 +38,10 @@ spring:
   main:
     allow-circular-references: false
 
-#fermi:
-#  kms:
-#    urls:
-#      - ws://localhost:8881/kurento
+fermi:
+  kms:
+    urls:
+      - ws://localhost:8888/kurento
 #      - ws://localhost:8882/kurento
 #      - ws://localhost:8883/kurento
 
