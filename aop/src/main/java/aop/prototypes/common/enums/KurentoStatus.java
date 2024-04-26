@@ -1,10 +1,9 @@
-package aop.prototypes.kurentoMultiInstance.enums;
+package aop.prototypes.common.enums;
 
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
 
 @Getter
 @RequiredArgsConstructor

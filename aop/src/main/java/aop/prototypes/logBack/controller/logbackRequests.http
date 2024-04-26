@@ -25,3 +25,8 @@ Content-Type: application/json
 {
   "roomId": "test1"
 }
+
+
+###
+
+GET https://localhost:8082/room/kurento/CD

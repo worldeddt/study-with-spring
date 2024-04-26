@@ -1,14 +1,13 @@
 package aop.prototypes.common.controller;
 
 
+import aop.prototypes.common.config.KurentoConfig;
+import aop.prototypes.common.config.KurentoProperties;
 import aop.prototypes.common.controller.dto.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,15 @@ import java.util.List;
 public class ChatController {
     private final String allRoomKey = "rooms";
     private final RedisTemplate<String, List<Room>> redisTemplateRoom;
+    private final KurentoConfig kurentoConfig;
+    private final KurentoProperties kurentoProperties;
+
+    @GetMapping("/room/kurento/{status}")
+    public void kurentoSync(@PathVariable(value = "status") String kurentoStatus) {
+
+        List<String> urls = kurentoProperties.urls();
+        kurentoConfig.changeKurentoStatus(urls.get(1), kurentoStatus);
+    }
 
     @GetMapping(value = "/room/list")
     public ResponseEntity<?> findList() {
