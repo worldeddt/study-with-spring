@@ -1,6 +1,7 @@
 package chat.demo.interceptor;
 
 
+import chat.demo.application.SessionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class InboundChannelInterceptor implements ChannelInterceptor {
+
+    private final SessionService sessionService;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -38,6 +41,7 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
         try {
             if (command == StompCommand.CONNECT) {
                 final var bearerToken = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+                sessionService.addSession(user);
             }
 
         } catch (MessagingException e) {
