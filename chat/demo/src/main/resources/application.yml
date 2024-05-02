@@ -1,0 +1,13 @@
+server:
+  port: 8091
+  ssl:
+    key-store-password: kurento
+    key-store-type: JKS
+    key-store: classpath:keystore.jks
+    key-alias: kurento-selfsigned
+
+spring:
+  data:
+    redis:
+      port: 6379
+      host: localhost

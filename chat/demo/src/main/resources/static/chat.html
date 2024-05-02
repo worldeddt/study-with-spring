@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+</head>
+<body>
+
+<button onclick="start()">start</button>
+<button onclick="requestCall()">requestCall</button>
+</body>
+<script>
+  let stompClient;
+  const getServerInfo = () => {
+    return `${window.location.hostname}:${window.location.port}`
+  }
+
+  const handleCallNotification = (payload) => {
+
+    console.log(payload);
+    const json = JSON.parse(payload.body);
+    switch (json.type) {
+      case "OUTBOUND_CLIENT_CALL" :
+        console.log(json);
+    }
+  }
+
+  const onConnect = async () => {
+    stompClient.subscribe("/user/queue/chat/callNotification",
+      handleCallNotification
+    )
+
+    stompClient.subscribe("/user/queue/error",
+      err => console.error(err)
+    )
+  }
+
+  function start() {
+    const server = getServerInfo();
+    let webSocket = new WebSocket(`wss://${server}/chat`);
+    stompClient = Stomp.over(webSocket);
+
+
+    const onError = async (error) => {
+      console.log("connect error", error);
+    };
+
+    stompClient.connect({}, onConnect, onError);
+  }
+
+  function requestCall() {
+    const endPoint = "/pub/chat/requestCall"
+    const headers = {};
+    stompClient.send(endPoint, headers);
+  }
+
+</script>
+</html>
