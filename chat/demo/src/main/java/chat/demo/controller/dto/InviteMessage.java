@@ -9,5 +9,5 @@ import lombok.Getter;
 @Builder
 public class InviteMessage {
     private String sender;
-    private NotificationType notificationType;
+    private NotificationType type;
 }

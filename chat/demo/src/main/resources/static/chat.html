@@ -6,11 +6,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 </head>
 <body>
 
+<label> 아이디 : </label>
+<input type="text" id="userId"> </br>
+<select name="owner_select">
+    <option value="1">방장</option>
+    <option value="2">참가자</option>
+</select>
 <button onclick="start()">start</button>
 <button onclick="requestCall()">requestCall</button>
+<button onclick="sessionAll()">allSessions</button>
 </body>
 <script>
   let stompClient;
@@ -20,10 +28,11 @@
 
   const handleCallNotification = (payload) => {
 
-    console.log(payload);
     const json = JSON.parse(payload.body);
     switch (json.type) {
       case "OUTBOUND_CLIENT_CALL" :
+        console.log(json);
+      case "MESSAGE" :
         console.log(json);
     }
   }
@@ -39,22 +48,51 @@
   }
 
   function start() {
+
+    let userId = document.querySelector("#userId").value;
+
+    if (!userId) {
+      Swal.fire({
+        title : "오류",
+        text : "대화명좀",
+        showConfirmButton: true,
+        confirmButtonText: "확인"
+      });
+      return;
+    }
+
     const server = getServerInfo();
     let webSocket = new WebSocket(`wss://${server}/chat`);
     stompClient = Stomp.over(webSocket);
 
-
     const onError = async (error) => {
-      console.log("connect error", error);
+      console.log("connect error : ", error);
     };
 
-    stompClient.connect({}, onConnect, onError);
+    const headers = { Authorization : `${userId}` };
+
+    stompClient.connect(headers, onConnect, onError);
   }
 
   function requestCall() {
     const endPoint = "/pub/chat/requestCall"
     const headers = {};
     stompClient.send(endPoint, headers);
+  }
+
+  function sessionAll() {
+    stompClient.send("/pub/chat/session/all");
+  }
+
+  function generateRandomString() {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var length = 8;
+    var randomString = '';
+    for (var i = 0; i < length; i++) {
+      var randomIndex = Math.floor(Math.random() * chars.length);
+      randomString += chars.charAt(randomIndex);
+    }
+    return randomString;
   }
 
 </script>

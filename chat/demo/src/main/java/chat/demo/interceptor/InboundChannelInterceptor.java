@@ -25,14 +25,6 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         final var accessor = StompHeaderAccessor.wrap(message);
-
-        try {
-            log.info("InboundChannelInterceptor preSend() message: {}",
-                    new ObjectMapper().writeValueAsString(accessor));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
         final var user = accessor.getUser();
         final var command = accessor.getCommand();
 
@@ -40,8 +32,8 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 
         try {
             if (command == StompCommand.CONNECT) {
-                final var bearerToken = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
-                sessionService.addSession(user);
+                String authUserId = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+                sessionService.addSession(user, authUserId);
             }
 
         } catch (MessagingException e) {

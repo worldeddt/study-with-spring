@@ -1,7 +1,9 @@
 package chat.demo.sender;
 
 
+import chat.demo.controller.dto.ChatMessage;
 import chat.demo.controller.dto.InviteMessage;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -19,5 +21,10 @@ public class StompNotificationSender {
     public void sendCallNotification(String principalName,  InviteMessage inviteMessage) {
         log.info("sendCallNotification() - principalName: {}, object: {}", principalName, inviteMessage);
         messageTemplate.convertAndSendToUser(principalName, TOPIC_CALL_NOTIFICATION, inviteMessage);
+    }
+
+    public void sendCallNotification(String principalName,  ChatMessage chatMessage) {
+        log.info("sendCallNotification() - principalName: {}, object: {}", principalName, chatMessage);
+        messageTemplate.convertAndSendToUser(principalName, TOPIC_CALL_NOTIFICATION, chatMessage);
     }
 }

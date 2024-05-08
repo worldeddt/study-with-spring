@@ -2,6 +2,7 @@ package chat.demo.sender;
 
 import chat.demo.controller.dto.RedisPubDto;
 import chat.demo.enums.RedisPubType;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,4 +27,10 @@ public class RedisPublisher {
                             .build()
                 );
     }
+
+    public void publishByUserId(String userId, JsonObject object) {
+        log.info("userId: {}, obj: {}", userId, object);
+        redisTemplate.convertAndSend(channelTopic.getTopic(),object);
+    }
+
 }
