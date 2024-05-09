@@ -1,4 +1,4 @@
-package media.ftf.eums;
+package media.ftf.enums;
 
 
 

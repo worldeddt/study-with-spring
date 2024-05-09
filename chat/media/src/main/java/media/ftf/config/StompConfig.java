@@ -2,6 +2,8 @@ package media.ftf.config;
 
 
 import lombok.RequiredArgsConstructor;
+import media.ftf.interceptors.InboundChannelInterceptor;
+import media.ftf.interceptors.OutboundChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -19,7 +21,6 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 public class StompConfig extends StompSessionHandlerAdapter implements WebSocketMessageBrokerConfigurer {
 
     private final TaskScheduler heartBeatScheduler;
-    private final MyHandsShakeHandler myHandsShakeHandler;
     private final InboundChannelInterceptor inboundChannelInterceptor;
     private final OutboundChannelInterceptor outboundChannelInterceptor;
 

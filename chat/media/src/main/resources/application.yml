@@ -1,1 +1,36 @@
-spring.application.name=media
+server:
+  port: 8092
+
+spring:
+  application:
+    name: media
+
+media:
+  server-name: media_0001
+  webrtc:
+    kurento-url-list:
+      - ws://localhost:8888/kurento
+    turnUrl: turn:localhost:3478?transport=tcp
+  record:
+    type:
+      each:
+        use: true
+        mode: mp4_both # mp4_audio mp4_video mp4_both webm_audio webm_video webm_both
+      serverComposite:
+        use: true
+        mode: mp4_both # mp4_audio mp4_video mp4_both webm_audio webm_video webm_both
+      clientComposite:
+        use: false
+        mode: mp4_both # mp4_audio mp4_video mp4_both webm_audio webm_video webm_both
+    default:
+      hostPath: /storage/kurento
+      path: /storage/kurento
+      fileKeep: true
+      ttl:
+        time-unit: seconds
+        check-ttl: 30
+      custom:
+        option:
+          - name
+          - value
+

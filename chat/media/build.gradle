@@ -36,6 +36,12 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     // kurento dependencies
     implementation 'org.kurento:kurento-client:7.0.0'
+
+    // mapstruct dependencies
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 }
 
 tasks.named('test') {
