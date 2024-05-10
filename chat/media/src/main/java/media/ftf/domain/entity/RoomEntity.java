@@ -30,4 +30,10 @@ public class RoomEntity {
 
     @Column(name = "closeDate")
     private LocalDateTime closeDate;
+
+    @PrePersist
+    public void init() {
+        createDate = LocalDateTime.now();
+    }
 }
+
