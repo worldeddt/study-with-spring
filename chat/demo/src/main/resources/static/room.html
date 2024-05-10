@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+<div>
+    <div id="area_video"></div>
+</div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script>
+    let elementById = document.getElementById("area_video");
+
+    const peerConnectionConfig = {
+      iceServers: [
+        {
+          urls: "turn:localhost:3478?transport=tcp"
+        },
+      ],
+    };
+
+    const mediaConstraints = {
+      audio: true,
+      video: { width: { min: 640 }, height: { min: 480 } },
+    };
+
+    let outPc;
+    const inPcMaps = new Map();
+
+    function sendOutOffer({ sendOffer, sendCandidate }) {
+      const outOfferConfig = {
+        offerToReceiveAudio: false,
+        offerToReceiveVideo: false
+      };
+      navigator.mediaDevices
+        .getUserMedia(mediaConstraints)
+        .then((mediaStream) => {
+          const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+
+          mediaStream
+            .getTracks()
+            .forEach((track) => peerConnection.addTrack(track, mediaStream));
+
+        })
+    }
+
+</script>
 </html>

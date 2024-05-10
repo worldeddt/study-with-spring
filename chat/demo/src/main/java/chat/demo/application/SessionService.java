@@ -20,13 +20,13 @@ public class SessionService {
 
         log.debug("user session : {}/ user id : {}", user.getName(), userId);
 
-        final var sessionInfo =
+        final var sessionCache =
                 SessionCache.builder()
                         .userId(userId)
                 .principalName(user.getName())
                         .build();
 
-        sessionCacheRepository.save(sessionInfo);
+        sessionCacheRepository.save(sessionCache);
     }
 
     public synchronized void removeSession(Principal user) {

@@ -1,7 +1,9 @@
 package chat.demo.config;
 
 
+import chat.demo.DemoApplication;
 import chat.demo.utils.CommonUtils;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -15,6 +17,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 @Configuration
+@ConfigurationPropertiesScan(basePackageClasses = DemoApplication.class)
 public class AppConfig {
 
     @Bean
