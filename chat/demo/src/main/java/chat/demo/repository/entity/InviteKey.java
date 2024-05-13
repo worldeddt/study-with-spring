@@ -1,47 +1,46 @@
 package chat.demo.repository.entity;
 
-
 import chat.demo.enums.CallType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static jakarta.persistence.FetchType.LAZY;
+
 
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "tb_invite_key")
+@Table(name = "tb_call_invite_key")
+@Entity
 public class InviteKey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "inviteKey", unique = true, nullable = false)
+    private String key;
 
-    private String inviteKey;
+    @Column(name = "server", nullable = false)
+    private String server;
 
-    private String hostId;
+    @Column(name = "userId", nullable = false)
+    private String userId;
 
-    private String serverName;
+    @Column(name = "callType", nullable = false)
+    private CallType callType;
 
-    @ManyToOne(fetch = FetchType.LAZY )
+    @Column(name = "destnId")
+    private String destnId;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "callId", nullable = false, updatable = false)
     private Call call;
 
+    @Column(name = "expiredDate")
+    private LocalDateTime expiredDate;
+
+    @Column(name = "isUsed")
     private Boolean isUsed;
-    private String destnId;
 
-    @CreatedDate
-    @Column(name = "createDate", nullable = false, updatable = false)
-    private LocalDateTime createAt;
-
-    private LocalDateTime updateAt;
-
-    private CallType callType;
 }

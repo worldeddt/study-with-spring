@@ -1,6 +1,7 @@
 package chat.demo.repository.entity;
 
 
+
 import chat.demo.enums.CallClosedReason;
 import chat.demo.enums.CallType;
 import jakarta.persistence.*;
@@ -9,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Builder(toBuilder = true)
@@ -30,7 +30,7 @@ public class Call {
     @Column(name = "caller", nullable = false)
     private String caller;
 
-    @Column(name = "owner", nullable = false)
+    @Column(name = "owner")
     private String owner;
 
     @Column(name = "multiMediaServer")
@@ -38,6 +38,15 @@ public class Call {
 
     @Column(name = "mediaServer")
     private String mediaServer;
+
+    @Column(name = "groupId")
+    private String groupId;
+
+    @Column(name = "categoryId")
+    private String categoryId;
+
+    @Column(name = "callServer")
+    private String callServer;
 
     @Column(name = "closeReason")
     private CallClosedReason closeReason;
@@ -51,10 +60,4 @@ public class Call {
 
     @Column(name = "endDate")
     private LocalDateTime endDate; // 콜 종료 시간
-
-
-    @PrePersist
-    public void init() {
-        createDate = LocalDateTime.now();
-    }
 }

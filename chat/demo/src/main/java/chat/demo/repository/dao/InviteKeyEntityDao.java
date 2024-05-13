@@ -1,6 +1,6 @@
 package chat.demo.repository.dao;
 
-import chat.demo.controller.dto.response.InviteKeyPayload;
+import chat.demo.controller.dto.response.InviteKeyPayload.*;
 import chat.demo.repository.entity.InviteKey;
 
 import java.util.List;

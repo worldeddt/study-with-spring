@@ -51,7 +51,6 @@ public class ChatSocketHandler {
 
         SessionCache byPrincipalName = sessionCacheRepository.findByPrincipalName(user.getName());
 
-        stompNotificationSender.sendCallNotification();
     }
 
     @Transactional(rollbackOn = Exception.class)

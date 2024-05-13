@@ -29,14 +29,13 @@ public class InviteManager {
         final String inviteKey = userId+"//"+UUID.randomUUID().toString();
 
         String serverName = chatProperties.chatServer().serverName();
-
         final var inviteKeyCache = InviteKey.builder()
-                .inviteKey(inviteKey)
-                .hostId(userId)
+                .key(inviteKey)
+                .userId(userId)
                 .callType(callType)
-                .serverName(serverName)
-                .call(call)
+                .server(serverName)
                 .destnId(destinationId)
+                .call(call)
                 .isUsed(false)
                 .build();
         inviteKeyEntityRepository.save(inviteKeyCache);

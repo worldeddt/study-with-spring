@@ -1,11 +1,11 @@
 package chat.demo.repository.entity;
 
-
 import chat.demo.enums.AgentStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
+
 
 @Getter
 @Builder(toBuilder = true)
@@ -17,9 +17,9 @@ public class Agent {
 
     @Id
     private String userId;
-
     private String server;
     private String groupId;
     private String callId;
     private AgentStatus agentStatus;
+
 }
