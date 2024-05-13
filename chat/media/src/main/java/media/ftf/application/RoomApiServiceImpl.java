@@ -3,6 +3,7 @@ package media.ftf.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import media.ftf.application.dto.response.EndRoomMessage;
 import media.ftf.application.interfaces.RoomApiService;
 import media.ftf.domain.RoomManager;
 import media.ftf.domain.entity.RoomEntity;
@@ -10,6 +11,7 @@ import media.ftf.dto.request.RoomRequest;
 import media.ftf.dto.response.RoomResponse;
 import media.ftf.mapper.RoomMapper;
 import media.ftf.module.Room;
+import media.ftf.module.RoomMessageSender;
 import media.ftf.module.SessionManager;
 import media.ftf.repository.RoomRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class RoomApiServiceImpl implements RoomApiService {
     private final RoomMapper roomMapper;
     private final RoomRepository roomRepository;
     private final SessionManager sessionManager;
+    private final RoomMessageSender roomMessageSender;
 
     @Transactional
     @Override

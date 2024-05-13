@@ -27,6 +27,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -43,6 +44,15 @@ public class ChatSocketHandler {
     private final CallEntityRepository callEntityRepository;
     private final InviteManager inviteManager;
 
+
+    @MessageMapping("/acceptCall")
+    public void acceptCall(SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+        Principal user = simpMessageHeaderAccessor.getUser();
+
+        SessionCache byPrincipalName = sessionCacheRepository.findByPrincipalName(user.getName());
+
+        stompNotificationSender.sendCallNotification();
+    }
 
     @Transactional(rollbackOn = Exception.class)
     @MessageMapping("/requestCall")

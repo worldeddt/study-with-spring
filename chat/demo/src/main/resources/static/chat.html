@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,7 +11,7 @@
 <body>
 
 <label> 아이디 : </label>
-<input type="text" id="userId"> </br>
+<input type="text" id="userId"> <br>
 <select name="owner_select">
     <option value="1">방장</option>
     <option value="2">참가자</option>
@@ -19,6 +19,11 @@
 <button onclick="start()">start</button>
 <button onclick="requestCall()">requestCall</button>
 <button onclick="sessionAll()">allSessions</button>
+<button onclick="outboundAcceptCall()">acceptCall</button>
+<br>
+<p>invite key : </p><p id="invite_key"></p><br/>
+<label> received invite key : </label>
+<input type="text" id="received_invite_key">
 </body>
 <script>
   let stompClient;
@@ -31,6 +36,14 @@
     const json = JSON.parse(payload.body);
     switch (json.type) {
       case "OUTBOUND_CLIENT_CALL" :
+        console.log(json);
+        let elementById = document.getElementById("invite_key");
+
+        if (json && json.inviteKey) {
+          elementById.innerHTML = "";
+          elementById.innerHTML = json.inviteKey;
+        }
+      case "OUTBOUND_ACCEPT_CALL" :
         console.log(json);
       case "MESSAGE" :
         console.log(json);
@@ -78,6 +91,19 @@
     const endPoint = "/pub/chat/requestCall"
     const headers = {};
     stompClient.send(endPoint, headers);
+  }
+
+  function acceptCall({ inviteKey, isAccept }) {
+    const endPoint = `/pub/call/acceptCall`;
+    const headers = {};
+    const options = [{"key":"name", "value":"김수한무"},{"key":"value", "value":"거북이와두루미"},{"key":"test", "value":"optionTest"}];
+    const body = JSON.stringify({ inviteKey, isAccept , endDatetime: 3*60, options });
+    stompClient.send(endPoint, headers, body);
+  }
+
+  function outboundAcceptCall() {
+    const inviteKey = document.querySelector("#received_invite_key").value;
+    acceptCall({ inviteKey, isAccept: true });
   }
 
   function sessionAll() {

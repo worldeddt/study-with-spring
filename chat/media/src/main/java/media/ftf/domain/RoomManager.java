@@ -27,6 +27,11 @@ public class RoomManager {
     private final Kurento kurento;
     private final MediaCache<String> roomTtl = new MediaCache<>();
 
+
+    public void acceptCallRoom() {
+//        ????
+    }
+
     public RoomResponse createRoom(String roomId, Consumer<RoomManager> closeCallback) {
 
         final var room = roomIdRooms.computeIfAbsent(roomId, k -> {

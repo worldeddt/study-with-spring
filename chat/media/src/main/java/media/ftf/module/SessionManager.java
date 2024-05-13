@@ -36,7 +36,21 @@ public class SessionManager {
         return sessionsMap.containsKey(sessionInfo.getPrincipal().getName());
     }
 
-    public SessionInfo find() {
+    public Principal findPrincipalByUserId(String userId) {
+        if (userId == null) return null;
+        final var principalName = userIdMap.get(userId);
+        if (principalName == null) return null;
+        final var sessionInfo = findSessionInfoByPrincipalName(principalName);
+        return sessionInfo.getPrincipal();
+    }
 
+
+    public SessionInfo findSessionInfoByUserId(String userId) {
+        final var principalName = userIdMap.get(userId);
+        return sessionsMap.get(principalName);
+    }
+
+    public SessionInfo findSessionInfoByPrincipalName(String principalName) {
+        return sessionsMap.get(principalName);
     }
 }
