@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OptionEntityRepository extends JpaRepository<Option, Long>, OptionEntityDao {
+public interface OptionEntityRepository extends JpaRepository<Option, Long> {
     List<Option> findAllByParticipantId(long participantId);
 }

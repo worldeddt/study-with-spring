@@ -8,7 +8,6 @@ import chat.demo.properties.TtlProperties;
 import chat.demo.repository.InviteKeyEntityRepository;
 import chat.demo.repository.entity.Call;
 import chat.demo.repository.entity.InviteKey;
-import chat.demo.repository.entity.SessionCache;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +16,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class InviteManager {
 
     private final ChatProperties chatProperties;

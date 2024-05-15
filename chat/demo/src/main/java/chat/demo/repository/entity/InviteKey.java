@@ -16,7 +16,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Table(name = "tb_call_invite_key")
 @Entity
 public class InviteKey {
-
     @Id
     @Column(name = "inviteKey", unique = true, nullable = false)
     private String key;

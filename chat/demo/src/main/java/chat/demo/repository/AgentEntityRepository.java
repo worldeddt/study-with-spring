@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Lock;
 
 import java.util.List;
 
-public interface AgentEntityRepository extends JpaRepository<Agent, String>, AgentEntityDao {
+public interface AgentEntityRepository extends JpaRepository<Agent, String> {
 
     // LockMode 로 데드락 걸릴 수 있으므로 함부로 사용하지 말 것
     @Lock(LockModeType.PESSIMISTIC_WRITE)
