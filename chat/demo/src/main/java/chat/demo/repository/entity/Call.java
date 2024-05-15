@@ -60,4 +60,9 @@ public class Call {
 
     @Column(name = "endDate")
     private LocalDateTime endDate; // 콜 종료 시간
+
+    @PrePersist
+    public void init() {
+        createDate = LocalDateTime.now();
+    }
 }

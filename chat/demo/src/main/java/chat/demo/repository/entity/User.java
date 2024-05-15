@@ -1,6 +1,6 @@
 package chat.demo.repository.entity;
 
-import chat.demo.enums.AgentStatus;
+import chat.demo.enums.UserStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,13 +13,15 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tb_agent_status")
 @Entity
-public class Agent {
+public class User {
 
     @Id
     private String userId;
+
     private String server;
-    private String groupId;
+
     private String callId;
-    private AgentStatus agentStatus;
+
+    private UserStatus userStatus;
 
 }

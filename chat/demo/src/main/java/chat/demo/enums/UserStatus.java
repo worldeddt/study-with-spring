@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Getter
 @AllArgsConstructor
-public enum AgentStatus {
+public enum UserStatus {
     RG("Registered", "대기중"), // 대기
     OR("Outbound Reservation", "아웃바운드 배정받음"),
     IR("Inbound Reservation", "인바운드 배정받음"), // 배정 (RV : 아웃바운드 / CR : 인바운드)

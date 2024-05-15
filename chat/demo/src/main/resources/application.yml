@@ -26,7 +26,7 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create-drop
+      ddl-auto: create
     open-in-view: false
 
 chat:
@@ -35,6 +35,14 @@ chat:
     invite-key-ttl: 60
   chat-server:
     server-name: chat
+    max-call-count:
+      - 30
+      - 30
+      - 30
+    tenant-id:
+      - 1
+      - 2
+      - 3447
   http-client:
     server:
       multimedia:

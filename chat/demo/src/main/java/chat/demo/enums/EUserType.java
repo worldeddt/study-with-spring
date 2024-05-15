@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum EUserType {
 
+
     CLIENT("CLIENT", "상담, 고객"),
     STAFF("STAFF", "상담, 모니터링"),
     MANAGER("MANAGER", "상담, 모니터링"),

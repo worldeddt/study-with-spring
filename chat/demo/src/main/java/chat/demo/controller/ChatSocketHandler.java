@@ -3,6 +3,8 @@ package chat.demo.controller;
 
 import chat.demo.advice.CommonCode;
 import chat.demo.advice.CommonException;
+import chat.demo.application.dto.AcceptCallMessage;
+import chat.demo.application.interfaces.CallFlowService;
 import chat.demo.component.InviteManager;
 import chat.demo.component.MultimediaClient;
 import chat.demo.controller.dto.ChatMessage;
@@ -43,14 +45,16 @@ public class ChatSocketHandler {
     private final MultimediaClient multimediaClient;
     private final CallEntityRepository callEntityRepository;
     private final InviteManager inviteManager;
+    private final CallFlowService callFlowService;
 
 
     @MessageMapping("/acceptCall")
-    public void acceptCall(SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+    public void acceptCall(SimpMessageHeaderAccessor simpMessageHeaderAccessor,
+                           AcceptCallMessage acceptCallMessage) {
         Principal user = simpMessageHeaderAccessor.getUser();
-
         SessionCache byPrincipalName = sessionCacheRepository.findByPrincipalName(user.getName());
-
+        log.info("byPrincipalName : {}", byPrincipalName);
+        callFlowService.handleAcceptCall(simpMessageHeaderAccessor.getUser(), acceptCallMessage);
     }
 
     @Transactional(rollbackOn = Exception.class)
@@ -107,7 +111,7 @@ public class ChatSocketHandler {
         final var mediaServer = createRoomResponse.getMediaServer();
         final var multiMediaServer = createRoomResponse.getMultiMediaServer();
 
-        Call buildedCall = savedCall.toBuilder()
+        Call call = savedCall.toBuilder()
                 .multiMediaServer(multiMediaServer)
                 .mediaServer(mediaServer)
                 .build();
@@ -121,7 +125,7 @@ public class ChatSocketHandler {
                                 inviteManager.createInviteKey(
                                         sessionCache.getUserId(),
                                         CallType.OUTBOUND_CLIENT,
-                                         null, buildedCall
+                                         null, call
                                 )
                         )
                         .build()

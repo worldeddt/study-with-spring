@@ -94,7 +94,7 @@
   }
 
   function acceptCall({ inviteKey, isAccept }) {
-    const endPoint = `/pub/call/acceptCall`;
+    const endPoint = `/pub/chat/acceptCall`;
     const headers = {};
     const options = [{"key":"name", "value":"김수한무"},{"key":"value", "value":"거북이와두루미"},{"key":"test", "value":"optionTest"}];
     const body = JSON.stringify({ inviteKey, isAccept , endDatetime: 3*60, options });
@@ -103,6 +103,17 @@
 
   function outboundAcceptCall() {
     const inviteKey = document.querySelector("#received_invite_key").value;
+
+    if (!inviteKey) {
+        Swal.fire({
+            title : "오류",
+            text : "초대키를 입력해 주기 바람.",
+            showConfirmButton: true,
+            confirmButtonText: "확인"
+        });
+        return;
+    }
+
     acceptCall({ inviteKey, isAccept: true });
   }
 

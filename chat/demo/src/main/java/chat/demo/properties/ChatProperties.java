@@ -3,6 +3,8 @@ package chat.demo.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 @ConfigurationProperties("chat")
 public record ChatProperties(
         HttpClientProperties httpClient,
@@ -28,7 +30,9 @@ public record ChatProperties(
     }
 
     public record ChatServerProperties(
-            String serverName
+            String serverName,
+            List<Long> maxCallCount,
+            List<Integer> tenantId
     ) {
 
     }
