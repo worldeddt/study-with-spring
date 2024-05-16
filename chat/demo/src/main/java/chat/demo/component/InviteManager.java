@@ -3,15 +3,14 @@ package chat.demo.component;
 
 import chat.demo.advice.CommonCode;
 import chat.demo.advice.CommonException;
-import chat.demo.enums.AgentStatus;
-import chat.demo.enums.CallClosedReason;
 import chat.demo.enums.CallType;
 import chat.demo.event.KeyExpiredPublishEvent;
-import chat.demo.model.LicenseId;
 import chat.demo.properties.ChatProperties;
-import chat.demo.properties.ChatProperties.*;
 import chat.demo.properties.TtlProperties;
-import chat.demo.repository.*;
+import chat.demo.repository.CallEntityRepository;
+import chat.demo.repository.InviteKeyEntityRepository;
+import chat.demo.repository.SessionCacheRepository;
+import chat.demo.repository.UserEntityRepository;
 import chat.demo.repository.entity.Call;
 import chat.demo.repository.entity.InviteKey;
 import jakarta.transaction.Transactional;
@@ -20,8 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
+
+import static java.lang.Boolean.TRUE;
 
 @Component
 @RequiredArgsConstructor
@@ -39,7 +43,7 @@ public class InviteManager {
 
     @Transactional(rollbackOn = CommonException.class)
     public String createInviteKey(String userId, CallType callType, String destinationId, Call call) {
-        final String inviteKey = userId + "//" + UUID.randomUUID().toString();
+        final String inviteKey = userId + "//" + UUID.randomUUID();
 
         String serverName = chatProperties.chatServer().serverName();
         final var inviteKeyCache = InviteKey.builder()
@@ -88,5 +92,24 @@ public class InviteManager {
                 ttlProperties.inviteKeyTtl(), ttlProperties.timeUnit());
 
         return inviteKey;
+    }
+
+    public synchronized Optional<InviteKey> useInviteKey(String inviteKey) {
+        final var inviteKeyCache = inviteKeyEntityRepository.findById(inviteKey);
+        inviteKeyCache.ifPresent(inviteKey1 -> {
+
+            LocalDateTime expiredDate = inviteKey1.getExpiredDate();
+
+            if (expiredDate != null) {
+                if (Objects.equals(inviteKey1.getKey(), inviteKey)) {
+                    inviteKey1.setExpiredDate(LocalDateTime.now());
+                    inviteKey1.setIsUsed(TRUE);
+                }
+            }
+        });
+
+        ttlCache.remove(inviteKey);
+
+        return inviteKeyCache;
     }
 }

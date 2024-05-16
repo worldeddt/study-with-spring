@@ -15,6 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tb_call_invite_key")
 @Entity
+@Setter
 public class InviteKey {
     @Id
     @Column(name = "inviteKey", unique = true, nullable = false)

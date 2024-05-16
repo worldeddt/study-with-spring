@@ -4,6 +4,7 @@ package chat.demo.controller;
 import chat.demo.advice.CommonCode;
 import chat.demo.advice.CommonException;
 import chat.demo.application.dto.AcceptCallMessage;
+import chat.demo.application.dto.RequestCallMessage;
 import chat.demo.application.interfaces.CallFlowService;
 import chat.demo.component.InviteManager;
 import chat.demo.component.MultimediaClient;
@@ -39,14 +40,8 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 @RestController
 public class ChatSocketHandler {
-    private final StompNotificationSender stompNotificationSender;
     private final SessionCacheRepository sessionCacheRepository;
-    private final RedisPublisher redisPublisher;
-    private final MultimediaClient multimediaClient;
-    private final CallEntityRepository callEntityRepository;
-    private final InviteManager inviteManager;
     private final CallFlowService callFlowService;
-
 
     @MessageMapping("/acceptCall")
     public void acceptCall(SimpMessageHeaderAccessor simpMessageHeaderAccessor,
@@ -59,77 +54,13 @@ public class ChatSocketHandler {
 
     @Transactional(rollbackOn = Exception.class)
     @MessageMapping("/requestCall")
-    public void call(SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+    public void call(SimpMessageHeaderAccessor simpMessageHeaderAccessor,
+                     RequestCallMessage requestCallMessage
+                     ) {
         final var principal = simpMessageHeaderAccessor.getUser();
         log.info("session : {}", simpMessageHeaderAccessor.getUser());
 
-        final var sessionCache = sessionCacheRepository.findByPrincipalName(principal.getName());
-
-        final var roomId =
-                "call-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
-                        + "-" + generateRandomChain(8);
-
-        final var newCall = Call.builder()
-                .id(roomId)
-                .callType(CallType.OUTBOUND_CLIENT)
-                .caller(sessionCache.getUserId())
-                .owner(sessionCache.getUserId())
-                .closeReason(CallClosedReason.Uncompleted)
-                .build();
-
-        final var savedCall = callEntityRepository.save(newCall);
-        
-        final var roomRequest =
-                RoomRequest.builder().roomId(roomId).userId(sessionCache.getUserId()).build();
-
-        ClientResponse<CreateRoomResponse> clientResponse = multimediaClient.createRoom(roomRequest);
-
-        if (clientResponse.getHeaderStatusCode().isError()) {
-            log.debug("response isError: {}", clientResponse.getHeaderStatusCode().isError());
-            throw new CommonException(CommonCode.MAKE_TICKET_FAILED);
-        }
-
-        if (!clientResponse.getHeaderStatusCode().is2xxSuccessful()) {
-            log.debug("response is2xxSuccessful: {}", clientResponse.getHeaderStatusCode().is2xxSuccessful());
-            throw new CommonException(CommonCode.NOT_SUCCESS_REST_RESP);
-        }
-
-        final var body = clientResponse.getBodyStatusCode();
-
-        if (body == null) {
-            log.debug("body is null");
-            throw new CommonException(CommonCode.NULL_BODY);
-        }
-
-        if (200 != body) {
-            log.debug("body statusCode: {}", body);
-            throw new CommonException(CommonCode.NOT_SUCCESS_RESP);
-        }
-
-        final var createRoomResponse = clientResponse.getResponse();
-
-        final var mediaServer = createRoomResponse.getMediaServer();
-        final var multiMediaServer = createRoomResponse.getMultiMediaServer();
-
-        Call call = savedCall.toBuilder()
-                .multiMediaServer(multiMediaServer)
-                .mediaServer(mediaServer)
-                .build();
-
-        stompNotificationSender.sendCallNotification(
-                principal.getName(),
-                InviteMessage.builder()
-                        .sender(sessionCache.getUserId())
-                        .type(NotificationType.OUTBOUND_CLIENT_CALL)
-                        .inviteKey(
-                                inviteManager.createInviteKey(
-                                        sessionCache.getUserId(),
-                                        CallType.OUTBOUND_CLIENT,
-                                         null, call
-                                )
-                        )
-                        .build()
-        );
+        callFlowService.handleRequestCall(principal, requestCallMessage);
     }
 
     @MessageMapping("/session/all")
@@ -139,11 +70,5 @@ public class ChatSocketHandler {
             log.debug("sessionCache : {}/ session id : {}", sessionCache.getPrincipalName(), sessionCache.getUserId());
         });
         sessionCacheRepository.deleteAll();
-    }
-
-
-
-    public static String generateRandomChain(int length) {
-        return RandomStringUtils.randomAlphanumeric(length).toLowerCase();
     }
 }

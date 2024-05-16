@@ -1,5 +1,16 @@
 package chat.demo.enums;
 
 public enum NotificationType {
-    OUTBOUND_CLIENT_CALL
+    DUPLICATED_LOGIN,
+    KEY_EXPIRED,
+    OUTBOUND_CLIENT_CALL,
+    OUTBOUND_COUNSELOR_CALL,
+    INBOUND_CALL,
+    REQ_CHANGE_OWNER,
+    CHANGE_OWNER,
+    TICKET,
+    REFUSE_INVITE,
+    CANCEL_CALL,
+    END_CALL,
+    ERROR
 }
