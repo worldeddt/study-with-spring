@@ -13,16 +13,11 @@ import chat.demo.controller.dto.InviteMessage;
 import chat.demo.controller.dto.request.RoomRequest;
 import chat.demo.controller.dto.response.ClientResponse;
 import chat.demo.controller.dto.response.CreateRoomResponse;
-import chat.demo.enums.CallClosedReason;
-import chat.demo.enums.CallType;
-import chat.demo.enums.InvolvementType;
-import chat.demo.enums.NotificationType;
-import chat.demo.repository.CallEntityRepository;
-import chat.demo.repository.InvolvementEntityRepository;
-import chat.demo.repository.SessionCacheRepository;
-import chat.demo.repository.UserEntityRepository;
+import chat.demo.enums.*;
+import chat.demo.repository.*;
 import chat.demo.repository.entity.Call;
 import chat.demo.repository.entity.Involvement;
+import chat.demo.repository.entity.Participant;
 import chat.demo.sender.RedisPublisher;
 import chat.demo.sender.StompNotificationSender;
 import jakarta.transaction.Transactional;
@@ -49,6 +44,7 @@ public class CallFlowServiceImpl implements CallFlowService {
     private final SessionCacheRepository sessionCacheRepository;
     private final UserEntityRepository userEntityRepository;
     private final InvolvementEntityRepository involvementEntityRepository;
+    private final ParticipantEntityRepository participantEntityRepository;
     private final StompNotificationSender stompNotificationSender;
     private final RedisPublisher redisPublisher;
     private final MultimediaClient multimediaClient;
@@ -81,7 +77,8 @@ public class CallFlowServiceImpl implements CallFlowService {
 
     @Override
     public void handleRequestCall(Principal principal, RequestCallMessage requestCallMessage) {
-        final var sessionCache = sessionCacheRepository.findByPrincipalName(principal.getName());
+
+        final var sessionInfo = sessionCacheRepository.findByPrincipalName(principal.getName());
 
         final var roomId =
                 "call-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
@@ -90,12 +87,22 @@ public class CallFlowServiceImpl implements CallFlowService {
         final var newCall = Call.builder()
                 .id(roomId)
                 .callType(CallType.OUTBOUND_CLIENT)
-                .caller(sessionCache.getUserId())
-                .owner(sessionCache.getUserId())
+                .caller(sessionInfo.getUserId())
+                .owner(sessionInfo.getUserId())
                 .closeReason(CallClosedReason.Uncompleted)
                 .build();
 
         final var savedCall = callEntityRepository.save(newCall);
+
+        final var newParticipant = Participant.builder()
+                .call(savedCall)
+                .userId(sessionInfo.getUserId())
+                .userType(EUserType.HOST)
+                .loginId(sessionInfo.getLoginId())
+                .userName(sessionInfo.getUserName())
+                .build();
+
+        final var savedParticipant = participantEntityRepository.save(newParticipant);
 
         final var roomRequest =
                 RoomRequest.builder().roomId(roomId).userId(sessionCache.getUserId()).build();
@@ -196,6 +203,8 @@ public class CallFlowServiceImpl implements CallFlowService {
                             .type(InvolvementType.HANDOVER)
                             .build()
             );
+
+
         }
     }
 

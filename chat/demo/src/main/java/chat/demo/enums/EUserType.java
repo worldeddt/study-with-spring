@@ -12,13 +12,8 @@ import java.util.stream.Collectors;
 public enum EUserType {
 
 
-    CLIENT("CLIENT", "상담, 고객"),
-    STAFF("STAFF", "상담, 모니터링"),
-    MANAGER("MANAGER", "상담, 모니터링"),
-    AADMIN("AADMIN", "모니터링"),
-    TADMIN("TADMIN", "모니터링"),
-    PADMIN("PADMIN", "모니터링"),
-    UNKNOWN("UNKNOWN", "모니터링");
+    GUEST("GUEST", "상담, 고객"),
+    HOST("HOST", "상담, 모니터링");
 
     private static final Set<String> valueSet;
 
@@ -40,14 +35,6 @@ public enum EUserType {
         final var upperCaseStr = str.toUpperCase();
         if (!containsByValue(upperCaseStr)) return null;
         return EUserType.valueOf(upperCaseStr);
-    }
-
-    public static boolean isAgent(EUserType type) {
-        if (type == null) return false;
-        return switch (type) {
-            case STAFF, MANAGER, AADMIN, TADMIN, PADMIN -> true;
-            default -> false;
-        };
     }
 
 }

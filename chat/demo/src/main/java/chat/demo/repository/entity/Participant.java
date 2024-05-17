@@ -41,12 +41,6 @@ public class Participant {
     @Column(name = "loginId")
     private String loginId;
 
-    @Column(name = "userOS")
-    private String userOS;
-
-    @Column(name = "userBrowser")
-    private String userBrowser;
-
     @CreatedDate
     @Column(name = "createDate", nullable = false, updatable = false)
     private LocalDateTime createDate;
