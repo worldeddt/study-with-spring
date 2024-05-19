@@ -52,20 +52,22 @@ public class CallFlowServiceImpl implements CallFlowService {
     private final MultimediaClient multimediaClient;
     private final CallEntityRepository callEntityRepository;
     private final CallManager callManager;
-    private final ParticipantEntityRepository participantEntityRepository;
 
     @Override
     public void handleAcceptCall(Principal principal, AcceptCallMessage acceptCallMessage) {
         log.info("session number : {}", principal.getName());
 
-        final var sessionInfo = sessionCacheRepository.findByPrincipalName(principal.getName());
-        if (sessionInfo != null) {
+        final var sessionCache = sessionCacheRepository.findByPrincipalName(principal.getName());
+
+        if (sessionCache == null) {
             throw new CommonException(CommonCode.NOT_FOUND_SESSION);
         }
 
-        final var userId = sessionInfo.getUserId();
+        final var userId = sessionCache.getUserId();
 
         final var inviteKey = acceptCallMessage.getInviteKey();
+
+        log.info("invite key : {}", inviteKey);
 
         final var inviteKeyEntity = inviteManager.useInviteKey(inviteKey)
                 .orElseThrow(() -> new CommonException(CommonCode.UNKNOWN_INVITE_KEY));
@@ -108,7 +110,7 @@ public class CallFlowServiceImpl implements CallFlowService {
         final var savedParticipant = participantEntityRepository.save(newParticipant);
 
         final var roomRequest =
-                RoomRequest.builder().roomId(roomId).userId(sessionCache.getUserId()).build();
+                RoomRequest.builder().roomId(roomId).userId(sessionInfo.getUserId()).build();
 
         ClientResponse<CreateRoomResponse> clientResponse = multimediaClient.createRoom(roomRequest);
 
@@ -147,11 +149,11 @@ public class CallFlowServiceImpl implements CallFlowService {
         stompNotificationSender.sendCallNotification(
                 principal.getName(),
                 InviteMessage.builder()
-                        .sender(sessionCache.getUserId())
+                        .sender(sessionInfo.getUserId())
                         .type(NotificationType.OUTBOUND_CLIENT_CALL)
                         .inviteKey(
                                 inviteManager.createInviteKey(
-                                        sessionCache.getUserId(),
+                                        sessionInfo.getUserId(),
                                         CallType.OUTBOUND_CLIENT,
                                         null, call
                                 )
@@ -179,7 +181,7 @@ public class CallFlowServiceImpl implements CallFlowService {
         final var hostId = inviteKeyEntity.getUserId();
 
         final var hostUser = userEntityRepository.findById(hostId)
-                .orElseThrow(() -> new CommonException(CommonCode.NOT_AGENT));
+                .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_AGENT));
 
         final var callId = hostUser.getCallId();
 

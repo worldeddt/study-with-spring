@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.security.Principal;
 
@@ -14,10 +15,11 @@ import java.security.Principal;
 @Builder
 public class SessionInfo {
 
-    private final Principal principal;
-    private final String userId;
-    private final String userName;
-    private final EUserType userType;
-    private final String loginId;
+    private String userId;
+    @Indexed
+    private String principalName;
+    private String userName;
+    private EUserType userType;
+    private boolean isHost;
 
 }

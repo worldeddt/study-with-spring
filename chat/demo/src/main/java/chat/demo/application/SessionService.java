@@ -1,6 +1,7 @@
 package chat.demo.application;
 
 
+import chat.demo.model.SessionInfo;
 import chat.demo.repository.SessionCacheRepository;
 import chat.demo.repository.entity.SessionCache;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class SessionService {
         final var sessionCache =
                 SessionCache.builder()
                         .userId(userId)
-                .principalName(user.getName())
+                        .principalName(user.getName())
                         .build();
 
         sessionCacheRepository.save(sessionCache);
