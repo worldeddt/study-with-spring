@@ -18,15 +18,5 @@ public class RequestCallMessage {
     @NotNull
     private CallType callType;
 
-    private List<OptionDto> options;
-
-    // 3자 초대
-    private String helperId;
-
-    private String categoryId;
-
-    // inbound
-    private String groupId;
-
     private long expireTime = 5 * 60L; // ttl 시간 // 5분
 }

@@ -3,6 +3,7 @@ package chat.demo.sender;
 
 import chat.demo.controller.dto.ChatMessage;
 import chat.demo.controller.dto.InviteMessage;
+import chat.demo.controller.dto.TicketMessage;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,10 @@ public class StompNotificationSender {
     public void sendCallNotification(String principalName,  ChatMessage chatMessage) {
         log.info("sendCallNotification() - principalName: {}, object: {}", principalName, chatMessage);
         messageTemplate.convertAndSendToUser(principalName, TOPIC_CALL_NOTIFICATION, chatMessage);
+    }
+
+    public void sendCallNotification(String principalName, TicketMessage ticketMessage) {
+        log.info("sendCallNotification() - principalName: {}, object: {}", principalName, ticketMessage);
+        messageTemplate.convertAndSendToUser(principalName, TOPIC_CALL_NOTIFICATION, ticketMessage);
     }
 }

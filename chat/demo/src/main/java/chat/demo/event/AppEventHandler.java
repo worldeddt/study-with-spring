@@ -2,7 +2,6 @@ package chat.demo.event;
 
 
 import chat.demo.properties.ChatProperties;
-import chat.demo.repository.AgentEntityRepository;
 import chat.demo.repository.InviteKeyEntityRepository;
 import chat.demo.repository.LicenseEntityRepository;
 import chat.demo.repository.SessionCacheRepository;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AppEventHandler {
 
-    private final AgentEntityRepository agentEntityRepository;
     private final InviteKeyEntityRepository inviteKeyEntityRepository;
     private final LicenseEntityRepository licenseEntityRepository;
     private final SessionCacheRepository sessionCacheRepository;

@@ -18,6 +18,8 @@ public class User {
     @Id
     private String userId;
 
+    private String username;
+
     private String server;
 
     private String callId;

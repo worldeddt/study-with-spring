@@ -45,6 +45,8 @@
         }
       case "OUTBOUND_ACCEPT_CALL" :
         console.log(json);
+      case "TICKET":
+          console.log("ticket : "+json);
       case "MESSAGE" :
         console.log(json);
     }
@@ -90,7 +92,8 @@
   function requestCall() {
     const endPoint = "/pub/chat/requestCall"
     const headers = {};
-    stompClient.send(endPoint, headers);
+    const body = JSON.stringify({ callType: "OUTBOUND_CLIENT"});
+    stompClient.send(endPoint, headers, body);
   }
 
   function acceptCall({ inviteKey, isAccept }) {

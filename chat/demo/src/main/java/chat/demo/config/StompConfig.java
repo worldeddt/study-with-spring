@@ -39,7 +39,6 @@ public class StompConfig extends StompSessionHandlerAdapter implements WebSocket
                 .setTaskScheduler(heartBeatScheduler)
                 .setHeartbeatValue(new long[]{5 * 1000, 5 * 1000});
 
-
         registry
                 .setApplicationDestinationPrefixes("/pub") // chat ...
                 .setUserDestinationPrefix("/user");

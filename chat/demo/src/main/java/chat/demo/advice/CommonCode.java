@@ -60,7 +60,8 @@ public enum CommonCode {
     INVALID_TOKEN_PAYLOAD_TENANT_ID(404, "C-029", "invalid token payload"),
     INVALID_TOKEN_PAYLOAD_USER_ID(404, "C-030", "invalid token payload"),
     INVALID_TOKEN_PAYLOAD_USER_TYPE(404, "C-031", "invalid token payload"),
-    DUPLICATED_LOGIN(500, "C-032", "duplicated login");
+    DUPLICATED_LOGIN(500, "C-032", "duplicated login"),
+    NOT_FOUND_USER(500, "C-033", "not registered user");
 
     private final int status;
     private final String code;

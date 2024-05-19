@@ -10,10 +10,9 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public enum EUserType {
-
-
-    GUEST("GUEST", "상담, 고객"),
-    HOST("HOST", "상담, 모니터링");
+    HOST("HOST", "방장"),
+    MANAGER("MANAGER", "매니저"),
+    CLIENT("CLIENT", "게스트");
 
     private static final Set<String> valueSet;
 
@@ -37,4 +36,11 @@ public enum EUserType {
         return EUserType.valueOf(upperCaseStr);
     }
 
+    public static boolean isAgent(EUserType type) {
+        if (type == null) return false;
+        return switch (type) {
+            case HOST, MANAGER, CLIENT -> true;
+            default -> false;
+        };
+    }
 }

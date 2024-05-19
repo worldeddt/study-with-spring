@@ -10,9 +10,11 @@ import chat.demo.component.CallManager;
 import chat.demo.component.InviteManager;
 import chat.demo.component.MultimediaClient;
 import chat.demo.controller.dto.InviteMessage;
+import chat.demo.controller.dto.TicketMessage;
 import chat.demo.controller.dto.request.RoomRequest;
 import chat.demo.controller.dto.response.ClientResponse;
 import chat.demo.controller.dto.response.CreateRoomResponse;
+import chat.demo.controller.dto.response.Ticket;
 import chat.demo.enums.*;
 import chat.demo.repository.*;
 import chat.demo.repository.entity.Call;
@@ -50,6 +52,7 @@ public class CallFlowServiceImpl implements CallFlowService {
     private final MultimediaClient multimediaClient;
     private final CallEntityRepository callEntityRepository;
     private final CallManager callManager;
+    private final ParticipantEntityRepository participantEntityRepository;
 
     @Override
     public void handleAcceptCall(Principal principal, AcceptCallMessage acceptCallMessage) {
@@ -175,13 +178,16 @@ public class CallFlowServiceImpl implements CallFlowService {
 
         final var hostId = inviteKeyEntity.getUserId();
 
-        final var hostUser = userEntityRepository.findById(userId)
+        final var hostUser = userEntityRepository.findById(hostId)
                 .orElseThrow(() -> new CommonException(CommonCode.NOT_AGENT));
 
         final var callId = hostUser.getCallId();
 
         if (callId == null)
             throw new CommonException(CommonCode.NOT_FOUND_CALL_ID);
+
+        final var guestUser = userEntityRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_USER));
 
         if (!isAccept) {
             redisPublisher.publishByUserId(hostId,
@@ -196,6 +202,7 @@ public class CallFlowServiceImpl implements CallFlowService {
             Call call = callEntityRepository.findById(callId).get();
             call.setStartDate(LocalDateTime.now());
 
+            //방장 등록
             involvementEntityRepository.save(
                     Involvement.builder()
                             .call(call)
@@ -204,7 +211,30 @@ public class CallFlowServiceImpl implements CallFlowService {
                             .build()
             );
 
+            final var mediaServer = call.getMediaServer();
+            final var multiMediaServer = call.getMultiMediaServer();
 
+            final var newParticipant = Participant.builder()
+                    .call(call)
+                    .userId(userId)
+                    .userName(guestUser.getUsername())
+                    .userType(EUserType.CLIENT)
+                    .build();
+
+
+            participantEntityRepository.save(newParticipant);
+
+            stompNotificationSender.sendCallNotification(principal.getName(),
+                    TicketMessage.builder()
+                            .ticket(
+                                    Ticket.builder()
+                                            .multiMediaServer(multiMediaServer)
+                                            .mediaServer(mediaServer)
+                                            .roomId(callId)
+                                            .build()
+                            )
+                            .build()
+                    );
         }
     }
 
