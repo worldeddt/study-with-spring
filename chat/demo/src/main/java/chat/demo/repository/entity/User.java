@@ -11,7 +11,7 @@ import lombok.*;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "tb_agent_status")
+@Table(name = "tb_user")
 @Entity
 public class User {
 

@@ -60,7 +60,7 @@ public class InviteManager {
         // ttl 설정 및 expire 시 실행 로직
         ttlCache.put(inviteKey,
                 (key) -> {
-                    log.debug("inviteKey={} expired", key);
+                    log.info("inviteKey={} expired", key);
                     final var callId = call.getId();
 
                     final var selectedKey = inviteKeyEntityRepository.findById(key)

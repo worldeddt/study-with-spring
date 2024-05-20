@@ -65,8 +65,9 @@
   function start() {
 
     let userId = document.querySelector("#userId").value;
+    let isHost = document.querySelector("[name=owner_select]").value;
 
-    if (!userId) {
+      if (!userId) {
       Swal.fire({
         title : "오류",
         text : "대화명좀",
@@ -84,7 +85,7 @@
       console.log("connect error : ", error);
     };
 
-    const headers = { Authorization : `${userId}` };
+    const headers = { Authorization : `${userId}/${isHost}` };
 
     stompClient.connect(headers, onConnect, onError);
   }

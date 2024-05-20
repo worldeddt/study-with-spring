@@ -28,8 +28,6 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
         final var user = accessor.getUser();
         final var command = accessor.getCommand();
 
-        log.info("accessor : {}", accessor);
-
         if (command == null) return message;
 
         try {

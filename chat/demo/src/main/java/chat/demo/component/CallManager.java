@@ -20,7 +20,7 @@ public class CallManager {
     private final Map<String, String> userIdIndex = new ConcurrentHashMap<>();
 
     public synchronized void put(String callId, String userId) {
-        log.debug("callId: {}, userId: {}", callId, userId);
+        log.info("callId: {}, userId: {}", callId, userId);
 
         final var set = callMap.computeIfAbsent(callId, key -> new HashSet<>());
 
@@ -32,14 +32,14 @@ public class CallManager {
     }
 
     public synchronized void remove(String callId) {
-        log.debug("callId: {}", callId);
+        log.info("callId: {}", callId);
         final var userIdSet = callMap.remove(callId);
         if (userIdSet != null)
             userIdSet.forEach(this::remove);
     }
 
     public synchronized void removeByUserId(String userId) {
-        log.debug("userId: {}", userId);
+        log.info("userId: {}", userId);
         final var callId = userIdIndex.remove(userId);
         if (callId == null) return;
 
@@ -53,9 +53,9 @@ public class CallManager {
     }
 
     public synchronized void handle(String callId, Consumer<Set<String>> consumer) {
-        log.debug("{} {}", callId, callMap);
-        log.debug("{}", callMap.get(callId));
-        log.debug("{}", callMap.getOrDefault(callId, new HashSet<>()));
+        log.info("{} {}", callId, callMap);
+        log.info("{}", callMap.get(callId));
+        log.info("{}", callMap.getOrDefault(callId, new HashSet<>()));
         final var userSet = callMap.getOrDefault(callId, new HashSet<>());
         consumer.accept(userSet);
     }

@@ -115,24 +115,24 @@ public class CallFlowServiceImpl implements CallFlowService {
         ClientResponse<CreateRoomResponse> clientResponse = multimediaClient.createRoom(roomRequest);
 
         if (clientResponse.getHeaderStatusCode().isError()) {
-            log.debug("response isError: {}", clientResponse.getHeaderStatusCode().isError());
+            log.info("response isError: {}", clientResponse.getHeaderStatusCode().isError());
             throw new CommonException(CommonCode.MAKE_TICKET_FAILED);
         }
 
         if (!clientResponse.getHeaderStatusCode().is2xxSuccessful()) {
-            log.debug("response is2xxSuccessful: {}", clientResponse.getHeaderStatusCode().is2xxSuccessful());
+            log.info("response is2xxSuccessful: {}", clientResponse.getHeaderStatusCode().is2xxSuccessful());
             throw new CommonException(CommonCode.NOT_SUCCESS_REST_RESP);
         }
 
         final var body = clientResponse.getBodyStatusCode();
 
         if (body == null) {
-            log.debug("body is null");
+            log.info("body is null");
             throw new CommonException(CommonCode.NULL_BODY);
         }
 
         if (200 != body) {
-            log.debug("body statusCode: {}", body);
+            log.info("body statusCode: {}", body);
             throw new CommonException(CommonCode.NOT_SUCCESS_RESP);
         }
 
@@ -180,6 +180,7 @@ public class CallFlowServiceImpl implements CallFlowService {
 
         final var hostId = inviteKeyEntity.getUserId();
 
+        log.info("host Id : {}", hostId);
         final var hostUser = userEntityRepository.findById(hostId)
                 .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_AGENT));
 
@@ -222,7 +223,6 @@ public class CallFlowServiceImpl implements CallFlowService {
                     .userName(guestUser.getUsername())
                     .userType(EUserType.CLIENT)
                     .build();
-
 
             participantEntityRepository.save(newParticipant);
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
+import java.util.Objects;
 
 
 @Slf4j
@@ -19,11 +20,12 @@ public class SessionService {
 
     public synchronized void addSession(Principal user, String userId) {
 
-        log.debug("user session : {}/ user id : {}", user.getName(), userId);
+        log.info("user session : {}/ user id : {}", user.getName(), userId.split("/")[0]);
 
         final var sessionCache =
                 SessionCache.builder()
-                        .userId(userId)
+                        .userId(userId.split("/")[0])
+                        .isHost(Objects.equals(userId.split("/")[1], "1"))
                         .principalName(user.getName())
                         .build();
 

@@ -67,7 +67,7 @@ public class ChatSocketHandler {
     public void sessionAll() {
         Iterable<SessionCache> all = sessionCacheRepository.findAll();
         all.forEach(sessionCache -> {
-            log.debug("sessionCache : {}/ session id : {}", sessionCache.getPrincipalName(), sessionCache.getUserId());
+            log.info("sessionCache : {}/ session id : {}", sessionCache.getPrincipalName(), sessionCache.getUserId());
         });
         sessionCacheRepository.deleteAll();
     }
