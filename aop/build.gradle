@@ -36,6 +36,10 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.2'
 
     implementation group: 'com.oracle.database.jdbc', name: 'ojdbc10', version: '19.23.0.0'
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+    implementation 'com.hierynomus:sshj:0.31.0'
+
 
     // spring dependencies
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:3.2.3'

@@ -1,0 +1,7 @@
+fermi:
+  ssh:
+    db-url: ${ORACLE_HOST_URL}
+    db-username: ${ORACLE_USERNAME}
+    db-password: ${ORACLE_PASSWORD}
+    username: ${FERMI_USERNAME}
+    password: ${FERMI_PASSWORD}

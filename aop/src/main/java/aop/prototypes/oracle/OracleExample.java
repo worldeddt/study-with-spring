@@ -1,7 +1,6 @@
 package aop.prototypes.oracle;
 
 
-import aop.prototypes.common.TemplateExample;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
