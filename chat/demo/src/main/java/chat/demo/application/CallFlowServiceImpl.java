@@ -180,7 +180,6 @@ public class CallFlowServiceImpl implements CallFlowService {
 
         final var hostId = inviteKeyEntity.getUserId();
 
-        log.info("host Id : {}", hostId);
         final var hostUser = userEntityRepository.findById(hostId)
                 .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_AGENT));
 
