@@ -24,6 +24,14 @@
 <p>invite key : </p><p id="invite_key"></p><br/>
 <label> received invite key : </label>
 <input type="text" id="received_invite_key">
+<br/>
+<iframe
+    height="400"
+    id="myIframe"
+    style="display: none"
+    width="600"
+></iframe>
+
 </body>
 <script>
   let stompClient;
@@ -120,6 +128,14 @@
 
     acceptCall({ inviteKey, isAccept: true });
   }
+
+  const myIframe = document.getElementById("myIframe");
+
+  const openRoom = ({ jwt, roomId, apiJwt, multiMediaServer }) => {
+      const server = getServerInfo();
+      myIframe.src = `https://localhost:8092/room.html?jwt=${jwt}&roomId=${roomId}&apiJwt=${apiJwt}&server=${multiMediaServer}`;
+      myIframe.style.display = "block";
+  };
 
   function sessionAll() {
     stompClient.send("/pub/chat/session/all");
