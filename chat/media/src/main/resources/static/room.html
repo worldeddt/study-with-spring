@@ -1,10 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8"/>
+    <title>room</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
+<div>
+    <div id="tokenDiv">
+        <label>FermiToken:<input id="fermiToken"/></label>
+    </div>
+    <button onclick="startRecord();">startRecord</button>
+    <button onclick="stopRecord();">stopRecord</button>
+    <label>receiver:<input id="receiver"/></label>
+    <button onclick="sendData();">sendData</button>
+    <div id="area"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script>
+    const areaEl = document.querySelector("#area");
+
+    const peerConnectionConfig = {
+        iceServers: [
+            { urls: "stun:stun.l.google.com:19302" }
+        ],
+    };
+
+    const mediaConstraints = {
+        audio: true,
+        video: { width: { min: 640 }, height: { min: 480 } },
+    };
+
+    let outPc;
+    const inPcMaps = new Map();
+
+    function sendOutOffer({ sendOffer, sendCandidate }) {
+        const outOfferConfig = {
+            offerToReceiveAudio: false,
+            offerToReceiveVideo: false,
+        };
+        navigator.mediaDevices
+            .getUserMedia(mediaConstraints)
+            .then((mediaStream) => {
+                const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+                outPc = peerConnection;
+                mediaStream
+                    .getTracks()
+                    .forEach((track) => peerConnection.addTrack(track, mediaStream));
+
+                peerConnection.onsignalingstatechange = (event) => {
+                    console.info("[webrtc][out] signalingstatechange", event.currentTarget.connectionState);
+                };
+
+                peerConnection.onconnectionstatechange = (event) => {
+                    console.info("[webrtc][out] connectionstatechange", event.currentTarget.connectionState);
+                };
+
+                peerConnection.onicegatheringstatechange = (event) => {
+                    console.info("[webrtc][out] icegatheringstatechange", event.currentTarget.connectionState);
+                };
+
+                peerConnection.onnegotiationneeded = (event) => {
+                    console.info("[webrtc][out] negotiationneeded", event.currentTarget.connectionState);
+                };
+
+                peerConnection.oniceconnectionstatechange = (event) => {
+                    console.info("[webrtc][out] iceconnectionstatechange", event.currentTarget.connectionState);
+                };
+
+                peerConnection.onicecandidateerror = (event) => {
+                    console.info("[webrtc][out] icecandidateerror", event.currentTarget.connectionState);
+                };
+
+                peerConnection.onicecandidate = (event) => {
+                    const { candidate } = event;
+                    if (candidate) {
+                        sendCandidate({ type: "OUTGOING", iceCandidate: candidate });
+                    }
+                };
+
+                peerConnection.createOffer(outOfferConfig).then((offer) => {
+                    console.log("offer : "+offer);
+                    peerConnection.setLocalDescription(offer);
+                    sendOffer({ type: "OUTGOING", sdp: offer.sdp });
+                });
+            })
+            .catch((e) => {
+                alert("failed getUserMedia");
+                console.log("failed getUserMedia", e);
+            });
+    }
+
+    function sendInOffer({ present, sendOffer, sendCandidate }) {
+        const inOfferConfig = {
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: true,
+        };
+        const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+
+        inPcMaps.set(present, peerConnection);
+
+        peerConnection.onsignalingstatechange = (event) => {
+            console.info("[webrtc][in] signalingstatechange", event.currentTarget.connectionState);
+        };
+
+        peerConnection.onconnectionstatechange = (event) => {
+            console.info("[webrtc][in] connectionstatechange", event.currentTarget.connectionState);
+        };
+
+        peerConnection.onicegatheringstatechange = (event) => {
+            console.info("[webrtc][in] icegatheringstatechange", event.currentTarget.connectionState);
+        };
+
+        peerConnection.onnegotiationneeded = (event) => {
+            console.info("[webrtc][in] negotiationneeded", event.currentTarget.connectionState);
+        };
+
+        peerConnection.oniceconnectionstatechange = (event) => {
+            console.info("[webrtc][in] iceconnectionstatechange", event.currentTarget.connectionState);
+        };
+
+        peerConnection.onicecandidateerror = (event) => {
+            console.info("[webrtc][in] icecandidateerror", event.currentTarget.connectionState);
+        };
+
+        peerConnection.onicecandidate = (event) => {
+            const { candidate } = event;
+            if (candidate) {
+                sendCandidate({ type: "INCOMING", present, iceCandidate: candidate });
+            }
+        };
+
+        peerConnection.ontrack = (event) => {
+            console.log("onTrack", event);
+
+            const { track } = event;
+
+            const stream = new MediaStream([track]);
+
+            if (track.kind == "video") {
+                const videoElement = document.createElement("video");
+                videoElement.setAttribute("id", `myVideo-${present}`);
+                videoElement.autoplay = true;
+                videoElement.srcObject = stream;
+                videoElement.width = 640;
+                videoElement.height = 480;
+                areaEl?.appendChild(videoElement);
+            } else if (track.kind == "audio") {
+                const audioElement = document.createElement("audio");
+                audioElement.setAttribute("id", `myAudio-${present}`);
+                audioElement.autoplay = true;
+                audioElement.srcObject = stream;
+                areaEl?.appendChild(audioElement);
+            }
+        };
+
+        peerConnection.createOffer(inOfferConfig).then((offer) => {
+            console.log("offer : "+offer.sdp);
+            peerConnection.setLocalDescription(offer);
+            sendOffer({ type: "INCOMING", present, sdp: offer.sdp });
+        });
+    }
+
+
+</script>
+<script>
+
+    let stompClient;
+
+    function restart(){
+    }
+
+    function startRecord() {
+        stompClient.send(`/pub/room/record`, {}, JSON.stringify({ type: "START" }));
+    }
+
+    function stopRecord() {
+        stompClient.send(`/pub/room/record`, {}, JSON.stringify({ type: "STOP" }));
+    }
+
+    const stompInit = ({ jwt, roomId, server }) => {
+        const socket = new WebSocket(`wss://${getServerInfo()}/signal/stomp/media?server=${server}`);
+        stompClient = Stomp.over(socket);
+
+        const headers = { Authorization: `Bearer ${jwt}` };
+
+        const onConnect = async (payload) => {
+
+            function sendOffer({ type, present, sdp }){
+                stompClient.send(`/pub/room/offer`,{}, JSON.stringify({ type, present, sdp }));
+            }
+
+            function sendCandidate({ type, present, iceCandidate }){
+                stompClient.send(`/pub/room/candidate`, {}, JSON.stringify({ type, present, iceCandidate }));
+            }
+
+            function sendData(){
+                const receiver = document.querySelector("#receiver").value;
+                stompClient.send(`/pub//room/chat`, {}, JSON.stringify({ receiver, message: "test", type: "USER" }));
+            }
+
+            const handleAnswer = async (payload) => {
+                const { body } = payload;
+                const { type, present, sdp } = JSON.parse(body);
+                const peerConnection = type == "OUTGOING" ? outPc : inPcMaps.get(present);
+                peerConnection.setRemoteDescription(new RTCSessionDescription({ type: "answer", sdp }));
+            };
+
+            const handleCandidate = async (payload) => {
+                const { body } = payload;
+                const { type, present, iceCandidate } = JSON.parse(body);
+                const peerConnection = type == "OUTGOING" ? outPc : inPcMaps.get(present);
+                peerConnection.addIceCandidate(new RTCIceCandidate(iceCandidate));
+            };
+
+            const handleMultiMediaNotification = async (payloaddata) => {
+                const { body } = payloaddata;
+                const { type, payload } = JSON.parse(body);
+                switch (type) {
+                    case "member": {
+                        switch ( payload.state ) {
+                            case "enter": {
+                                sendInOffer({ present: payload.userId, sendOffer, sendCandidate });
+                                break;
+                            }
+                            case "leave": {
+                                const videoElement = document.querySelector(`#myVideo-${payload.userId}`);
+                                const audioElement = document.querySelector(`#myAudio-${payload.userId}`);
+                                videoElement.remove();
+                                audioElement.remove();
+                                break;
+                            }
+                        }
+                    }
+                    case "record": {
+
+                        break;
+                    }
+                }
+            };
+
+            const handleDataNotification = async (payload) => {
+                const { body } = payload;
+                const { sender, receiver, data } = JSON.parse(body);
+                console.log(JSON.parse(body));
+            }
+
+            const handleError = async (payload) => {
+                const { body } = payload;
+                const json = JSON.parse(body);
+                console.log(json);
+            };
+
+            const handleChat =  async (payload) => {
+                const { body } = payload;
+                const json = JSON.parse(body);
+                console.log(json);
+            };
+
+            stompClient.subscribe(`/topic/room/bypass/${roomId}`, handleDataNotification);
+            stompClient.subscribe(`/topic/room/chat/${roomId}`, handleChat);
+            stompClient.subscribe(`/user/queue/room/answer`, handleAnswer);
+            stompClient.subscribe(`/user/queue/room/candidate`, handleCandidate);
+            stompClient.subscribe(`/user/queue/room/multiMediaNotification`, handleMultiMediaNotification);
+            stompClient.subscribe(`/user/queue/room/chat`, handleChat);
+            stompClient.subscribe(`/user/queue/room/bypass`, handleDataNotification);
+            stompClient.subscribe(`/user/queue/room/error`, handleError);
+
+            sendOutOffer({ sendOffer, sendCandidate });
+        };
+
+        const onError = (error) => console.log("connect error", error);
+
+        stompClient.connect(headers, onConnect, onError);
+    };
+
+</script>
+<script>
+
+    const getServerInfo = () => {
+        return `${window.location.hostname}:${window.location.port}`
+    }
+
+    const { jwt } = new Proxy(
+        new URLSearchParams(window.location.search),
+        {
+            get: (searchParams, prop) => searchParams.get(prop),
+        }
+    );
+
+    if(jwt){
+        var div = document.getElementById("tokenDiv");
+        div.classList.add("hidden");
+
+        // 토큰을 "."으로 분할하여 헤더 부분 가져오기
+        const encodedHeader = jwt.split('.')[0];
+        const encodedPayload = jwt.split('.')[1];
+
+        // Base64 디코딩
+        const decodedPayload  = JSON.parse(atob(encodedPayload));
+        const { server, roomId } = decodedPayload
+
+        stompInit({ jwt, roomId: roomId, server });
+    }
+
+</script>
 </body>
 </html>
