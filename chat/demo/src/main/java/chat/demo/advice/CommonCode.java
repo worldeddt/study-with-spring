@@ -50,6 +50,8 @@ public enum CommonCode {
     LICENSE_UPDATE_ERROR(500, "C-020", "Error in license update"),
     NOT_OWNER(403, "C-021", "Only owner can access"),
     NOT_AGENT(403, "C-022", "Only agent can access"),
+    NOT_HOST(403, "C-022-1", "Only host can access"),
+    NOT_GUEST(403, "C-022-2", "Only guest can access"),
     NO_CALL_FOUND(404, "C-023", "No such call"),
     WRONG_CLOSED_CODE(404, "C-023", "No such CallClosedCode"),
     NOT_FOUND_SESSION(404, "C-024", "No such Session"),

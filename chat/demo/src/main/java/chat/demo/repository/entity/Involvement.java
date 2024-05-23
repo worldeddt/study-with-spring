@@ -38,4 +38,9 @@ public class Involvement {
     @Column(name = "createDate", nullable = false, updatable = false)
     private LocalDateTime createDate;
 
+    @PrePersist
+    public void init() {
+        createDate = LocalDateTime.now();
+    }
+
 }

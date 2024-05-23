@@ -47,4 +47,9 @@ public class Participant {
 
     @OneToMany(mappedBy = "participant")
     private final List<Option> options = new ArrayList<>();
+
+    @PrePersist
+    public void init() {
+        this.createDate = LocalDateTime.now();
+    }
 }

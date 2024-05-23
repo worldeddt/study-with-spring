@@ -18,7 +18,7 @@ import java.security.Principal;
 @ToString
 public class SessionCache {
 
-    @Indexed
+    @Id
     private String userId;
     @Indexed
     private String server;
@@ -29,6 +29,7 @@ public class SessionCache {
 
     @Indexed
     private String loginId;
+    @Indexed
     private String principalName;
 
     private boolean isHost;

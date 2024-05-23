@@ -20,17 +20,16 @@ import chat.demo.repository.*;
 import chat.demo.repository.entity.Call;
 import chat.demo.repository.entity.Involvement;
 import chat.demo.repository.entity.Participant;
+import chat.demo.repository.entity.User;
 import chat.demo.sender.RedisPublisher;
 import chat.demo.sender.StompNotificationSender;
 import jakarta.transaction.Transactional;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import javax.print.attribute.standard.PrinterInfo;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -81,9 +80,15 @@ public class CallFlowServiceImpl implements CallFlowService {
     }
 
     @Override
+    @Transactional
     public void handleRequestCall(Principal principal, RequestCallMessage requestCallMessage) {
 
         final var sessionInfo = sessionCacheRepository.findByPrincipalName(principal.getName());
+
+        if (!sessionInfo.isHost()) {
+            log.warn("상담사가 아닌 유저");
+            throw new CommonException(CommonCode.NOT_HOST);
+        }
 
         final var roomId =
                 "call-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
@@ -108,6 +113,11 @@ public class CallFlowServiceImpl implements CallFlowService {
                 .build();
 
         final var savedParticipant = participantEntityRepository.save(newParticipant);
+
+        final var host  = userEntityRepository.findById(sessionInfo.getUserId())
+                .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_AGENT));
+
+        host.setCallId(newCall.getId());
 
         final var roomRequest =
                 RoomRequest.builder().roomId(roomId).userId(sessionInfo.getUserId()).build();
@@ -171,6 +181,13 @@ public class CallFlowServiceImpl implements CallFlowService {
             throw new CommonException(CommonCode.NOT_FOUND_SESSION);
         }
 
+        if (sessionInfo.isHost()) {
+            log.warn("");
+            throw new CommonException(CommonCode.NOT_GUEST);
+        }
+
+        log.info("acceptCallMessage.isAccept() : {}", acceptCallMessage.isAccept());
+
         final var userId = sessionInfo.getUserId();
         final var inviteKey = acceptCallMessage.getInviteKey();
         final var isAccept = acceptCallMessage.isAccept();
@@ -187,9 +204,6 @@ public class CallFlowServiceImpl implements CallFlowService {
 
         if (callId == null)
             throw new CommonException(CommonCode.NOT_FOUND_CALL_ID);
-
-        final var guestUser = userEntityRepository.findById(userId)
-                .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_USER));
 
         if (!isAccept) {
             redisPublisher.publishByUserId(hostId,
@@ -219,23 +233,24 @@ public class CallFlowServiceImpl implements CallFlowService {
             final var newParticipant = Participant.builder()
                     .call(call)
                     .userId(userId)
-                    .userName(guestUser.getUsername())
+                    .userName(sessionInfo.getUserName())
                     .userType(EUserType.CLIENT)
                     .build();
 
             participantEntityRepository.save(newParticipant);
 
-            stompNotificationSender.sendCallNotification(principal.getName(),
-                    TicketMessage.builder()
-                            .ticket(
-                                    Ticket.builder()
-                                            .multiMediaServer(multiMediaServer)
-                                            .mediaServer(mediaServer)
-                                            .roomId(callId)
-                                            .build()
-                            )
+            stompNotificationSender.sendCallNotification(
+                principal.getName(),
+                TicketMessage.builder()
+                    .ticket(
+                        Ticket.builder()
+                            .multiMediaServer(multiMediaServer)
+                            .mediaServer(mediaServer)
+                            .roomId(callId)
                             .build()
-                    );
+                    )
+                    .build()
+                );
         }
     }
 
