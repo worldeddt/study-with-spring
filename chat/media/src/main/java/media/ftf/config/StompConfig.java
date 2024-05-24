@@ -3,6 +3,7 @@ package media.ftf.config;
 
 import lombok.RequiredArgsConstructor;
 import media.ftf.interceptors.InboundChannelInterceptor;
+import media.ftf.interceptors.MyDefaultHandshakeHandler;
 import media.ftf.interceptors.OutboundChannelInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -23,16 +24,18 @@ public class StompConfig extends StompSessionHandlerAdapter implements WebSocket
     private final TaskScheduler heartBeatScheduler;
     private final InboundChannelInterceptor inboundChannelInterceptor;
     private final OutboundChannelInterceptor outboundChannelInterceptor;
+    private final MyDefaultHandshakeHandler myDefaultHandshakeHandler;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/media")
+                .setHandshakeHandler(myDefaultHandshakeHandler)
                 .setAllowedOriginPatterns("*");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/queue") // chat  구독 시 사용
+        registry.enableSimpleBroker("/queue", "/topic") // chat  구독 시 사용
                 .setTaskScheduler(heartBeatScheduler)
                 .setHeartbeatValue(new long[]{5 * 1000, 5 * 1000});
 

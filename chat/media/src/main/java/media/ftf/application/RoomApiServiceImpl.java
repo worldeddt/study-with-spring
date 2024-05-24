@@ -34,7 +34,7 @@ public class RoomApiServiceImpl implements RoomApiService {
     @Transactional
     @Override
     public RoomResponse createRoom(RoomRequest roomRequest) {
-        log.debug("create room request : {}", roomRequest);
+        log.info("create room request : {}", roomRequest);
 
         final Consumer<Room> closeRoomCallback = room -> {
             final var roomId = room.getRoomId();

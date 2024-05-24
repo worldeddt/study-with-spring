@@ -33,19 +33,14 @@ public class SocketSessionServiceImpl implements SocketSessionService {
 
     @Override
     public synchronized void register(Principal user, String authorization) {
-        log.debug("authorization {} ", authorization);
+        log.info("authorization {} ", authorization);
 
         final var sessionInfo = SessionInfo.builder()
                 .principal(user)
                 .userId(authorization)
                 .build();
 
-        log.debug("{}", sessionInfo);
-
-        if (!SessionInfo.isValid(sessionInfo)) {
-            log.warn("invalid token {}", sessionInfo);
-            throw new CommonException(CommonCode.INVALID_TOKEN_PAYLOAD_TOKEN);
-        }
+        log.info("{}", sessionInfo);
 
         if (sessionManager.hasSession(sessionInfo)) {
             log.warn("duplicate login {}", sessionInfo);

@@ -54,14 +54,14 @@ public class Participant {  // 소켓 연결 시 생성 하도록 수정
     public synchronized void removeInWebRtcPeer(String present) {
         final var webRtcPeer = present_inWebRtcPeer.remove(present);
         if (webRtcPeer != null) {
-            log.debug("Participant userId:{} 의 inWebRtcPeer present: {} 를 release!", userId, present);
+            log.info("Participant userId:{} 의 inWebRtcPeer present: {} 를 release!", userId, present);
             webRtcPeer.release();
         }
     }
 
     public synchronized void release() {
         if (outWebRtcEndpoint != null) {
-            log.debug("Participant userId:{} 의 outWebRtcPeer를 release!", userId);
+            log.info("Participant userId:{} 의 outWebRtcPeer를 release!", userId);
             outWebRtcEndpoint.release();
         }
         present_inWebRtcPeer.keySet().forEach(this::removeInWebRtcPeer);

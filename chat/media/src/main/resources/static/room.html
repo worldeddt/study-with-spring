@@ -30,9 +30,14 @@
     const areaEl = document.querySelector("#area");
 
     const peerConnectionConfig = {
-        iceServers: [
-            { urls: "stun:stun.l.google.com:19302" }
-        ],
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        {
+          urls: "turn:20.39.201.66:19302?transport=tcp",
+          username: "fermi",
+          credential: "fermi1004",
+        },
+      ],
     };
 
     const mediaConstraints = {
@@ -188,11 +193,13 @@
         stompClient.send(`/pub/room/record`, {}, JSON.stringify({ type: "STOP" }));
     }
 
-    const stompInit = ({ jwt, roomId, server }) => {
-        const socket = new WebSocket(`wss://${getServerInfo()}/signal/stomp/media?server=${server}`);
-        stompClient = Stomp.over(socket);
+    const stompInit = ({roomId, server, userId }) => {
 
-        const headers = { Authorization: `Bearer ${jwt}` };
+
+      console.log(roomId, server);
+
+        const socket = new WebSocket(`wss://${getServerInfo()}/media?server=${server}`);
+        stompClient = Stomp.over(socket);
 
         const onConnect = async (payload) => {
 
@@ -206,7 +213,7 @@
 
             function sendData(){
                 const receiver = document.querySelector("#receiver").value;
-                stompClient.send(`/pub//room/chat`, {}, JSON.stringify({ receiver, message: "test", type: "USER" }));
+                stompClient.send(`/pub/room/chat`, {}, JSON.stringify({ receiver, message: "test", type: "USER" }));
             }
 
             const handleAnswer = async (payload) => {
@@ -281,38 +288,29 @@
 
         const onError = (error) => console.log("connect error", error);
 
-        stompClient.connect(headers, onConnect, onError);
+        stompClient.connect({Authorization : userId}, onConnect, onError);
     };
 
 </script>
 <script>
-
     const getServerInfo = () => {
         return `${window.location.hostname}:${window.location.port}`
     }
 
-    const { jwt } = new Proxy(
-        new URLSearchParams(window.location.search),
-        {
-            get: (searchParams, prop) => searchParams.get(prop),
-        }
-    );
+    let urlSearchParams = new URLSearchParams(window.location.search);
 
-    if(jwt){
-        var div = document.getElementById("tokenDiv");
-        div.classList.add("hidden");
 
-        // 토큰을 "."으로 분할하여 헤더 부분 가져오기
-        const encodedHeader = jwt.split('.')[0];
-        const encodedPayload = jwt.split('.')[1];
+    var div = document.getElementById("tokenDiv");
+    div.classList.add("hidden");
 
-        // Base64 디코딩
-        const decodedPayload  = JSON.parse(atob(encodedPayload));
-        const { server, roomId } = decodedPayload
+    var div = document.getElementById("tokenDiv");
+    div.classList.add("hidden");
 
-        stompInit({ jwt, roomId: roomId, server });
-    }
+    const server = urlSearchParams.get("server");
+    const roomId = urlSearchParams.get("roomId");
+    const userId = urlSearchParams.get("userId");
 
+    stompInit({roomId, server, userId});
 </script>
 </body>
 </html>

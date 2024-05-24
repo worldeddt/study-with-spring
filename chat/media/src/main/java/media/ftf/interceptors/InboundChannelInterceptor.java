@@ -30,13 +30,12 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 
         final var accessor = StompHeaderAccessor.wrap(message);
         final var principal = accessor.getUser();
-        log.info("pre send session info : {}", principal);
         final var command = accessor.getCommand();
 
         try {
             if (command == StompCommand.CONNECT) {
                 final var bearerToken = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
-                log.debug("==== stomp connect ====");
+                log.info("==== stomp connect ====");
                 socketSessionServiceImpl.register(principal, bearerToken);
             }
         } catch (CommonException e) {

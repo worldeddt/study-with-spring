@@ -33,7 +33,7 @@ spring:
     password: eddy
 
 media:
-  server-name: media_0001
+  server-name: media_001
   webrtc:
     kurento-url-list:
       - ws://localhost:8888/kurento

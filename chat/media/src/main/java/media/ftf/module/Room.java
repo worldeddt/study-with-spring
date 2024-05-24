@@ -49,7 +49,7 @@ public class Room {
     }
 
     public synchronized void join(String userId) {
-        log.debug("[room][join] roomId: {}, userId: {}", roomId, userId);
+        log.info("[room][join] roomId: {}, userId: {}", roomId, userId);
         userId_participants.computeIfAbsent(userId, k -> new Participant(userId, () -> mediaPipeline, true));
         this.joinRoomCallBack.accept(roomId);
 //        recorder.add(userId);
@@ -60,7 +60,7 @@ public class Room {
     }
 
     public synchronized void leave(String userId) {
-        log.debug("[room][leave] roomId: {}, userId: {}", roomId, userId);
+        log.info("[room][leave] roomId: {}, userId: {}", roomId, userId);
 //        recorder.remove(userId);
 
         final var participant = userId_participants.remove(userId);
@@ -76,7 +76,7 @@ public class Room {
     }
 
     public synchronized void release() {
-        log.debug("[room][release] roomId: {}", roomId);
+        log.info("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
 //        recorder.stop();
@@ -85,7 +85,7 @@ public class Room {
     }
 
     public synchronized void releaseWithKurentoDown() {
-        log.debug("[room][release] roomId: {}", roomId);
+        log.info("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
 //        recorder.stopWithKurentoDown();

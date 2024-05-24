@@ -21,7 +21,7 @@ public class RoomMessageSender  {
     private final SimpMessagingTemplate messagingTemplate;
 
     public void sendEndRoomMessage(Principal principal, EndRoomMessage endRoomMessage) {
-        log.debug("{}, {}", principal, endRoomMessage);
+        log.info("{}, {}", principal, endRoomMessage);
         messagingTemplate.convertAndSendToUser(principal.getName(),
                 TOPIC_MULTIMEDIA_NOTIFICATION, MultiMediaNotificatonMessage.builder()
                 .type(RoomNotificationType.END_ROOM)
