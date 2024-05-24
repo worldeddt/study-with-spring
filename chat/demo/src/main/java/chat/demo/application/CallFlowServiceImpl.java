@@ -80,7 +80,6 @@ public class CallFlowServiceImpl implements CallFlowService {
     }
 
     @Override
-    @Transactional
     public void handleRequestCall(Principal principal, RequestCallMessage requestCallMessage) {
 
         final var sessionInfo = sessionCacheRepository.findByPrincipalName(principal.getName());
@@ -151,10 +150,14 @@ public class CallFlowServiceImpl implements CallFlowService {
         final var mediaServer = createRoomResponse.getMediaServer();
         final var multiMediaServer = createRoomResponse.getMultiMediaServer();
 
+        log.info("mediaServer: {}/ multiMediaServer : {}",mediaServer,multiMediaServer);
+
         Call call = savedCall.toBuilder()
                 .multiMediaServer(multiMediaServer)
                 .mediaServer(mediaServer)
                 .build();
+
+        callEntityRepository.save(call);
 
         stompNotificationSender.sendCallNotification(
                 principal.getName(),
@@ -185,8 +188,6 @@ public class CallFlowServiceImpl implements CallFlowService {
             log.warn("");
             throw new CommonException(CommonCode.NOT_GUEST);
         }
-
-        log.info("acceptCallMessage.isAccept() : {}", acceptCallMessage.isAccept());
 
         final var userId = sessionInfo.getUserId();
         final var inviteKey = acceptCallMessage.getInviteKey();

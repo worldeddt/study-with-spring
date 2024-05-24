@@ -35,6 +35,7 @@
 </body>
 <script>
   let stompClient;
+  let userId;
   const getServerInfo = () => {
     return `${window.location.hostname}:${window.location.port}`
   }
@@ -55,6 +56,9 @@
         console.log(json);
       case "TICKET":
           console.log("ticket : "+json);
+        const { roomId, multiMediaServer } = json.ticket;
+
+        openRoom({ roomId, multiMediaServer });
       case "MESSAGE" :
         console.log(json);
     }
@@ -72,7 +76,8 @@
 
   function start() {
 
-    let userId = document.querySelector("#userId").value;
+    userId = "";
+    userId = document.querySelector("#userId").value;
     let isHost = document.querySelector("[name=owner_select]").value;
 
       if (!userId) {
@@ -131,9 +136,9 @@
 
   const myIframe = document.getElementById("myIframe");
 
-  const openRoom = ({ jwt, roomId, apiJwt, multiMediaServer }) => {
+  const openRoom = ({ roomId, multiMediaServer }) => {
       const server = getServerInfo();
-      myIframe.src = `https://localhost:8092/room.html?jwt=${jwt}&roomId=${roomId}&apiJwt=${apiJwt}&server=${multiMediaServer}`;
+      myIframe.src = `https://localhost:8092/room.html?roomId=${roomId}&server=${multiMediaServer}&userId=${userId}`;
       myIframe.style.display = "block";
   };
 
