@@ -23,7 +23,7 @@ public class Room {
     private final Consumer<Room> deleteRoomCallBack;
 
     @Getter
-//    private final Recorder recorder;
+    private final Recorder recorder;
     private final Map<String, Participant> userId_participants;
 
     @Builder
@@ -41,18 +41,18 @@ public class Room {
         this.joinRoomCallBack = joinRoomCallBack;
         this.deleteRoomCallBack = deleteRoomCallBack;
         this.userId_participants = new ConcurrentHashMap<>();
-//        this.recorder = Recorder.builder()
-//                .recordProperties(recordProperties)
-//                .getParticipants(() -> userId_participants)
-//                .getMediaPipeline(() -> mediaPipeline)
-//                .build();
+        this.recorder = Recorder.builder()
+                .recordProperties(recordProperties)
+                .getParticipants(() -> userId_participants)
+                .getMediaPipeline(() -> mediaPipeline)
+                .build();
     }
 
     public synchronized void join(String userId) {
-        log.info("[room][join] roomId: {}, userId: {}", roomId, userId);
+        log.debug("[room][join] roomId: {}, userId: {}", roomId, userId);
         userId_participants.computeIfAbsent(userId, k -> new Participant(userId, () -> mediaPipeline, true));
         this.joinRoomCallBack.accept(roomId);
-//        recorder.add(userId);
+        recorder.add(userId);
     }
 
     public synchronized void joinWithOnlyIncoming(String userId) {
@@ -60,12 +60,16 @@ public class Room {
     }
 
     public synchronized void leave(String userId) {
-        log.info("[room][leave] roomId: {}, userId: {}", roomId, userId);
-//        recorder.remove(userId);
+        log.debug("[room][leave] roomId: {}, userId: {}", roomId, userId);
 
         final var participant = userId_participants.remove(userId);
-        if (participant != null) participant.release();
-
+        if (participant != null){
+            if (participant.getOutWebRtcEndpoint() != null) {
+                // outgoing 이 있는 유저만 녹화 제거 (outgoing==null 모니터링 유저)
+                recorder.remove(userId);
+            }
+            participant.release();
+        }
 
         if (userId_participants.isEmpty()) {
             release();
@@ -76,19 +80,19 @@ public class Room {
     }
 
     public synchronized void release() {
-        log.info("[room][release] roomId: {}", roomId);
+        log.debug("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
-//        recorder.stop();
+        recorder.stop();
         userId_participants.keySet().forEach(this::leave);
         mediaPipeline.release();
     }
 
     public synchronized void releaseWithKurentoDown() {
-        log.info("[room][release] roomId: {}", roomId);
+        log.debug("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
-//        recorder.stopWithKurentoDown();
+        recorder.stopWithKurentoDown();
     }
 
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -119,3 +123,4 @@ public class Room {
     }
 
 }
+

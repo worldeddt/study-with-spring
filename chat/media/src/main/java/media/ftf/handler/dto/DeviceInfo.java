@@ -1,8 +1,10 @@
-package media.ftf.application.dto.request;
+package media.ftf.handler.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
+@ToString
 @Builder
 @Data
 public class DeviceInfo {

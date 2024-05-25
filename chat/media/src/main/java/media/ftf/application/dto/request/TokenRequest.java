@@ -5,7 +5,6 @@ package media.ftf.application.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import media.ftf.application.dto.OptionDto;
 import media.ftf.enums.EUserType;
 
 import java.util.List;

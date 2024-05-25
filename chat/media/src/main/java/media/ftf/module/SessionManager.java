@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -12,45 +13,50 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 @Component
 public class SessionManager {
-    private final ConcurrentHashMap<String, SessionInfo> sessionsMap
-            = new ConcurrentHashMap<>();
 
-    private final ConcurrentHashMap<String, String> userIdMap
-            = new ConcurrentHashMap<>();
+    private final Map<String, SessionInfo> principalNameSessionInfo = new ConcurrentHashMap<>();
+    private final Map<String, String> userIdIndex = new ConcurrentHashMap<>();
 
-    public void registerSession(SessionInfo sessionInfo) {
+    public synchronized void registerSession(SessionInfo sessionInfo) {
         final var user = sessionInfo.getPrincipal();
+        final var name = user.getName();
         final var userId = sessionInfo.getUserId();
-        sessionsMap.putIfAbsent(user.getName(), sessionInfo);
-        userIdMap.computeIfAbsent(userId, k -> user.getName());
+        principalNameSessionInfo.putIfAbsent(name, sessionInfo);
+        userIdIndex.computeIfAbsent(userId, k -> name);
     }
 
-    public synchronized SessionInfo removeSession(Principal user) {
-        String principalName = user.getName();
-        SessionInfo sessionInfo = sessionsMap.remove(principalName);
-        userIdMap.remove(sessionInfo.getUserId());
+    public synchronized SessionInfo removeSession(Principal principal) {
+        final var principalName = principal.getName();
+        final var sessionInfo = principalNameSessionInfo.remove(principalName);
+        final var userId = sessionInfo.getUserId();
+        userIdIndex.remove(userId);
         return sessionInfo;
-    }
-
-    public boolean hasSession(SessionInfo sessionInfo) {
-        return sessionsMap.containsKey(sessionInfo.getPrincipal().getName());
     }
 
     public Principal findPrincipalByUserId(String userId) {
         if (userId == null) return null;
-        final var principalName = userIdMap.get(userId);
+        final var principalName = userIdIndex.get(userId);
         if (principalName == null) return null;
         final var sessionInfo = findSessionInfoByPrincipalName(principalName);
         return sessionInfo.getPrincipal();
     }
 
-
     public SessionInfo findSessionInfoByUserId(String userId) {
-        final var principalName = userIdMap.get(userId);
-        return sessionsMap.get(principalName);
+        final var principalName = userIdIndex.get(userId);
+        return principalNameSessionInfo.get(principalName);
     }
 
     public SessionInfo findSessionInfoByPrincipalName(String principalName) {
-        return sessionsMap.get(principalName);
+        return principalNameSessionInfo.get(principalName);
     }
+
+    public SessionInfo findSessionInfo(Principal principal) {
+        return findSessionInfoByPrincipalName(principal.getName());
+    }
+
+    public boolean hasSession(SessionInfo sessionInfo) {
+        final var userId = sessionInfo.getUserId();
+        return userIdIndex.containsKey(userId);
+    }
+
 }

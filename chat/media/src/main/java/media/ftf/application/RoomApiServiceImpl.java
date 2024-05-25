@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import media.ftf.application.dto.response.EndRoomMessage;
 import media.ftf.application.interfaces.RoomApiService;
 import media.ftf.domain.RoomManager;
-import media.ftf.domain.entity.RoomEntity;
 import media.ftf.dto.request.RoomRequest;
 import media.ftf.dto.response.RoomResponse;
 import media.ftf.mapper.RoomMapper;
@@ -41,7 +40,8 @@ public class RoomApiServiceImpl implements RoomApiService {
             room.findParticipants().forEach(i -> {
                 final var principal = sessionManager.findPrincipalByUserId(i.getUserId());
                 if (principal != null) {
-                    roomMessageSender.sendEndRoomMessage(principal, EndRoomMessage.builder().roomId(roomId).build());
+                    roomMessageSender.sendEndRoomMessage(principal,
+                            EndRoomMessage.builder().roomId(roomId).build());
                 }
             });
             roomRepository.findById(roomId)
