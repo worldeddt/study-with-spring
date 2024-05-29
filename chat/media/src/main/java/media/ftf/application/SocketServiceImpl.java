@@ -6,11 +6,9 @@ import media.ftf.advice.CommonException;
 import media.ftf.application.interfaces.SocketService;
 import media.ftf.componant.ChatEvent;
 import media.ftf.domain.RoomManager;
-import media.ftf.domain.entity.RecordEntity;
-import media.ftf.domain.entity.RoomEntity;
 import media.ftf.enums.*;
-import media.ftf.enums.RecordMessage;
 import media.ftf.handler.dto.*;
+import media.ftf.handler.dto.RecordMessage;
 import media.ftf.module.*;
 import media.ftf.module.AnswerMessage;
 import media.ftf.properties.MediaProperties;
@@ -75,7 +73,7 @@ public class SocketServiceImpl implements SocketService {
 
     @Override
     public void handleJoin(Principal user, MonitorMessage monitorMessage) {
-        log.debug("{}, {}", user, monitorMessage);
+        log.info("{}, {}", user, monitorMessage);
 
         final var roomId = monitorMessage.getRoomId();
 
@@ -106,7 +104,7 @@ public class SocketServiceImpl implements SocketService {
 
     @Override
     public void handleOffer(Principal user, OfferMessage offerMessage) {
-        log.debug("{}, {}", user, offerMessage);
+        log.info("{}, {}", user, offerMessage);
 
         final var sessionInfo = sessionManager.findSessionInfo(user);
         final var userId = sessionInfo.getUserId();
@@ -125,6 +123,8 @@ public class SocketServiceImpl implements SocketService {
         if (WebRtcEndpointType.INCOMING.equals(epType) && (!StringUtils.hasText(present) || sessionManager.findPrincipalByUserId(present) == null)) {
             throw new CommonException(CommonCode.UNKNOWN_PRESENT_USER);
         }
+
+        log.info("roomId : {}" , roomId);
 
         roomManager.handleRoomWithThrowNotFoundRoom(roomId, room -> {
 
@@ -270,7 +270,7 @@ public class SocketServiceImpl implements SocketService {
 
     @Override
     public void handleCandidate(Principal user, CandidateMessage candidateMessage) {
-        log.debug("user: {}, candidateMessage: {}", user, candidateMessage);
+        log.info("user: {}, candidateMessage: {}", user, candidateMessage);
 
         final var sessionInfo = sessionManager.findSessionInfo(user);
         final var sessionType = sessionInfo.getTicketType();
@@ -308,7 +308,7 @@ public class SocketServiceImpl implements SocketService {
         final var roomId = sessionInfo.getRoomId();
         final var userId = sessionInfo.getUserId();
 
-        log.debug("레코딩 핸들 SessionInfo: {} ", sessionInfo);
+        log.info("레코딩 핸들 SessionInfo: {} ", sessionInfo);
 
         if (!sessionInfo.isAgent()) {
             throw new CommonException(CommonCode.RECORD_USER_NOT_AGENT);
@@ -337,7 +337,7 @@ public class SocketServiceImpl implements SocketService {
         final var roomId = sessionInfo.getRoomId();
         final var userId = sessionInfo.getUserId();
 
-        log.debug("[{}][chat] user: {}, chatMessage: {}", roomId, user, chatMessage);
+        log.info("[{}][chat] user: {}, chatMessage: {}", roomId, user, chatMessage);
 
         chatMessage.setSender(userId);
 
@@ -367,7 +367,7 @@ public class SocketServiceImpl implements SocketService {
 
     @Override
     public void handleData(Principal user, DataMessage dataMessage) {
-        log.debug("user: {}, dataMessage: {}", user, dataMessage);
+        log.info("user: {}, dataMessage: {}", user, dataMessage);
 
         // 방 정보 가져와서 방 사람들에서 전체 전송
         final var sessionInfo = sessionManager.findSessionInfo(user);
@@ -390,7 +390,7 @@ public class SocketServiceImpl implements SocketService {
 
     @Override
     public void handleLeave(SessionInfo sessionInfo) {
-        log.debug("{}", sessionInfo);
+        log.info("{}", sessionInfo);
 
         if (sessionInfo == null) return;
 
@@ -403,7 +403,7 @@ public class SocketServiceImpl implements SocketService {
         switch (sessionType) {
             case MONITOR -> monitorManger.leaveAllRoom(userId);
             case CONFERENCE -> roomManager.handleRoom(roomId, room -> {
-                room.leave(userId);
+//                room.leave(userId);
 
                 final var chatEvent = ChatEvent.builder()
                         .roomId(roomId)

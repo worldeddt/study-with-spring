@@ -8,12 +8,15 @@ import media.ftf.advice.CommonException;
 import media.ftf.application.dto.response.MonitoringTokenResponse;
 import media.ftf.application.interfaces.SocketSessionService;
 import media.ftf.enums.CommonCode;
+import media.ftf.enums.TicketType;
 import media.ftf.module.SessionInfo;
 import media.ftf.module.SessionManager;
 import media.ftf.properties.MediaProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -32,12 +35,14 @@ public class SocketSessionServiceImpl implements SocketSessionService {
     }
 
     @Override
-    public synchronized void register(Principal user, String authorization) {
-        log.info("authorization {} ", authorization);
+    public synchronized void register(Principal user, String userId, String roomId) {
+        log.info("authorization {} ", userId);
 
         final var sessionInfo = SessionInfo.builder()
                 .principal(user)
-                .userId(authorization)
+                .roomId(roomId)
+                .ticketType(TicketType.CONFERENCE)
+                .userId(userId)
                 .build();
 
         log.info("{}", sessionInfo);
@@ -53,6 +58,6 @@ public class SocketSessionServiceImpl implements SocketSessionService {
     @Override
     public synchronized void unregister(Principal user, Consumer<SessionInfo> callback) {
         final var sessionInfo = sessionManager.removeSession(user);
-//        callback.accept(sessionInfo);
+        callback.accept(sessionInfo);
     }
 }

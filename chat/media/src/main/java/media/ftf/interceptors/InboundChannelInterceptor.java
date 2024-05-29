@@ -34,9 +34,10 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 
         try {
             if (command == StompCommand.CONNECT) {
-                final var bearerToken = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+                final var userId = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+                final var roomId = accessor.getFirstNativeHeader("ROOM");
                 log.info("==== stomp connect ====");
-                socketSessionServiceImpl.register(principal, bearerToken);
+                socketSessionServiceImpl.register(principal, userId, roomId);
             }
         } catch (CommonException e) {
             log.warn("", e);

@@ -1,10 +1,10 @@
 server:
   port: 8092
-  ssl:
-    key-store-password: kurento
-    key-store-type: JKS
-    key-store: classpath:keystore.jks
-    key-alias: kurento-selfsigned
+#  ssl:
+#    key-store-password: kurento
+#    key-store-type: JKS
+#    key-store: classpath:keystore.jks
+#    key-alias: kurento-selfsigned
 
 
 spring:
@@ -34,6 +34,7 @@ spring:
 
 media:
   server-name: media_001
+  room-delete-ttl: 3600
   webrtc:
     kurento-url-list:
       - ws://localhost:8888/kurento

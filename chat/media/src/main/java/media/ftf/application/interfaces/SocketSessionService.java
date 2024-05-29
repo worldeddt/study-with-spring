@@ -13,7 +13,7 @@ public interface SocketSessionService {
 
     MonitoringTokenResponse createMonitorTicket(SessionInfo sessionInfo);
 
-    void register(Principal user, String bearerToken);
+    void register(Principal user, String userId, String roomId);
 
     void unregister(Principal user, Consumer<SessionInfo> callback);
 }

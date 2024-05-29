@@ -16,6 +16,7 @@
         <label>FermiToken:<input id="fermiToken"/></label>
     </div>
     <button onclick="startRecord();">startRecord</button>
+    <button onclick="checkRoomList()">checkRoomList</button>
     <button onclick="stopRecord();">stopRecord</button>
     <label>receiver:<input id="receiver"/></label>
     <button onclick="sendData();">sendData</button>
@@ -31,12 +32,7 @@
 
     const peerConnectionConfig = {
       iceServers: [
-        { urls: "stun:stun.l.google.com:19302" },
-        {
-          urls: "turn:20.39.201.66:19302?transport=tcp",
-          username: "fermi",
-          credential: "fermi1004",
-        },
+        { urls: "stun:stun.l.google.com:19302" }
       ],
     };
 
@@ -57,6 +53,7 @@
             .getUserMedia(mediaConstraints)
             .then((mediaStream) => {
                 const peerConnection = new RTCPeerConnection(peerConnectionConfig);
+                console.info(peerConnection);
                 outPc = peerConnection;
                 mediaStream
                     .getTracks()
@@ -67,6 +64,7 @@
                 };
 
                 peerConnection.onconnectionstatechange = (event) => {
+                  console.info("event connection state : "+JSON.stringify(event));
                     console.info("[webrtc][out] connectionstatechange", event.currentTarget.connectionState);
                 };
 
@@ -119,6 +117,7 @@
         };
 
         peerConnection.onconnectionstatechange = (event) => {
+            console.info("event connection state : "+event);
             console.info("[webrtc][in] connectionstatechange", event.currentTarget.connectionState);
         };
 
@@ -146,7 +145,7 @@
         };
 
         peerConnection.ontrack = (event) => {
-            console.log("onTrack", event);
+            console.info("onTrack :", event);
 
             const { track } = event;
 
@@ -182,7 +181,8 @@
 
     let stompClient;
 
-    function restart(){
+    function checkRoomList() {
+      stompClient.send(`/pub/room/check/roomId`);
     }
 
     function startRecord() {
@@ -198,7 +198,7 @@
 
       console.log(roomId, server);
 
-        const socket = new WebSocket(`wss://${getServerInfo()}/media?server=${server}`);
+        const socket = new WebSocket(`wss://${getServerInfo()}/signal/media?server=${server}`);
         stompClient = Stomp.over(socket);
 
         const onConnect = async (payload) => {
@@ -233,6 +233,8 @@
             const handleMultiMediaNotification = async (payloaddata) => {
                 const { body } = payloaddata;
                 const { type, payload } = JSON.parse(body);
+
+                console.info("body "+JSON.parse(body));
                 switch (type) {
                     case "member": {
                         switch ( payload.state ) {
@@ -288,7 +290,7 @@
 
         const onError = (error) => console.log("connect error", error);
 
-        stompClient.connect({Authorization : userId}, onConnect, onError);
+        stompClient.connect({Authorization : userId, ROOM: roomId}, onConnect, onError);
     };
 
 </script>

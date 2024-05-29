@@ -10,6 +10,7 @@ import media.ftf.dto.request.RoomRequest;
 import media.ftf.dto.response.RoomResponse;
 import media.ftf.handler.dto.EndRoomDto;
 import media.ftf.mapper.RoomMapper;
+import media.ftf.module.MonitorManger;
 import media.ftf.module.Room;
 import media.ftf.module.RoomMessageSender;
 import media.ftf.module.SessionManager;
@@ -31,6 +32,8 @@ public class RoomApiServiceImpl implements RoomApiService {
     private final SessionManager sessionManager;
     private final RoomMessageSender roomMessageSender;
 
+    private final MonitorManger monitorManger;
+
     @Transactional
     @Override
     public RoomResponse createRoom(RoomRequest roomRequest) {
@@ -47,11 +50,11 @@ public class RoomApiServiceImpl implements RoomApiService {
             });
             roomRepository.findById(roomId)
                     .ifPresent(roomEntity -> roomRepository.save(roomEntity.toBuilder().closeDate(LocalDateTime.now()).build()));
-//            monitorManger.endRoomProcess(roomId);
+            monitorManger.endRoomProcess(roomId);
         };
 
         final var roomResponse =
-                roomManager.createRoom(roomRequest.getRoomId(), null);
+                roomManager.createRoom(roomRequest.getRoomId(), closeRoomCallback);
         roomRepository.save(roomMapper.toEntity(roomRequest));
         return roomResponse;
     }

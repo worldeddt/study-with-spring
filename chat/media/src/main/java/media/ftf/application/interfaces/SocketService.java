@@ -1,7 +1,6 @@
 package media.ftf.application.interfaces;
 
 
-import media.ftf.enums.RecordMessage;
 import media.ftf.handler.dto.*;
 import media.ftf.module.SessionInfo;
 

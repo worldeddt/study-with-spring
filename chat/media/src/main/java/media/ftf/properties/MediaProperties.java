@@ -8,7 +8,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = "media")
 public record MediaProperties (
         String serverName,
-        WebRtcProperties webrtc
+        WebRtcProperties webrtc,
+        int roomDeleteTtl
 ) {
 
     public record WebRtcProperties(

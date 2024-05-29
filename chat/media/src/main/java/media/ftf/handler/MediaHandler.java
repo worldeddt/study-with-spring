@@ -4,7 +4,7 @@ package media.ftf.handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import media.ftf.application.interfaces.SocketService;
-import media.ftf.enums.RecordMessage;
+import media.ftf.domain.RoomManager;
 import media.ftf.handler.dto.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MediaHandler {
 
     private final SocketService communicationService;
+    private final RoomManager roomManager;
 
     @MessageMapping("/room/monitor")
     public void monitor(SimpMessageHeaderAccessor headerAccessor, @Validated @Payload MonitorMessage monitorMessage) {
@@ -31,6 +32,11 @@ public class MediaHandler {
         log.info("{}", offerMessage);
         final var user = headerAccessor.getUser();
         communicationService.handleOffer(user, offerMessage);
+    }
+
+    @MessageMapping("/room/check/roomId")
+    public void check() {
+        roomManager.iteratorRoomId();
     }
 
     @MessageMapping("/room/candidate")
