@@ -22,6 +22,4 @@ public class TokenRequest {
     private String userName;
     private int tenantId;
     private String loginId;
-    private DeviceInfo deviceInfo;
-    private List<OptionDto> option;
 }

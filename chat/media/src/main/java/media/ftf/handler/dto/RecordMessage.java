@@ -1,10 +1,11 @@
 package media.ftf.handler.dto;
 
-import com.fermi.multimedia.core.enums.RecordControlType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import media.ftf.enums.RecordControlType;
 
 @Data
 @Builder

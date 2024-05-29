@@ -8,6 +8,7 @@ import media.ftf.application.interfaces.RoomApiService;
 import media.ftf.domain.RoomManager;
 import media.ftf.dto.request.RoomRequest;
 import media.ftf.dto.response.RoomResponse;
+import media.ftf.handler.dto.EndRoomDto;
 import media.ftf.mapper.RoomMapper;
 import media.ftf.module.Room;
 import media.ftf.module.RoomMessageSender;
@@ -41,7 +42,7 @@ public class RoomApiServiceImpl implements RoomApiService {
                 final var principal = sessionManager.findPrincipalByUserId(i.getUserId());
                 if (principal != null) {
                     roomMessageSender.sendEndRoomMessage(principal,
-                            EndRoomMessage.builder().roomId(roomId).build());
+                            EndRoomDto.builder().roomId(roomId).build());
                 }
             });
             roomRepository.findById(roomId)

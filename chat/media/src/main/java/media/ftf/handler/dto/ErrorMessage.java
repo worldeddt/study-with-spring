@@ -1,9 +1,9 @@
 package media.ftf.handler.dto;
 
-import com.fermi.multimedia.core.exception.FermiCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import media.ftf.enums.CommonCode;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ public class ErrorMessage {
     private String payload;
     private List<String> data;
 
-    public static ErrorMessage of(FermiCode fermiCode) {
+    public static ErrorMessage of(CommonCode commonCode) {
         return ErrorMessage.builder()
-                .status(fermiCode.getStatus())
-                .code(fermiCode.getCode())
-                .message(fermiCode.getMessage())
+                .status(commonCode.getStatus())
+                .code(commonCode.getCode())
+                .message(commonCode.getMessage())
                 .build();
     }
 

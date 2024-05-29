@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import media.ftf.advice.CommonException;
 import media.ftf.application.interfaces.SocketService;
+import media.ftf.componant.ChatEvent;
 import media.ftf.domain.RoomManager;
 import media.ftf.domain.entity.RecordEntity;
 import media.ftf.domain.entity.RoomEntity;
@@ -319,96 +320,9 @@ public class SocketServiceImpl implements SocketService {
 
             switch (recordMessage.getType()) {
                 case START -> {
-                    final var isStart = recorder.start(
-                            sessionInfo,
-                            sessionManager::findSessionInfoByUserId,
-                            recordInfo -> {
-
-                                fileNameCache.put(recordInfo.getFileName(), fileName -> {
-                                            log.info("레코딩 파일체크 | roomId: {} id:{} ", roomId, fileName);
-
-                                            final var fileSize = recordInfo.getFileSize();
-                                            final var payload = fileSize == 0
-                                                    ? RecordCheckDto.builder().userId(userId).recordStatus(500).reason("fileSize is zero").build()
-                                                    : RecordCheckDto.builder().userId(userId).recordStatus(200).reason("fileSize: " + fileSize).build();
-
-                                            // '레코드 시작 사용자'에게 레코드 파일의 상태를 보낸다.
-                                            final var recorderUser = sessionManager.findPrincipalByUserId(userId);
-                                            if (recorderUser != null) {
-                                                roomMessageSender.sendRecordCheckMessage(recorderUser, payload);
-                                            }
-
-                                        },
-                                        recordProperties.config().fileSizeCheckTtl(), TimeUnit.SECONDS
-                                );
-
-                                // 저장
-                                recordRepository.save(RecordEntity.builder()
-                                        .room(RoomEntity.builder().id(roomId).build())
-                                        .userId(userId)
-                                        .status(RecordStatus.STATUS_START)
-                                        .filePath(recordInfo.getDirPath())
-                                        .fileName(recordInfo.getFileName())
-                                        .orgSuffix(recordInfo.getSuffix())
-                                        .type(recordInfo.getRecordType())
-                                        .build());
-
-                            },
-                            recordInfo -> {
-
-                                // ttl 제거
-                                final var hostFileUri = recordInfo.getFileUriWithHostPath();
-                                final var fileName = recordInfo.getFileName();
-
-                                if (fileNameCache.get(fileName) != null) {
-                                    final var fileCheck = fileNameCache.remove(fileName);
-                                    fileCheck.accept(fileName);
-                                }
-
-                                final var recordEntity = recordRepository.findOneByFileName(fileName)
-                                        .orElseThrow(() -> new CommonException(CommonCode.NOT_FOUND_RECORD));
-
-                                final var fileSize = recordInfo.getFileSize();
-                                recordRepository.save(recordEntity.toBuilder().fileSize(fileSize).status(RecordStatus.STATUS_STOP).build());
-
-                                // 녹화파일의 암호화를 위해 이벤트(EncodeEvent)로 처리 -- EncodeEventHandler
-                                applicationEventPublisher.publishEvent(RecordFinishedEvent.builder()
-                                        .id(recordEntity.getId())
-                                        .recordInfo(recordInfo)
-                                        .build());
-                            },
-                            recordInfo -> {
-                                // 레코딩 에러시
-                                // 레코드 엔터티 DB 테이블의 상태를 ERROR 로 업데이트
-                                recordRepository.findOneByFileName(recordInfo.getFileName()).ifPresent(recordEntity -> recordRepository.save(recordEntity.toBuilder().status(RecordStatus.STATUS_ERROR).build()));
-
-                                // '레코드 시작 사용자'에게 레코드 에러 메시지를 보낸다.
-                                final var recorderUser = sessionManager.findPrincipalByUserId(userId);
-
-                                roomMessageSender.sendRecordCheckMessage(recorderUser, RecordCheckDto.builder()
-                                        .userId(userId)
-                                        .recordStatus(CommonCode.MS_RECORD_ERROR.getStatus())
-                                        .reason(CommonCode.MS_RECORD_ERROR.getMessage())
-                                        .build());
-                            }
-                    );
-
-                    if (isStart) {
-                        roomMessageSender.sendRecordMessage(user, RecordControlDto.builder().state(
-                                RecordControlType.START).build());
-                    } else {
-                        throw new CommonException(CommonCode.RECORD_ALREADY_STARTED);
-                    }
 
                 }
                 case STOP -> {
-                    final var isStop = recorder.stop();
-                    if (isStop) {
-                        roomMessageSender.sendRecordMessage(user, RecordControlDto.builder().state(
-                                RecordControlType.STOP).data(List.of()).build());
-                    } else {
-                        throw new CommonException(CommonCode.RECORD_ALREADY_STOPPED);
-                    }
                 }
             }
 

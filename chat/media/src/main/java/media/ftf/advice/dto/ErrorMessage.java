@@ -16,11 +16,11 @@ public class ErrorMessage {
     private String payload;
     private List<String> data;
 
-    public static ErrorMessage of(CommonCode fermiCode) {
+    public static ErrorMessage of(CommonCode commonCode) {
         return ErrorMessage.builder()
-                .status(fermiCode.getStatus())
-                .code(fermiCode.getCode())
-                .message(fermiCode.getMessage())
+                .status(commonCode.getStatus())
+                .code(commonCode.getCode())
+                .message(commonCode.getMessage())
                 .build();
     }
 

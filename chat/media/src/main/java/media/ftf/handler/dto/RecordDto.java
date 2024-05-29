@@ -1,10 +1,11 @@
 package media.ftf.handler.dto;
 
-import com.fermi.multimedia.core.enums.RecordStatus;
-import com.fermi.multimedia.core.enums.RecordType;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import media.ftf.enums.RecordStatus;
+import media.ftf.enums.RecordType;
 
 import java.util.Date;
 

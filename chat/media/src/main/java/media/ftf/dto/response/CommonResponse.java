@@ -29,8 +29,8 @@ public class CommonResponse<T> {
         return new CommonResponse<>(statusCode, message, null);
     }
 
-    public static <T> CommonResponse<T> of(CommonCode fermiCode, T messages) {
-        return new CommonResponse<>(fermiCode.getStatus(), fermiCode.getMessage(), messages);
+    public static <T> CommonResponse<T> of(CommonCode commonCode, T messages) {
+        return new CommonResponse<>(commonCode.getStatus(), commonCode.getMessage(), messages);
     }
 
     public static CommonResponse<Void> of(CommonCode code) {
@@ -38,13 +38,13 @@ public class CommonResponse<T> {
     }
 
 
-    public static CommonResponse<List<String>> of(CommonCode fermiCode, MethodArgumentTypeMismatchException e) {
-        return new CommonResponse<>(fermiCode.getStatus(), fermiCode.getMessage(), List.of(getResultMessage(e.getName(), e.getValue(), e.getErrorCode())));
+    public static CommonResponse<List<String>> of(CommonCode commonCode, MethodArgumentTypeMismatchException e) {
+        return new CommonResponse<>(commonCode.getStatus(), commonCode.getMessage(), List.of(getResultMessage(e.getName(), e.getValue(), e.getErrorCode())));
     }
 
-    public static CommonResponse<List<String>> of(CommonCode fermiCode, List<FieldError> errorList) {
+    public static CommonResponse<List<String>> of(CommonCode commonCode, List<FieldError> errorList) {
         final var list = errorList.stream().map(CommonResponse::getResultMessage).toList();
-        return new CommonResponse<>(fermiCode.getStatus(), fermiCode.getMessage(), list);
+        return new CommonResponse<>(commonCode.getStatus(), commonCode.getMessage(), list);
     }
 
     public static String getResultMessage(FieldError fieldError) {

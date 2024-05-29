@@ -1,8 +1,9 @@
-package aop.prototypes.common.config;
+package aop.prototypes.media.common.config;
 
 
 import aop.prototypes.common.domain.TtlCache;
 import aop.prototypes.kurentoMultiInstance.enums.KurentoStatus;
+import aop.prototypes.media.common.properties.KurentoProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

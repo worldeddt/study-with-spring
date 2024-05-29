@@ -1,10 +1,10 @@
 package media.ftf.handler.dto;
 
 
-import com.fermi.multimedia.core.enums.EMsgType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import media.ftf.enums.EMsgType;
 
 import java.util.Date;
 

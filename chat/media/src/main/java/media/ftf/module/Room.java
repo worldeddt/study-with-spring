@@ -52,7 +52,6 @@ public class Room {
         log.debug("[room][join] roomId: {}, userId: {}", roomId, userId);
         userId_participants.computeIfAbsent(userId, k -> new Participant(userId, () -> mediaPipeline, true));
         this.joinRoomCallBack.accept(roomId);
-        recorder.add(userId);
     }
 
     public synchronized void joinWithOnlyIncoming(String userId) {
@@ -66,7 +65,7 @@ public class Room {
         if (participant != null){
             if (participant.getOutWebRtcEndpoint() != null) {
                 // outgoing 이 있는 유저만 녹화 제거 (outgoing==null 모니터링 유저)
-                recorder.remove(userId);
+
             }
             participant.release();
         }
@@ -83,7 +82,6 @@ public class Room {
         log.debug("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
-        recorder.stop();
         userId_participants.keySet().forEach(this::leave);
         mediaPipeline.release();
     }
@@ -92,7 +90,6 @@ public class Room {
         log.debug("[room][release] roomId: {}", roomId);
         // 해당 위치 순서 중요
         deleteRoomCallBack.accept(this);
-        recorder.stopWithKurentoDown();
     }
 
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
