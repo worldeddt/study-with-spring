@@ -91,7 +91,7 @@
     }
 
     const server = getServerInfo();
-    let webSocket = new WebSocket(`wss://${server}/chat`);
+    let webSocket = new WebSocket(`wss://${server}/call/chat`);
     stompClient = Stomp.over(webSocket);
 
     const onError = async (error) => {
@@ -138,7 +138,7 @@
 
   const openRoom = ({ roomId, multiMediaServer }) => {
       const server = getServerInfo();
-      myIframe.src = `https://localhost:8092/room.html?roomId=${roomId}&server=${multiMediaServer}&userId=${userId}`;
+      myIframe.src = `https://${server}/signal/room.html?roomId=${roomId}&server=${multiMediaServer}&userId=${userId}`;
       myIframe.style.display = "block";
   };
 

@@ -163,6 +163,7 @@ public class CallFlowServiceImpl implements CallFlowService {
                 principal.getName(),
                 InviteMessage.builder()
                         .sender(sessionInfo.getUserId())
+                        .callId(roomId)
                         .type(NotificationType.OUTBOUND_CLIENT_CALL)
                         .inviteKey(
                                 inviteManager.createInviteKey(
