@@ -1,5 +1,5 @@
 server:
-  port: 8092
+  port: 1235
 #  ssl:
 #    key-store-password: kurento
 #    key-store-type: JKS

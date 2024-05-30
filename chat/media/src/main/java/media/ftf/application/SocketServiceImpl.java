@@ -124,10 +124,10 @@ public class SocketServiceImpl implements SocketService {
             throw new CommonException(CommonCode.UNKNOWN_PRESENT_USER);
         }
 
-        log.info("roomId : {}" , roomId);
 
         roomManager.handleRoomWithThrowNotFoundRoom(roomId, room -> {
 
+            log.info("sessionType : {}, epType : {}" , sessionType, epType);
             if (TicketType.CONFERENCE.equals(sessionType) && WebRtcEndpointType.OUTGOING.equals(epType)) {
                 room.join(userId);
                 handleJoin(user);
@@ -243,12 +243,18 @@ public class SocketServiceImpl implements SocketService {
                 webRtcEndpoint.addIceCandidate(iceCandidate);
             });
 
+            log.info("epType : {}", epType);
+
             switch (epType) {
                 case OUTGOING -> {
                     // 참여자 알림
                     final var otherParticipants = room.findOtherParticipants(userId);
+                    log.info("other participants : {}", otherParticipants.size());
                     otherParticipants.forEach(otherParticipant -> {
                         final var otherSessionInfo = sessionManager.findSessionInfoByUserId(otherParticipant.getUserId());
+
+                        log.info("other Session info : {}", otherSessionInfo.getLoginId());
+                        log.info("other Session info : {}", otherSessionInfo.getPrincipal().getName());
                         roomMessageSender.sendMemberMessage(user, otherSessionInfo, MemberNotificationType.ENTER); // 나에게 기존참여자 정보를 보냄
                         roomMessageSender.sendMemberMessage(otherSessionInfo.getPrincipal(), sessionInfo, MemberNotificationType.ENTER);  // 기존 참여자에게 내 참여정보를 보냄
                     });
