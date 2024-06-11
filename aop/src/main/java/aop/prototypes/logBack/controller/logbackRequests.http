@@ -30,3 +30,13 @@ Content-Type: application/json
 ###
 
 GET https://localhost:8082/room/kurento/CD
+
+###
+
+POST https://localhost:8081/record
+Content-Type: application/json
+
+{
+  "key" : "eddy",
+  "value" : "zzang12ss"
+}

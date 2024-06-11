@@ -1,12 +1,10 @@
 package aop.prototypes.media.application;
 
-import aop.prototypes.common.config.KurentoConfig;
-import aop.prototypes.common.config.KurentoProperties;
-import aop.prototypes.kurentoMultiInstance.enums.KurentoStatus;
+import aop.prototypes.media.common.config.KurentoConfig;
+import aop.prototypes.media.common.properties.KurentoProperties;
 import lombok.RequiredArgsConstructor;
 import org.kurento.client.KurentoClient;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;

@@ -1,8 +1,8 @@
 package aop.prototypes.common.controller;
 
 
-import aop.prototypes.common.config.KurentoConfig;
-import aop.prototypes.common.config.KurentoProperties;
+import aop.prototypes.media.common.config.KurentoConfig;
+import aop.prototypes.media.common.properties.KurentoProperties;
 import aop.prototypes.common.controller.dto.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

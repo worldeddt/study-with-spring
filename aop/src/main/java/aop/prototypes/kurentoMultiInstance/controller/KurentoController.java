@@ -1,14 +1,11 @@
 package aop.prototypes.kurentoMultiInstance.controller;
 
 
-import aop.prototypes.common.config.KurentoConfig;
-import aop.prototypes.kurentoMultiInstance.enums.KurentoStatus;
+import aop.prototypes.media.common.config.KurentoConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 
 @Slf4j

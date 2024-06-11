@@ -1,8 +1,6 @@
 package aop.prototypes;
 
-import aop.prototypes.common.config.KurentoProperties;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 
 //@SpringBootApplication
