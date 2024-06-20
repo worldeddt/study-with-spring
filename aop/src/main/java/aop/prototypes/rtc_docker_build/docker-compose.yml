@@ -1,0 +1,52 @@
+version: '3.8'
+
+networks:
+  app_network:
+    driver: bridge
+services:
+  app:
+    volumes:
+      - ./docker/application.log:/app/as/application.log
+    networks:
+      - app_network
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: multi-jar-container
+    environment:
+      - REDIS_HOST=redis
+      - KURENTO_HOST=kurento
+#      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+    command:
+      - docker run --privileged -d --name dind-container docker:19.03.12-dind
+  redis:
+    networks:
+      - app_network
+    image: "redis:alpine"
+    container_name: redis-local
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    command: redis-server --port 6379
+  kurento:
+    networks:
+      - app_network
+    image: kurento/kurento-media-server:7.0.0
+    container_name: kurento-local
+    volumes:
+      - ./kurento:/storage:rw
+    ports:
+      - "8888:8888/tcp"
+      - "5001-5050:5001-5050/udp"
+    environment:
+      KMS_UID: 1000
+      KMS_MIN_PORT: 5000
+      KMS_MAX_PORT: 5050
+      G_DEBUG: fatal-warnings
+      GST_DEBUG: 4,Kurento*:4,kms*:4,sdp*:4,webrtc*:4,*rtpendpoint:4,rtp*handler:4,rtpsynchronizer:4,agnosticbin:4,KurentoMediaElementImpl:5,agnosticbin*:5,KurentoMediaElementImpl:5,webrtcendpoint:5,kmswebrtcsession:5,kmsiceniceagent:5,KurentoUriEndpointImpl:5,uriendpoint:5,GST_URI:6,KurentoRecorderEndpointImpl:5,recorderendpoint:5,basemediamuxer:5,curl*:6
